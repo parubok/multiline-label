@@ -4,7 +4,7 @@ import java.awt.FontMetrics;
 
 import static javax.swing.SwingUtilities.computeStringWidth;
 
-public class MultiLineLabelUtils {
+class MultiLineLabelUtils {
 
     private MultiLineLabelUtils() {
     }
@@ -13,26 +13,26 @@ public class MultiLineLabelUtils {
      * @param text           Text to display in {@link MultiLineLabel}.
      * @param startIndex     Index of 1st character in the new line.
      * @param fm             Current {@link FontMetrics}.
-     * @param widthThreshold Limit on the width of the line.
+     * @param widthLimit Limit on the width of the line.
      * @return Object with details of the next line.
      */
-    static NextLine getNextLine(String text, int startIndex, FontMetrics fm, int widthThreshold) {
+    static NextLine getNextLine(String text, int startIndex, FontMetrics fm, int widthLimit) {
         assert text != null;
         assert text.length() > 0;
         assert startIndex > -1;
         assert fm != null;
-        assert widthThreshold > 0;
+        assert widthLimit > 0;
         int spaceIndex = startIndex;
         while (true) {
             int newSpaceIndex = text.indexOf(' ', spaceIndex + 1);
             if (newSpaceIndex == -1) {
-                if (spaceIndex > startIndex && computeStringWidth(fm, text.substring(startIndex)) > widthThreshold) {
+                if (spaceIndex > startIndex && computeStringWidth(fm, text.substring(startIndex)) > widthLimit) {
                     return new NextLine(false, startIndex, spaceIndex - 1, spaceIndex + 1);
                 } else {
                     return new NextLine(true, startIndex, text.length() - 1, -1);
                 }
             } else {
-                if (computeStringWidth(fm, text.substring(startIndex, newSpaceIndex - 1)) > widthThreshold) {
+                if (computeStringWidth(fm, text.substring(startIndex, newSpaceIndex - 1)) > widthLimit) {
                     if (spaceIndex > startIndex) {
                         return new NextLine(false, startIndex, spaceIndex - 1, spaceIndex + 1);
                     } else {

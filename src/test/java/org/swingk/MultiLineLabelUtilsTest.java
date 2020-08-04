@@ -8,12 +8,15 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 
 class MultiLineLabelUtilsTest {
+    
+    static final Font font = new Font("Dialog", Font.PLAIN, 11);
+
     @Test
     void getNextLine_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             String text = "text";
             MultiLineLabel label = new MultiLineLabel();
-            FontMetrics fm = label.getFontMetrics(new Font("Dialog", Font.PLAIN, 11));
+            FontMetrics fm = label.getFontMetrics(font);
             MultiLineLabelUtils.NextLine nextLine = MultiLineLabelUtils.getNextLine(text, 0, fm, 10_000);
             Assertions.assertTrue(nextLine.lastLine);
             Assertions.assertEquals(0, nextLine.lineStartIndex);
@@ -27,7 +30,7 @@ class MultiLineLabelUtilsTest {
         SwingUtilities.invokeAndWait(() -> {
             String text = "text1 text2";
             MultiLineLabel label = new MultiLineLabel();
-            FontMetrics fm = label.getFontMetrics(new Font("Dialog", Font.PLAIN, 11));
+            FontMetrics fm = label.getFontMetrics(font);
             MultiLineLabelUtils.NextLine nextLine = MultiLineLabelUtils.getNextLine(text, 0, fm, 10_000);
             Assertions.assertTrue(nextLine.lastLine);
             Assertions.assertEquals(0, nextLine.lineStartIndex);
@@ -41,7 +44,7 @@ class MultiLineLabelUtilsTest {
         SwingUtilities.invokeAndWait(() -> {
             String text = "text";
             MultiLineLabel label = new MultiLineLabel();
-            FontMetrics fm = label.getFontMetrics(new Font("Dialog", Font.PLAIN, 11));
+            FontMetrics fm = label.getFontMetrics(font);
             MultiLineLabelUtils.NextLine nextLine = MultiLineLabelUtils.getNextLine(text, 0, fm, 1);
             Assertions.assertTrue(nextLine.lastLine);
             Assertions.assertEquals(0, nextLine.lineStartIndex);
@@ -55,7 +58,7 @@ class MultiLineLabelUtilsTest {
         SwingUtilities.invokeAndWait(() -> {
             String text = "text1 text2";
             MultiLineLabel label = new MultiLineLabel();
-            FontMetrics fm = label.getFontMetrics(new Font("Dialog", Font.PLAIN, 11));
+            FontMetrics fm = label.getFontMetrics(font);
             MultiLineLabelUtils.NextLine nextLine1 = MultiLineLabelUtils.getNextLine(text, 0, fm, 1);
             Assertions.assertFalse(nextLine1.lastLine);
             Assertions.assertEquals(0, nextLine1.lineStartIndex);
@@ -74,7 +77,7 @@ class MultiLineLabelUtilsTest {
         SwingUtilities.invokeAndWait(() -> {
             String text = "t";
             MultiLineLabel label = new MultiLineLabel();
-            FontMetrics fm = label.getFontMetrics(new Font("Dialog", Font.PLAIN, 11));
+            FontMetrics fm = label.getFontMetrics(font);
             MultiLineLabelUtils.NextLine nextLine = MultiLineLabelUtils.getNextLine(text, 0, fm, 1);
             Assertions.assertTrue(nextLine.lastLine);
             Assertions.assertEquals(0, nextLine.lineStartIndex);
@@ -88,7 +91,7 @@ class MultiLineLabelUtilsTest {
         SwingUtilities.invokeAndWait(() -> {
             String text = "t abcdvfsl2808kdfkfkdjk94893483dkjdkfjkfjkdjfkdfjdkjdkd";
             MultiLineLabel label = new MultiLineLabel();
-            FontMetrics fm = label.getFontMetrics(new Font("Dialog", Font.PLAIN, 11));
+            FontMetrics fm = label.getFontMetrics(font);
             MultiLineLabelUtils.NextLine nextLine1 = MultiLineLabelUtils.getNextLine(text, 0, fm, 20);
             Assertions.assertFalse(nextLine1.lastLine);
             Assertions.assertEquals(0, nextLine1.lineStartIndex);
