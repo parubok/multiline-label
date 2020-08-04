@@ -1,0 +1,104 @@
+package org.swingk;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import javax.swing.SwingUtilities;
+import java.awt.Font;
+import java.awt.FontMetrics;
+
+class MultiLineLabelUtilsTest {
+    @Test
+    void getNextLine_1() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            String text = "text";
+            MultiLineLabel label = new MultiLineLabel();
+            FontMetrics fm = label.getFontMetrics(new Font("Dialog", Font.PLAIN, 11));
+            MultiLineLabelUtils.NextLine nextLine = MultiLineLabelUtils.getNextLine(text, 0, fm, 10_000);
+            Assertions.assertTrue(nextLine.lastLine);
+            Assertions.assertEquals(0, nextLine.lineStartIndex);
+            Assertions.assertEquals(3, nextLine.lineEndIndex);
+            Assertions.assertEquals(-1, nextLine.nextLineStartIndex);
+        });
+    }
+
+    @Test
+    void getNextLine_2() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            String text = "text1 text2";
+            MultiLineLabel label = new MultiLineLabel();
+            FontMetrics fm = label.getFontMetrics(new Font("Dialog", Font.PLAIN, 11));
+            MultiLineLabelUtils.NextLine nextLine = MultiLineLabelUtils.getNextLine(text, 0, fm, 10_000);
+            Assertions.assertTrue(nextLine.lastLine);
+            Assertions.assertEquals(0, nextLine.lineStartIndex);
+            Assertions.assertEquals(10, nextLine.lineEndIndex);
+            Assertions.assertEquals(-1, nextLine.nextLineStartIndex);
+        });
+    }
+
+    @Test
+    void getNextLine_3() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            String text = "text";
+            MultiLineLabel label = new MultiLineLabel();
+            FontMetrics fm = label.getFontMetrics(new Font("Dialog", Font.PLAIN, 11));
+            MultiLineLabelUtils.NextLine nextLine = MultiLineLabelUtils.getNextLine(text, 0, fm, 1);
+            Assertions.assertTrue(nextLine.lastLine);
+            Assertions.assertEquals(0, nextLine.lineStartIndex);
+            Assertions.assertEquals(3, nextLine.lineEndIndex);
+            Assertions.assertEquals(-1, nextLine.nextLineStartIndex);
+        });
+    }
+
+    @Test
+    void getNextLine_4() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            String text = "text1 text2";
+            MultiLineLabel label = new MultiLineLabel();
+            FontMetrics fm = label.getFontMetrics(new Font("Dialog", Font.PLAIN, 11));
+            MultiLineLabelUtils.NextLine nextLine1 = MultiLineLabelUtils.getNextLine(text, 0, fm, 1);
+            Assertions.assertFalse(nextLine1.lastLine);
+            Assertions.assertEquals(0, nextLine1.lineStartIndex);
+            Assertions.assertEquals(4, nextLine1.lineEndIndex);
+            Assertions.assertEquals(6, nextLine1.nextLineStartIndex);
+            MultiLineLabelUtils.NextLine nextLine2 = MultiLineLabelUtils.getNextLine(text, nextLine1.nextLineStartIndex, fm, 1);
+            Assertions.assertTrue(nextLine2.lastLine);
+            Assertions.assertEquals(6, nextLine2.lineStartIndex);
+            Assertions.assertEquals(10, nextLine2.lineEndIndex);
+            Assertions.assertEquals(-1, nextLine2.nextLineStartIndex);
+        });
+    }
+
+    @Test
+    void getNextLine_5() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            String text = "t";
+            MultiLineLabel label = new MultiLineLabel();
+            FontMetrics fm = label.getFontMetrics(new Font("Dialog", Font.PLAIN, 11));
+            MultiLineLabelUtils.NextLine nextLine = MultiLineLabelUtils.getNextLine(text, 0, fm, 1);
+            Assertions.assertTrue(nextLine.lastLine);
+            Assertions.assertEquals(0, nextLine.lineStartIndex);
+            Assertions.assertEquals(0, nextLine.lineEndIndex);
+            Assertions.assertEquals(-1, nextLine.nextLineStartIndex);
+        });
+    }
+
+    @Test
+    void getNextLine_6() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            String text = "t abcdvfsl2808kdfkfkdjk94893483dkjdkfjkfjkdjfkdfjdkjdkd";
+            MultiLineLabel label = new MultiLineLabel();
+            FontMetrics fm = label.getFontMetrics(new Font("Dialog", Font.PLAIN, 11));
+            MultiLineLabelUtils.NextLine nextLine1 = MultiLineLabelUtils.getNextLine(text, 0, fm, 20);
+            Assertions.assertFalse(nextLine1.lastLine);
+            Assertions.assertEquals(0, nextLine1.lineStartIndex);
+            Assertions.assertEquals(0, nextLine1.lineEndIndex);
+            Assertions.assertEquals(2, nextLine1.nextLineStartIndex);
+            MultiLineLabelUtils.NextLine nextLine2 = MultiLineLabelUtils.getNextLine(text, nextLine1.nextLineStartIndex, fm, 1);
+            Assertions.assertTrue(nextLine2.lastLine);
+            Assertions.assertEquals(2, nextLine2.lineStartIndex);
+            Assertions.assertEquals(54, nextLine2.lineEndIndex);
+            Assertions.assertEquals(-1, nextLine2.nextLineStartIndex);
+        });
+    }
+}
