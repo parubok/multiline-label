@@ -9,8 +9,7 @@
   <version>1.0-SNAPSHOT</version>
 
   <name>multiline-label</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <url>https://github.com/parubok/multiline-label</url>
 
   <licenses>
     <license>
@@ -26,6 +25,13 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
+
+  <scm>
+    <connection>scm:git:git@github.com:parubok/multiline-label</connection>
+    <url>scm:git:git@github.com:parubok/multiline-label</url>
+    <developerConnection>scm:git:git@github.com:parubok/multiline-label</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
 
   <dependencies>
     <dependency>
