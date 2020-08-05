@@ -2,6 +2,7 @@ package org.swingk;
 
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
@@ -19,6 +20,7 @@ public class MultiLineLabel extends JComponent {
 
     public MultiLineLabel() {
         super();
+        setFont(UIManager.getFont("Label.font"));
     }
 
     public MultiLineLabel(String text) {
