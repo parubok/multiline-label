@@ -17,7 +17,9 @@ public class Demo {
         JPanel contentPanel = new JPanel(new BorderLayout());
 
         MultiLineLabel label = new MultiLineLabel();
-        label.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed bibendum, lacus vel convallis consectetur, erat dui pharetra lectus, ac venenatis nulla nisi eget erat. Donec ornare volutpat augue, a venenatis magna rutrum non.");
+        label.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed bibendum, lacus vel convallis " +
+                "consectetur, erat dui pharetra lectus, ac venenatis nulla nisi eget erat. Donec ornare volutpat " +
+                "augue, a venenatis magna rutrum non.");
         contentPanel.add(label, BorderLayout.CENTER);
 
         JFrame frame = new JFrame("Demo");
