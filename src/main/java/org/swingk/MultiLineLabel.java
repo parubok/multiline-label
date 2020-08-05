@@ -54,11 +54,10 @@ public class MultiLineLabel extends JComponent {
             g.fillRect(0, 0, getWidth(), getHeight());
         }
         if (!text.isEmpty()) {
-            g.setColor(getForeground());
-            g.setFont(getFont());
             Insets insets = getInsets();
             int textWidth = (getWidth() - insets.left - insets.right);
             if (textWidth > 1) {
+                g.setFont(getFont());
                 FontMetrics fm = g.getFontMetrics();
                 g.setColor(getForeground());
                 int x = insets.left;
