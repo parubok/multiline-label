@@ -3,6 +3,7 @@ package org.swingk;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import java.awt.Dimension;
 
@@ -23,6 +24,7 @@ class MultiLineLabelTest {
         SwingUtilities.invokeAndWait(() -> {
             MultiLineLabel label = new MultiLineLabel();
             Assertions.assertEquals(new Dimension(0, 0), label.getPreferredSize());
+            Assertions.assertEquals(new JLabel().getFont(), label.getFont());
         });
     }
 }
