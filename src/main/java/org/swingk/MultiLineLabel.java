@@ -17,7 +17,10 @@ import static javax.swing.SwingUtilities.computeStringWidth;
 public class MultiLineLabel extends JComponent {
     private String text = "";
 
-    public static final int DEFAULT_WIDTH_LIMIT = 500; //in pixels; relevant when wrapping text without "\n";
+    /**
+     * Default label width limit in pixels.
+     */
+    public static final int DEFAULT_WIDTH_LIMIT = 500; //
 
     private int prefWidthLimit = DEFAULT_WIDTH_LIMIT;
 
