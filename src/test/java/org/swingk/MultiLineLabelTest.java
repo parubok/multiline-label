@@ -23,10 +23,18 @@ class MultiLineLabelTest {
     void basic_test_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             MultiLineLabel label = new MultiLineLabel();
+            Assertions.assertEquals(MultiLineLabel.DEFAULT_WIDTH_LIMIT, label.getWidthLimit());
             Assertions.assertEquals(new Dimension(0, 0), label.getPreferredSize());
             Assertions.assertEquals(new JLabel().getFont(), label.getFont());
             Assertions.assertEquals(new JLabel().getForeground(), label.getForeground());
             Assertions.assertEquals(new JLabel().getBackground(), label.getBackground());
         });
     }
-}
+
+    @Test
+    void basic_test_2() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            MultiLineLabel label = new MultiLineLabel(Demo.LOREM_IPSUM);
+            Assertions.assertEquals(new Dimension(481, 48), label.getPreferredSize());
+        });
+    }}

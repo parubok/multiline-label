@@ -6,7 +6,7 @@ import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
 
 public class Demo {
-    private static final String LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed " +
+    public static final String LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed " +
             "bibendum, lacus vel convallis consectetur, erat dui pharetra lectus, ac venenatis nulla nisi eget erat. " +
             "Donec ornare volutpat augue, a venenatis magna rutrum non.";
 

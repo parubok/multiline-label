@@ -16,7 +16,9 @@ import java.util.Objects;
 public class MultiLineLabel extends JComponent {
     private String text = "";
 
-    private int widthLimit = 500; //in pixels; 500 is just a default value; relevant when wrapping text without "\n";
+    public static final int DEFAULT_WIDTH_LIMIT = 500; //in pixels; relevant when wrapping text without "\n";
+
+    private int widthLimit = DEFAULT_WIDTH_LIMIT;
 
     public MultiLineLabel() {
         super();
