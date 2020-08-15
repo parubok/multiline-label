@@ -18,7 +18,7 @@ public class MultiLineLabel extends JComponent {
 
     public static final int DEFAULT_WIDTH_LIMIT = 500; //in pixels; relevant when wrapping text without "\n";
 
-    private int widthLimit = DEFAULT_WIDTH_LIMIT;
+    private int prefWidthLimit = DEFAULT_WIDTH_LIMIT;
 
     public MultiLineLabel() {
         super();
@@ -39,13 +39,6 @@ public class MultiLineLabel extends JComponent {
         g.drawString(text, x + 1, y + 1); // draw title text
         g.setColor(color.darker());
         g.drawString(text, x, y);
-    }
-
-    /**
-     * Adds the specified {@link Insets} to the {@link Dimension} object and returns the new {@link Dimension}.
-     */
-    private static Dimension addInsets(Dimension size, Insets insets) {
-        return new Dimension(size.width + insets.left + insets.right, size.height + insets.top + insets.bottom);
     }
 
     @Override
@@ -86,15 +79,17 @@ public class MultiLineLabel extends JComponent {
     @Override
     public Dimension getPreferredSize() {
         Insets insets = getInsets();
+        final int horInsets = insets.right + insets.left;
         Dimension textPrefSize;
+        int textPrefWidth;
+        int textPrefHeight;
         if (!text.isEmpty()) {
             FontMetrics fm = getFontMetrics(getFont());
             final int labelWidth = getWidth();
             // https://stackoverflow.com/questions/39455573/how-to-set-fixed-width-but-dynamic-height-on-jtextpane/39466255#39466255
             MultiLineLabelUtils.NextLine nextLine;
             int index = 0;
-            final int horInsets = insets.right + insets.left;
-            final int textWidthLimit = Math.max((labelWidth > 0 ? labelWidth : widthLimit) - horInsets, 1);
+            final int textWidthLimit = Math.max((labelWidth > 0 ? labelWidth : prefWidthLimit) - horInsets, 1);
             int lineCount = 0;
             int maxWidth = 0;
             do {
@@ -105,12 +100,12 @@ public class MultiLineLabel extends JComponent {
                 lineCount++;
                 index = nextLine.nextLineStartIndex;
             } while (!nextLine.lastLine);
-            int prefHeight = (fm.getAscent() + fm.getDescent()) * lineCount + fm.getLeading() * (lineCount - 1);
-            textPrefSize = new Dimension(maxWidth, prefHeight);
+            textPrefWidth = maxWidth;
+            textPrefHeight = (fm.getAscent() + fm.getDescent()) * lineCount + fm.getLeading() * (lineCount - 1);
         } else {
-            textPrefSize = new Dimension(0, 0);
+            textPrefWidth = textPrefHeight = 0;
         }
-        return addInsets(textPrefSize, insets);
+        return new Dimension(textPrefWidth + horInsets, textPrefHeight + insets.top + insets.bottom);
     }
 
     public String getText() {
@@ -133,15 +128,15 @@ public class MultiLineLabel extends JComponent {
         repaint();
     }
 
-    public int getWidthLimit() {
-        return widthLimit;
+    public int getPreferredWidthLimit() {
+        return prefWidthLimit;
     }
 
-    public void setWidthLimit(int widthLimit) {
-        if (widthLimit < 1) {
+    public void setPreferredWidthLimit(int prefWidthLimit) {
+        if (prefWidthLimit < 1) {
             throw new IllegalArgumentException();
         }
-        this.widthLimit = widthLimit;
+        this.prefWidthLimit = prefWidthLimit;
         revalidate();
         repaint();
     }
