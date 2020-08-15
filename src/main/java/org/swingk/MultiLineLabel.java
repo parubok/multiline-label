@@ -80,7 +80,6 @@ public class MultiLineLabel extends JComponent {
     public Dimension getPreferredSize() {
         Insets insets = getInsets();
         final int horInsets = insets.right + insets.left;
-        Dimension textPrefSize;
         int textPrefWidth;
         int textPrefHeight;
         if (!text.isEmpty()) {
@@ -91,16 +90,16 @@ public class MultiLineLabel extends JComponent {
             int index = 0;
             final int textWidthLimit = Math.max((labelWidth > 0 ? labelWidth : prefWidthLimit) - horInsets, 1);
             int lineCount = 0;
-            int maxWidth = 0;
+            int maxLineWidth = 0;
             do {
                 nextLine = MultiLineLabelUtils.getNextLine(text, index, fm, textWidthLimit);
                 String nextLineStr = text.substring(nextLine.lineStartIndex, nextLine.lineEndIndex);
                 int nextLineWidth = SwingUtilities.computeStringWidth(fm, nextLineStr);
-                maxWidth = Math.max(maxWidth, nextLineWidth);
+                maxLineWidth = Math.max(maxLineWidth, nextLineWidth);
                 lineCount++;
                 index = nextLine.nextLineStartIndex;
             } while (!nextLine.lastLine);
-            textPrefWidth = maxWidth;
+            textPrefWidth = maxLineWidth;
             textPrefHeight = (fm.getAscent() + fm.getDescent()) * lineCount + fm.getLeading() * (lineCount - 1);
         } else {
             textPrefWidth = textPrefHeight = 0;
