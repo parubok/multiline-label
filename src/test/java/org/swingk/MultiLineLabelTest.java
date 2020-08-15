@@ -20,11 +20,13 @@ class MultiLineLabelTest {
     }
 
     @Test
-    void basic_test() throws Exception {
+    void basic_test_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             MultiLineLabel label = new MultiLineLabel();
             Assertions.assertEquals(new Dimension(0, 0), label.getPreferredSize());
             Assertions.assertEquals(new JLabel().getFont(), label.getFont());
+            Assertions.assertEquals(new JLabel().getForeground(), label.getForeground());
+            Assertions.assertEquals(new JLabel().getBackground(), label.getBackground());
         });
     }
 }
