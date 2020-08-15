@@ -22,12 +22,13 @@ public class MultiLineLabel extends JComponent implements Scrollable {
     /**
      * Default label width limit in pixels.
      */
-    public static final int DEFAULT_WIDTH_LIMIT = 500; //
+    public static final int DEFAULT_WIDTH_LIMIT = 500;
 
     private int prefWidthLimit = DEFAULT_WIDTH_LIMIT;
 
     public MultiLineLabel() {
         super();
+        setOpaque(true);
         LookAndFeel.installColorsAndFont(this, "Label.background", "Label.foreground", "Label.font");
     }
 

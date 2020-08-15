@@ -24,6 +24,7 @@ class MultiLineLabelTest {
     void basic_test_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             MultiLineLabel label = new MultiLineLabel();
+            Assertions.assertTrue(label.isOpaque());
             Assertions.assertEquals("", label.getText());
             Assertions.assertEquals(MultiLineLabel.DEFAULT_WIDTH_LIMIT, label.getPreferredWidthLimit());
             Assertions.assertEquals(new Dimension(0, 0), label.getPreferredSize());
