@@ -5,10 +5,11 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
 
-/**
- * GUI to demo component property binding.
- */
 public class Demo {
+    private static final String LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed " +
+            "bibendum, lacus vel convallis consectetur, erat dui pharetra lectus, ac venenatis nulla nisi eget erat. " +
+            "Donec ornare volutpat augue, a venenatis magna rutrum non.";
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Demo::buildUI);
     }
@@ -17,9 +18,7 @@ public class Demo {
         JPanel contentPanel = new JPanel(new BorderLayout());
 
         MultiLineLabel label = new MultiLineLabel();
-        label.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed bibendum, lacus vel convallis " +
-                "consectetur, erat dui pharetra lectus, ac venenatis nulla nisi eget erat. Donec ornare volutpat " +
-                "augue, a venenatis magna rutrum non.");
+        label.setText(LOREM_IPSUM);
         contentPanel.add(label, BorderLayout.CENTER);
 
         JFrame frame = new JFrame("Demo");
