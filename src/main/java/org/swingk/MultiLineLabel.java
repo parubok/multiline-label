@@ -1,8 +1,8 @@
 package org.swingk;
 
 import javax.swing.JComponent;
+import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
@@ -20,7 +20,7 @@ public class MultiLineLabel extends JComponent {
 
     public MultiLineLabel() {
         super();
-        setFont(UIManager.getFont("Label.font"));
+        LookAndFeel.installColorsAndFont(this, "Label.background", "Label.foreground", "Label.font");
     }
 
     public MultiLineLabel(String text) {
@@ -83,6 +83,7 @@ public class MultiLineLabel extends JComponent {
 
     @Override
     public Dimension getPreferredSize() {
+        // https://stackoverflow.com/questions/39455573/how-to-set-fixed-width-but-dynamic-height-on-jtextpane/39466255#39466255
         FontMetrics fm = getFontMetrics(getFont());
         if (fm != null && !text.isEmpty()) {
             Insets insets = getInsets();
