@@ -10,9 +10,9 @@ class MultiLineLabelUtils {
     }
 
     /**
-     * @param text           Text to display in {@link MultiLineLabel}.
-     * @param startIndex     Index of 1st character in the new line.
-     * @param fm             Current {@link FontMetrics}.
+     * @param text       Text to display in {@link MultiLineLabel}.
+     * @param startIndex Index of 1st character in the new line.
+     * @param fm         Current {@link FontMetrics}.
      * @param widthLimit Limit on the width of the line.
      * @return Object with details of the next line.
      */

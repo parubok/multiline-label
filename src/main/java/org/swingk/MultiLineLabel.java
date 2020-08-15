@@ -85,24 +85,28 @@ public class MultiLineLabel extends JComponent {
 
     @Override
     public Dimension getPreferredSize() {
-        // https://stackoverflow.com/questions/39455573/how-to-set-fixed-width-but-dynamic-height-on-jtextpane/39466255#39466255
-        FontMetrics fm = getFontMetrics(getFont());
         Insets insets = getInsets();
         Dimension textPrefSize;
         if (!text.isEmpty()) {
+            FontMetrics fm = getFontMetrics(getFont());
+            final int labelWidth = getWidth();
+            // https://stackoverflow.com/questions/39455573/how-to-set-fixed-width-but-dynamic-height-on-jtextpane/39466255#39466255
             MultiLineLabelUtils.NextLine nextLine;
             int index = 0;
-            int widthLimit = this.widthLimit - insets.right - insets.left;
+            final int horInsets = insets.right + insets.left;
+            final int textWidthLimit = Math.max((labelWidth > 0 ? labelWidth : widthLimit) - horInsets, 1);
             int lineCount = 0;
             int maxWidth = 0;
             do {
-                nextLine = MultiLineLabelUtils.getNextLine(text, index, fm, widthLimit);
-                int width = SwingUtilities.computeStringWidth(fm, text.substring(nextLine.lineStartIndex, nextLine.lineEndIndex));
-                maxWidth = Math.max(maxWidth, width);
+                nextLine = MultiLineLabelUtils.getNextLine(text, index, fm, textWidthLimit);
+                String nextLineStr = text.substring(nextLine.lineStartIndex, nextLine.lineEndIndex);
+                int nextLineWidth = SwingUtilities.computeStringWidth(fm, nextLineStr);
+                maxWidth = Math.max(maxWidth, nextLineWidth);
                 lineCount++;
                 index = nextLine.nextLineStartIndex;
             } while (!nextLine.lastLine);
-            textPrefSize = new Dimension(maxWidth, (fm.getAscent() + fm.getDescent()) * lineCount + fm.getLeading() * (lineCount - 1));
+            int prefHeight = (fm.getAscent() + fm.getDescent()) * lineCount + fm.getLeading() * (lineCount - 1);
+            textPrefSize = new Dimension(maxWidth, prefHeight);
         } else {
             textPrefSize = new Dimension(0, 0);
         }
