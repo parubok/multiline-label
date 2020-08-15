@@ -2,11 +2,13 @@ package org.swingk;
 
 import javax.swing.JComponent;
 import javax.swing.LookAndFeel;
+import javax.swing.Scrollable;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Insets;
+import java.awt.Rectangle;
 import java.util.Objects;
 
 import static javax.swing.SwingUtilities.computeStringWidth;
@@ -14,7 +16,7 @@ import static javax.swing.SwingUtilities.computeStringWidth;
 /**
  * Text label capable of word wrapping.
  */
-public class MultiLineLabel extends JComponent {
+public class MultiLineLabel extends JComponent implements Scrollable {
     private String text = "";
 
     /**
@@ -109,7 +111,8 @@ public class MultiLineLabel extends JComponent {
         } else {
             textPrefWidth = textPrefHeight = 0;
         }
-        return new Dimension(textPrefWidth + horInsets, textPrefHeight + insets.top + insets.bottom);
+        Dimension ps = new Dimension(textPrefWidth + horInsets, textPrefHeight + insets.top + insets.bottom);
+        return ps;
     }
 
     public String getText() {
@@ -143,5 +146,30 @@ public class MultiLineLabel extends JComponent {
         this.prefWidthLimit = prefWidthLimit;
         revalidate();
         repaint();
+    }
+
+    @Override
+    public Dimension getPreferredScrollableViewportSize() {
+        return getPreferredSize();
+    }
+
+    @Override
+    public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
+        return 20;
+    }
+
+    @Override
+    public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
+        return 20;
+    }
+
+    @Override
+    public boolean getScrollableTracksViewportWidth() {
+        return true;
+    }
+
+    @Override
+    public boolean getScrollableTracksViewportHeight() {
+        return false;
     }
 }
