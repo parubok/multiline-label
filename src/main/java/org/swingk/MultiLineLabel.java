@@ -2,13 +2,14 @@ package org.swingk;
 
 import javax.swing.JComponent;
 import javax.swing.LookAndFeel;
-import javax.swing.SwingUtilities;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.util.Objects;
+
+import static javax.swing.SwingUtilities.computeStringWidth;
 
 /**
  * Text label capable of word wrapping.
@@ -84,20 +85,21 @@ public class MultiLineLabel extends JComponent {
         int textPrefHeight;
         if (!text.isEmpty()) {
             FontMetrics fm = getFontMetrics(getFont());
+            assert fm != null;
             final int labelWidth = getWidth();
             // https://stackoverflow.com/questions/39455573/how-to-set-fixed-width-but-dynamic-height-on-jtextpane/39466255#39466255
             MultiLineLabelUtils.NextLine nextLine;
-            int index = 0;
+            int startIndex = 0;
             final int textWidthLimit = Math.max((labelWidth > 0 ? labelWidth : prefWidthLimit) - horInsets, 1);
             int lineCount = 0;
-            int maxLineWidth = 0;
+            int maxLineWidth = 0; // pixels
             do {
-                nextLine = MultiLineLabelUtils.getNextLine(text, index, fm, textWidthLimit);
+                nextLine = MultiLineLabelUtils.getNextLine(text, startIndex, fm, textWidthLimit);
                 String nextLineStr = text.substring(nextLine.lineStartIndex, nextLine.lineEndIndex);
-                int nextLineWidth = SwingUtilities.computeStringWidth(fm, nextLineStr);
+                int nextLineWidth = computeStringWidth(fm, nextLineStr);
                 maxLineWidth = Math.max(maxLineWidth, nextLineWidth);
                 lineCount++;
-                index = nextLine.nextLineStartIndex;
+                startIndex = nextLine.nextLineStartIndex;
             } while (!nextLine.lastLine);
             textPrefWidth = maxLineWidth;
             textPrefHeight = (fm.getAscent() + fm.getDescent()) * lineCount + fm.getLeading() * (lineCount - 1);
