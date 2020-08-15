@@ -87,12 +87,12 @@ public class MultiLineLabel extends JComponent {
         int textPrefWidth;
         int textPrefHeight;
         if (!text.isEmpty()) {
-            FontMetrics fm = getFontMetrics(getFont());
+            final FontMetrics fm = getFontMetrics(getFont());
             assert fm != null;
-            final int labelWidth = getWidth();
-            // https://stackoverflow.com/questions/39455573/how-to-set-fixed-width-but-dynamic-height-on-jtextpane/39466255#39466255
             MultiLineLabelUtils.NextLine nextLine;
             int startIndex = 0;
+            final int labelWidth = getWidth();
+            // https://stackoverflow.com/questions/39455573/how-to-set-fixed-width-but-dynamic-height-on-jtextpane/39466255#39466255
             final int textWidthLimit = Math.max((labelWidth > 0 ? labelWidth : prefWidthLimit) - horInsets, 1);
             int lineCount = 0;
             int maxLineWidth = 0; // pixels
