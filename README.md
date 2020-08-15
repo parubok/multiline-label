@@ -1,6 +1,6 @@
 # multiline-label
 
-Java Swing component to display uneditable multiline text. Allows to specify preferred wrapping width.
+Java Swing component to display plain text. Supports wrapping with specified preferred wrapping width.
 
 Supports disabled state.
 
