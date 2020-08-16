@@ -59,7 +59,7 @@ class MultiLineLabelTest {
             Assertions.assertEquals(new Dimension(481, 48), label.getPreferredSize());
 
             label.setSize(new Dimension(300, 20));
-            Assertions.assertEquals(new Dimension(298, 80), label.getPreferredSize());
+            Assertions.assertEquals(new Dimension(288, 80), label.getPreferredSize());
 
             label.setSize(new Dimension(3000, 200));
             Assertions.assertEquals(new Dimension(1252, 16), label.getPreferredSize());

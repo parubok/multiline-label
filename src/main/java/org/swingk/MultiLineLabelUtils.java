@@ -24,22 +24,26 @@ class MultiLineLabelUtils {
         assert widthLimit > 0;
         int spaceIndex = startIndex;
         while (true) {
-            int newSpaceIndex = text.indexOf(' ', spaceIndex + 1);
-            if (newSpaceIndex == -1) {
+            int nextSpaceIndex = text.indexOf(' ', spaceIndex + 1);
+            if (nextSpaceIndex == -1) { // there is no next space after spaceIndex
                 if (spaceIndex > startIndex && computeStringWidth(fm, text.substring(startIndex)) > widthLimit) {
+                    // next line will be single word last line
                     return new NextLine(false, startIndex, spaceIndex - 1, spaceIndex + 1);
                 } else {
+                    // last line
                     return new NextLine(true, startIndex, text.length() - 1, -1);
                 }
-            } else {
-                if (computeStringWidth(fm, text.substring(startIndex, newSpaceIndex - 1)) > widthLimit) {
+            } else { // there is next space after spaceIndex
+                if (computeStringWidth(fm, text.substring(startIndex, nextSpaceIndex)) > widthLimit) {
                     if (spaceIndex > startIndex) {
+                        // regular next line
                         return new NextLine(false, startIndex, spaceIndex - 1, spaceIndex + 1);
                     } else {
-                        return new NextLine(false, startIndex, newSpaceIndex - 1, newSpaceIndex + 1);
+                        // single word line
+                        return new NextLine(false, startIndex, nextSpaceIndex - 1, nextSpaceIndex + 1);
                     }
                 } else {
-                    spaceIndex = newSpaceIndex; // continue
+                    spaceIndex = nextSpaceIndex; // continue with current line
                 }
             }
         }
