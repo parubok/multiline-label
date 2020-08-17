@@ -16,7 +16,7 @@ class MultiLineLabelUtils {
      * @param widthLimit Limit on the width of the line.
      * @return Object with details of the next line.
      */
-    static NextLine getNextLine(String text, int startIndex, FontMetrics fm, int widthLimit) {
+    static NextLine getNextLine(final String text, final int startIndex, final FontMetrics fm, final int widthLimit) {
         assert text != null;
         assert text.length() > 0;
         assert startIndex > -1;
