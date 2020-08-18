@@ -87,7 +87,7 @@ public class MultiLineLabel extends JComponent implements Scrollable {
     @Override
     public void setBounds(int x, int y, int width, int height) {
         if (width > 0 && height > 0 && width != getWidth() && calcPreferredSize(width).height > height) {
-            // the component bounds are insufficient to display the entire text - request another layout attempt.ssssss
+            // the component bounds are insufficient to display the entire text - request another layout attempt.
             SwingUtilities.invokeLater(() -> {
                 revalidate();
                 repaint();
