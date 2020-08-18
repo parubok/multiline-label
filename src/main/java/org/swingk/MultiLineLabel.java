@@ -3,6 +3,7 @@ package org.swingk;
 import javax.swing.JComponent;
 import javax.swing.LookAndFeel;
 import javax.swing.Scrollable;
+import javax.swing.SwingUtilities;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
@@ -84,7 +85,23 @@ public class MultiLineLabel extends JComponent implements Scrollable {
     }
 
     @Override
+    public void setBounds(int x, int y, int width, int height) {
+        if (width > 0 && height > 0 && width != getWidth() && calcPreferredSize(width).height > height) {
+            // the component bounds are insufficient to display the entire text - request another layout attempt.ssssss
+            SwingUtilities.invokeLater(() -> {
+                revalidate();
+                repaint();
+            });
+        }
+        super.setBounds(x, y, width, height);
+    }
+
+    @Override
     public Dimension getPreferredSize() {
+        return calcPreferredSize(0);
+    }
+
+    private Dimension calcPreferredSize(int componentWidthLimit) {
         Insets insets = getInsets();
         final int horInsets = insets.right + insets.left;
         int textPrefWidth;
@@ -94,9 +111,14 @@ public class MultiLineLabel extends JComponent implements Scrollable {
             assert fm != null;
             MultiLineLabelUtils.NextLine nextLine;
             int startIndex = 0;
-            final int labelWidth = getWidth();
             // https://stackoverflow.com/questions/39455573/how-to-set-fixed-width-but-dynamic-height-on-jtextpane/39466255#39466255
-            final int textWidthLimit = Math.max((labelWidth > 0 ? labelWidth : prefWidthLimit) - horInsets, 1);
+            final int textWidthLimit;
+            if (componentWidthLimit > 0) {
+                textWidthLimit = componentWidthLimit;
+            } else {
+                final int labelWidth = getWidth();
+                textWidthLimit = Math.max((labelWidth > 0 ? labelWidth : prefWidthLimit) - horInsets, 1);
+            }
             int lineCount = 0;
             int maxLineWidth = 0; // pixels
             do {
