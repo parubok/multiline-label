@@ -101,7 +101,10 @@ public class MultiLineLabel extends JComponent implements Scrollable {
         return calcPreferredSize(0);
     }
 
-    private Dimension calcPreferredSize(int componentWidthLimit) {
+    /**
+     * @param expectedLabelWidth If 0 - use fallback resolution.
+     */
+    private Dimension calcPreferredSize(int expectedLabelWidth) {
         Insets insets = getInsets();
         final int horInsets = insets.right + insets.left;
         int textPrefWidth;
@@ -111,14 +114,16 @@ public class MultiLineLabel extends JComponent implements Scrollable {
             assert fm != null;
             MultiLineLabelUtils.NextLine nextLine;
             int startIndex = 0;
-            // https://stackoverflow.com/questions/39455573/how-to-set-fixed-width-but-dynamic-height-on-jtextpane/39466255#39466255
-            final int textWidthLimit;
-            if (componentWidthLimit > 0) {
-                textWidthLimit = componentWidthLimit;
+            final int wLimit;
+            if (expectedLabelWidth > 0) {
+                wLimit = expectedLabelWidth;
+            } else if (getWidth() > 0) {
+                // https://stackoverflow.com/questions/39455573/how-to-set-fixed-width-but-dynamic-height-on-jtextpane/39466255#39466255
+                wLimit = getWidth();
             } else {
-                final int labelWidth = getWidth();
-                textWidthLimit = Math.max((labelWidth > 0 ? labelWidth : prefWidthLimit) - horInsets, 1);
+                wLimit = prefWidthLimit;
             }
+            final int textWidthLimit = Math.max(1, wLimit - horInsets);
             int lineCount = 0;
             int maxLineWidth = 0; // pixels
             do {
