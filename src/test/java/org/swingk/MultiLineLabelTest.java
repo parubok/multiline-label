@@ -47,22 +47,22 @@ class MultiLineLabelTest {
     void getPreferredSize_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             MultiLineLabel label = new MultiLineLabel(Demo.LOREM_IPSUM);
-            Assertions.assertEquals(new Dimension(481, 48), label.getPreferredSize());
+            Assertions.assertEquals(new Dimension(488, 48), label.getPreferredSize());
 
             label.setPreferredWidthLimit(1000);
-            Assertions.assertEquals(new Dimension(980, 32), label.getPreferredSize());
+            Assertions.assertEquals(new Dimension(987, 32), label.getPreferredSize());
 
             label.setPreferredWidthLimit(10);
-            Assertions.assertEquals(new Dimension(69, 528), label.getPreferredSize());
+            Assertions.assertEquals(new Dimension(72, 528), label.getPreferredSize());
 
             label.setPreferredWidthLimit(MultiLineLabel.DEFAULT_WIDTH_LIMIT);
-            Assertions.assertEquals(new Dimension(481, 48), label.getPreferredSize());
+            Assertions.assertEquals(new Dimension(488, 48), label.getPreferredSize());
 
             label.setSize(new Dimension(300, 20));
-            Assertions.assertEquals(new Dimension(288, 80), label.getPreferredSize());
+            Assertions.assertEquals(new Dimension(292, 80), label.getPreferredSize());
 
             label.setSize(new Dimension(3000, 200));
-            Assertions.assertEquals(new Dimension(1252, 16), label.getPreferredSize());
+            Assertions.assertEquals(new Dimension(1255, 16), label.getPreferredSize());
         });
     }
 
@@ -80,17 +80,17 @@ class MultiLineLabelTest {
         SwingUtilities.invokeAndWait(() -> {
             MultiLineLabel label = new MultiLineLabel(Demo.LOREM_IPSUM);
             label.setBorder(new EmptyBorder(10, 20, 30, 40));
-            Assertions.assertEquals(new Dimension(495, 88), label.getPreferredSize());
+            Assertions.assertEquals(new Dimension(499, 88), label.getPreferredSize());
             label.setBorder(new EmptyBorder(0, 0, 0, 0));
-            Assertions.assertEquals(new Dimension(481, 48), label.getPreferredSize());
+            Assertions.assertEquals(new Dimension(488, 48), label.getPreferredSize());
             label.setBorder(new EmptyBorder(0, 1, 0, 0));
-            Assertions.assertEquals(new Dimension(482, 48), label.getPreferredSize());
+            Assertions.assertEquals(new Dimension(489, 48), label.getPreferredSize());
             label.setBorder(new EmptyBorder(0, 0, 0, 1));
-            Assertions.assertEquals(new Dimension(482, 48), label.getPreferredSize());
+            Assertions.assertEquals(new Dimension(489, 48), label.getPreferredSize());
             label.setBorder(new EmptyBorder(5, 0, 0, 0));
-            Assertions.assertEquals(new Dimension(481, 53), label.getPreferredSize());
+            Assertions.assertEquals(new Dimension(488, 53), label.getPreferredSize());
             label.setBorder(new EmptyBorder(5, 0, 3, 0));
-            Assertions.assertEquals(new Dimension(481, 56), label.getPreferredSize());
+            Assertions.assertEquals(new Dimension(488, 56), label.getPreferredSize());
         });
     }
 }

@@ -128,7 +128,7 @@ public class MultiLineLabel extends JComponent implements Scrollable {
             int maxLineWidth = 0; // pixels
             do {
                 nextLine = MultiLineLabelUtils.getNextLine(text, startIndex, fm, textWidthLimit);
-                String nextLineStr = text.substring(nextLine.lineStartIndex, nextLine.lineEndIndex);
+                String nextLineStr = text.substring(nextLine.lineStartIndex, nextLine.lineEndIndex + 1);
                 int nextLineWidth = computeStringWidth(fm, nextLineStr);
                 maxLineWidth = Math.max(maxLineWidth, nextLineWidth);
                 lineCount++;
