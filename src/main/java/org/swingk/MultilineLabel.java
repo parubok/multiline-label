@@ -17,7 +17,7 @@ import static javax.swing.SwingUtilities.computeStringWidth;
 /**
  * Text label capable of word wrapping.
  */
-public class MultiLineLabel extends JComponent implements Scrollable {
+public class MultilineLabel extends JComponent implements Scrollable {
     private String text = "";
 
     /**
@@ -27,13 +27,13 @@ public class MultiLineLabel extends JComponent implements Scrollable {
 
     private int prefWidthLimit = DEFAULT_WIDTH_LIMIT;
 
-    public MultiLineLabel() {
+    public MultilineLabel() {
         super();
         setOpaque(true);
         LookAndFeel.installColorsAndFont(this, "Label.background", "Label.foreground", "Label.font");
     }
 
-    public MultiLineLabel(String text) {
+    public MultilineLabel(String text) {
         this();
         setText(text);
     }
@@ -66,11 +66,11 @@ public class MultiLineLabel extends JComponent implements Scrollable {
                 int x = insets.left;
                 int y = insets.top + fm.getAscent();
                 boolean enabled = isEnabled();
-                MultiLineLabelUtils.NextLine nextLine;
+                MultilineLabelUtils.NextLine nextLine;
                 int index = 0;
                 int widthLimit = getWidth() - insets.right - insets.left;
                 do {
-                    nextLine = MultiLineLabelUtils.getNextLine(text, index, fm, widthLimit);
+                    nextLine = MultilineLabelUtils.getNextLine(text, index, fm, widthLimit);
                     String lineStr = text.substring(nextLine.lineStartIndex, nextLine.lineEndIndex + 1);
                     if (enabled) {
                         g.drawString(lineStr, x, y);
@@ -112,7 +112,7 @@ public class MultiLineLabel extends JComponent implements Scrollable {
         if (!text.isEmpty()) {
             final FontMetrics fm = getFontMetrics(getFont());
             assert fm != null;
-            MultiLineLabelUtils.NextLine nextLine;
+            MultilineLabelUtils.NextLine nextLine;
             int startIndex = 0;
             final int wLimit;
             if (expectedLabelWidth > 0) {
@@ -127,7 +127,7 @@ public class MultiLineLabel extends JComponent implements Scrollable {
             int lineCount = 0;
             int maxLineWidth = 0; // pixels
             do {
-                nextLine = MultiLineLabelUtils.getNextLine(text, startIndex, fm, textWidthLimit);
+                nextLine = MultilineLabelUtils.getNextLine(text, startIndex, fm, textWidthLimit);
                 String nextLineStr = text.substring(nextLine.lineStartIndex, nextLine.lineEndIndex + 1);
                 int nextLineWidth = computeStringWidth(fm, nextLineStr);
                 maxLineWidth = Math.max(maxLineWidth, nextLineWidth);

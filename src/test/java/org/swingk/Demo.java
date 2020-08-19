@@ -17,7 +17,7 @@ public class Demo {
     private static void buildUI() {
         JPanel contentPanel = new JPanel(new BorderLayout());
 
-        MultiLineLabel label = new MultiLineLabel();
+        MultilineLabel label = new MultilineLabel();
         label.setText(LOREM_IPSUM);
         contentPanel.add(label, BorderLayout.CENTER);
 

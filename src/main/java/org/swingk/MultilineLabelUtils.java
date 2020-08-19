@@ -4,13 +4,13 @@ import java.awt.FontMetrics;
 
 import static javax.swing.SwingUtilities.computeStringWidth;
 
-class MultiLineLabelUtils {
+class MultilineLabelUtils {
 
-    private MultiLineLabelUtils() {
+    private MultilineLabelUtils() {
     }
 
     /**
-     * @param text       Text to display in {@link MultiLineLabel}.
+     * @param text       Text to display in {@link MultilineLabel}.
      * @param startIndex Index of 1st character in the new line.
      * @param fm         Current {@link FontMetrics}.
      * @param widthLimit Limit on the width of the line.
