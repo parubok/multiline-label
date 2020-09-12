@@ -21,6 +21,7 @@ import static javax.swing.SwingUtilities.computeStringWidth;
  * TODO: add spaces to 1st line
  * TODO: support text with "\n"
  * TODO: "text" property
+ * TODO: JavaDoc
  */
 public class MultilineLabel extends JComponent implements Scrollable {
     private String text = "";
