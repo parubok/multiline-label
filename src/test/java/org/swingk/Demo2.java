@@ -13,6 +13,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
 
 public class Demo2 {
 
@@ -51,8 +56,18 @@ public class Demo2 {
         fontSizeTextField.setColumns(5);
         enabledCheckBox = new JCheckBox("Enabled");
         enabledCheckBox.setSelected(true);
-        JButton setSizeButton = new JButton("Set");
-        setSizeButton.addActionListener(e -> updateLabel());
+        JButton setButton = new JButton("Set");
+        setButton.addActionListener(e -> updateLabel());
+        JButton pasteButton = new JButton("Paste");
+        pasteButton.addActionListener(e -> {
+                    try {
+                        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                        label.setText((String) clipboard.getData(DataFlavor.stringFlavor));
+                    } catch (IOException | UnsupportedFlavorException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+        );
         controlsPanel.add(new JLabel("Width:"));
         controlsPanel.add(widthTextField);
         controlsPanel.add(new JLabel("Height:"));
@@ -62,7 +77,8 @@ public class Demo2 {
         controlsPanel.add(new JLabel("Font:"));
         controlsPanel.add(fontSizeTextField);
         controlsPanel.add(enabledCheckBox);
-        controlsPanel.add(setSizeButton);
+        controlsPanel.add(setButton);
+        controlsPanel.add(pasteButton);
         contentPanel.add(controlsPanel, BorderLayout.NORTH);
 
         JFrame frame = new JFrame("Demo");
