@@ -16,6 +16,11 @@ import static javax.swing.SwingUtilities.computeStringWidth;
 
 /**
  * Text label capable of word wrapping.
+ *
+ * TODO: interline distance coefficient
+ * TODO: add spaces to 1st line
+ * TODO: support text with "\n"
+ * TODO: "text" property
  */
 public class MultilineLabel extends JComponent implements Scrollable {
     private String text = "";
