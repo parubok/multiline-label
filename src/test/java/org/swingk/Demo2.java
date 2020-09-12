@@ -2,6 +2,7 @@ package org.swingk;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,6 +26,7 @@ public class Demo2 {
     private final JTextField heightTextField;
     private final JTextField borderSizeTextField;
     private final JTextField fontSizeTextField;
+    private final JCheckBox enabledCheckBox;
 
     private Demo2() {
         JPanel contentPanel = new JPanel(new BorderLayout(20, 20));
@@ -45,6 +47,8 @@ public class Demo2 {
         borderSizeTextField.setColumns(5);
         fontSizeTextField = new JTextField("12.0");
         fontSizeTextField.setColumns(5);
+        enabledCheckBox = new JCheckBox("Enabled");
+        enabledCheckBox.setSelected(true);
         JButton setSizeButton = new JButton("Set");
         setSizeButton.addActionListener(e -> updateLabel());
         controlsPanel.add(new JLabel("Width:"));
@@ -55,13 +59,14 @@ public class Demo2 {
         controlsPanel.add(borderSizeTextField);
         controlsPanel.add(new JLabel("Font:"));
         controlsPanel.add(fontSizeTextField);
+        controlsPanel.add(enabledCheckBox);
         controlsPanel.add(setSizeButton);
         contentPanel.add(controlsPanel, BorderLayout.NORTH);
 
         JFrame frame = new JFrame("Demo");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(contentPanel);
-        frame.setSize(1500, 800);
+        frame.setSize(1200, 600);
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
 
@@ -76,6 +81,7 @@ public class Demo2 {
         label.setBorder(BorderFactory.createLineBorder(Color.BLACK, b));
         float f = Float.parseFloat(fontSizeTextField.getText());
         label.setFont(label.getFont().deriveFont(f));
+        label.setEnabled(enabledCheckBox.isSelected());
         label.revalidate();
         label.repaint();
     }
