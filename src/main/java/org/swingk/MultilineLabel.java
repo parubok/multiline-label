@@ -139,8 +139,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
         } else {
             textPrefWidth = textPrefHeight = 0;
         }
-        Dimension ps = new Dimension(textPrefWidth + horInsets, textPrefHeight + insets.top + insets.bottom);
-        return ps;
+        return new Dimension(textPrefWidth + horInsets, textPrefHeight + insets.top + insets.bottom);
     }
 
     public String getText() {
