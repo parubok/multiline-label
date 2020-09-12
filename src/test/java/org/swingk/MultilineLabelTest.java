@@ -93,4 +93,17 @@ class MultilineLabelTest {
             Assertions.assertEquals(new Dimension(488, 56), label.getPreferredSize());
         });
     }
+
+    @Test
+    void setPreferredSize_1() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            MultilineLabel label = new MultilineLabel(Demo.LOREM_IPSUM);
+            Dimension d = new Dimension(13, 15);
+            label.setPreferredSize(d);
+            Assertions.assertEquals(d, label.getPreferredSize());
+
+            label.setPreferredSize(null);
+            Assertions.assertEquals(new Dimension(488, 48), label.getPreferredSize());
+        });
+    }
 }
