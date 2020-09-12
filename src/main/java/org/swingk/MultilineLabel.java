@@ -55,7 +55,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
      */
     private static void paintTextInDisabledStyle(String text, Graphics g, Color color, int x, int y) {
         g.setColor(color.brighter());
-        g.drawString(text, x + 1, y + 1); // draw title text
+        g.drawString(text, x + 1, y + 1);
         g.setColor(color.darker());
         g.drawString(text, x, y);
     }
