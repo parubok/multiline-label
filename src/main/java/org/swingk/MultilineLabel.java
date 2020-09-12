@@ -22,6 +22,8 @@ import static javax.swing.SwingUtilities.computeStringWidth;
  * TODO: support text with "\n"
  * TODO: "text" property
  * TODO: JavaDoc
+ * TODO: README
+ * TODO: specify width limit in characters
  */
 public class MultilineLabel extends JComponent implements Scrollable {
     private String text = "";
