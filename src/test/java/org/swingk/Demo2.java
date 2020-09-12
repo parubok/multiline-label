@@ -13,14 +13,23 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 public class Demo2 {
+
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(Demo2::buildUI);
+        SwingUtilities.invokeLater(() -> {
+            new Demo2();
+        });
     }
 
-    private static void buildUI() {
+    private final MultilineLabel label;
+    private final JTextField widthTextField;
+    private final JTextField heightTextField;
+    private final JTextField borderSizeTextField;
+    private final JTextField fontSizeTextField;
+
+    private Demo2() {
         JPanel contentPanel = new JPanel(new BorderLayout(20, 20));
 
-        MultilineLabel label = new MultilineLabel();
+        label = new MultilineLabel();
         label.setText(Demo.LOREM_IPSUM);
 
         JPanel labelPanel = new JPanel();
@@ -28,29 +37,24 @@ public class Demo2 {
         contentPanel.add(labelPanel, BorderLayout.CENTER);
 
         JPanel controlsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JTextField widthTextField = new JTextField("400");
-        widthTextField.setColumns(10);
-        JTextField heightTextField = new JTextField("200");
-        heightTextField.setColumns(10);
-        JTextField borderSizeTextField = new JTextField("1");
+        widthTextField = new JTextField("400");
+        widthTextField.setColumns(5);
+        heightTextField = new JTextField("200");
+        heightTextField.setColumns(5);
+        borderSizeTextField = new JTextField("1");
         borderSizeTextField.setColumns(5);
+        fontSizeTextField = new JTextField("12.0");
+        fontSizeTextField.setColumns(5);
         JButton setSizeButton = new JButton("Set");
-        Runnable updater = () -> {
-            int w = Integer.parseInt(widthTextField.getText());
-            int h = Integer.parseInt(heightTextField.getText());
-            label.setPreferredSize(new Dimension(w, h));
-            int b = Integer.parseInt(borderSizeTextField.getText());
-            label.setBorder(BorderFactory.createLineBorder(Color.BLACK, b));
-            label.revalidate();
-            label.repaint();
-        };
-        setSizeButton.addActionListener(e -> updater.run());
+        setSizeButton.addActionListener(e -> updateLabel());
         controlsPanel.add(new JLabel("Width:"));
         controlsPanel.add(widthTextField);
         controlsPanel.add(new JLabel("Height:"));
         controlsPanel.add(heightTextField);
         controlsPanel.add(new JLabel("Border:"));
         controlsPanel.add(borderSizeTextField);
+        controlsPanel.add(new JLabel("Font:"));
+        controlsPanel.add(fontSizeTextField);
         controlsPanel.add(setSizeButton);
         contentPanel.add(controlsPanel, BorderLayout.NORTH);
 
@@ -61,6 +65,18 @@ public class Demo2 {
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
 
-        updater.run();
+        updateLabel();
+    }
+
+    private void updateLabel() {
+        int w = Integer.parseInt(widthTextField.getText());
+        int h = Integer.parseInt(heightTextField.getText());
+        label.setPreferredSize(new Dimension(w, h));
+        int b = Integer.parseInt(borderSizeTextField.getText());
+        label.setBorder(BorderFactory.createLineBorder(Color.BLACK, b));
+        float f = Float.parseFloat(fontSizeTextField.getText());
+        label.setFont(label.getFont().deriveFont(f));
+        label.revalidate();
+        label.repaint();
     }
 }
