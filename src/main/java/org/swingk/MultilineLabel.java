@@ -19,6 +19,7 @@ import static javax.swing.SwingUtilities.computeStringWidth;
  */
 public class MultilineLabel extends JComponent implements Scrollable {
     private String text = "";
+    private String textToRender = "";
 
     /**
      * Default label width limit in pixels.
@@ -56,7 +57,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
             g.setColor(getBackground());
             g.fillRect(0, 0, getWidth(), getHeight());
         }
-        if (!text.isEmpty()) {
+        if (!textToRender.isEmpty()) {
             Insets insets = getInsets();
             int textWidth = (getWidth() - insets.left - insets.right);
             if (textWidth > 1) {
@@ -70,8 +71,8 @@ public class MultilineLabel extends JComponent implements Scrollable {
                 int index = 0;
                 int widthLimit = getWidth() - insets.right - insets.left;
                 do {
-                    nextLine = MultilineLabelUtils.getNextLine(text, index, fm, widthLimit);
-                    String lineStr = text.substring(nextLine.lineStartIndex, nextLine.lineEndIndex + 1);
+                    nextLine = MultilineLabelUtils.getNextLine(textToRender, index, fm, widthLimit);
+                    String lineStr = textToRender.substring(nextLine.lineStartIndex, nextLine.lineEndIndex + 1);
                     if (enabled) {
                         g.drawString(lineStr, x, y);
                     } else {
@@ -112,7 +113,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
         final int horInsets = insets.right + insets.left;
         int textPrefWidth;
         int textPrefHeight;
-        if (!text.isEmpty()) {
+        if (!textToRender.isEmpty()) {
             final FontMetrics fm = getFontMetrics(getFont());
             assert fm != null;
             MultilineLabelUtils.NextLine nextLine;
@@ -130,8 +131,8 @@ public class MultilineLabel extends JComponent implements Scrollable {
             int lineCount = 0;
             int maxLineWidth = 0; // pixels
             do {
-                nextLine = MultilineLabelUtils.getNextLine(text, startIndex, fm, textWidthLimit);
-                String nextLineStr = text.substring(nextLine.lineStartIndex, nextLine.lineEndIndex + 1);
+                nextLine = MultilineLabelUtils.getNextLine(textToRender, startIndex, fm, textWidthLimit);
+                String nextLineStr = textToRender.substring(nextLine.lineStartIndex, nextLine.lineEndIndex + 1);
                 int nextLineWidth = computeStringWidth(fm, nextLineStr);
                 maxLineWidth = Math.max(maxLineWidth, nextLineWidth);
                 lineCount++;
@@ -149,18 +150,23 @@ public class MultilineLabel extends JComponent implements Scrollable {
         return text;
     }
 
+    static String toRenderedText(String text) {
+        StringBuilder sb = new StringBuilder(text.trim());
+        int doubleSpaceIndex;
+        while ((doubleSpaceIndex = sb.indexOf("  ")) > -1) {
+            sb.delete(doubleSpaceIndex + 1, doubleSpaceIndex + 2);
+        }
+        return sb.toString();
+    }
+
     public void setText(String text) {
         Objects.requireNonNull(text);
         if (text.contains("\n")) {
             throw new IllegalArgumentException("Text contains EOL.");
         }
-        if (text.startsWith(" ") || text.endsWith(" ")) {
-            throw new IllegalArgumentException("Text starts or ends with space.");
-        }
-        if (text.contains("  ")) {
-            throw new IllegalArgumentException("Text contains substrings of 2 or more spaces.");
-        }
         this.text = text;
+        this.textToRender = toRenderedText(text);
+
         revalidate();
         repaint();
     }

@@ -13,9 +13,6 @@ class MultilineLabelTest {
     void illegal_text() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             MultilineLabel label = new MultilineLabel();
-            Assertions.assertThrows(IllegalArgumentException.class, () -> label.setText("a  b"));
-            Assertions.assertThrows(IllegalArgumentException.class, () -> label.setText("abc "));
-            Assertions.assertThrows(IllegalArgumentException.class, () -> label.setText(" abc"));
             Assertions.assertThrows(IllegalArgumentException.class, () -> label.setText("a\nbc"));
         });
     }
@@ -104,6 +101,23 @@ class MultilineLabelTest {
 
             label.setPreferredSize(null);
             Assertions.assertEquals(new Dimension(488, 48), label.getPreferredSize());
+        });
+    }
+
+    @Test
+    void toRenderedText_1() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            Assertions.assertEquals("", MultilineLabel.toRenderedText(""));
+            Assertions.assertEquals("", MultilineLabel.toRenderedText(" "));
+            Assertions.assertEquals("", MultilineLabel.toRenderedText("  "));
+            Assertions.assertEquals("a b", MultilineLabel.toRenderedText("a b"));
+            Assertions.assertEquals("a b", MultilineLabel.toRenderedText("a  b"));
+            Assertions.assertEquals("a b", MultilineLabel.toRenderedText("a   b"));
+            Assertions.assertEquals("a b", MultilineLabel.toRenderedText("a    b"));
+            Assertions.assertEquals("a b c d", MultilineLabel.toRenderedText(" a  b c  d "));
+            Assertions.assertEquals("abcd", MultilineLabel.toRenderedText("abcd"));
+            Assertions.assertEquals("abcd 1", MultilineLabel.toRenderedText("abcd 1"));
+            Assertions.assertEquals("abcd 12", MultilineLabel.toRenderedText("abcd 12"));
         });
     }
 }
