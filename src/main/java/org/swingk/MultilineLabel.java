@@ -98,6 +98,9 @@ public class MultilineLabel extends JComponent implements Scrollable {
 
     @Override
     public Dimension getPreferredSize() {
+        if (isPreferredSizeSet()) {
+            return super.getPreferredSize();
+        }
         return calcPreferredSize(0);
     }
 
