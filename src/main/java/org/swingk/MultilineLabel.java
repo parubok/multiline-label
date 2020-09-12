@@ -160,7 +160,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
         StringBuilder sb = new StringBuilder(text.trim());
         int doubleSpaceIndex;
         while ((doubleSpaceIndex = sb.indexOf("  ")) > -1) {
-            sb.delete(doubleSpaceIndex + 1, doubleSpaceIndex + 2);
+            sb.delete(doubleSpaceIndex + 1, doubleSpaceIndex + 2); // delete second space
         }
         return sb.toString();
     }
