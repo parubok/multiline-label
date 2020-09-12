@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -29,7 +30,7 @@ public class Demo2 {
     private final JCheckBox enabledCheckBox;
 
     private Demo2() {
-        JPanel contentPanel = new JPanel(new BorderLayout(20, 20));
+        JPanel contentPanel = new JPanel(new BorderLayout());
 
         label = new MultilineLabel();
         label.setText(Demo.LOREM_IPSUM);
@@ -38,7 +39,8 @@ public class Demo2 {
         labelPanel.add(label);
         contentPanel.add(labelPanel, BorderLayout.CENTER);
 
-        JPanel controlsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel controlsPanel = new JPanel(new FlowLayout());
+        controlsPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
         widthTextField = new JTextField("400");
         widthTextField.setColumns(5);
         heightTextField = new JTextField("200");
