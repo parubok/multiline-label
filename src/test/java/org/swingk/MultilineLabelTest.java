@@ -10,14 +10,6 @@ import java.awt.Dimension;
 
 class MultilineLabelTest {
     @Test
-    void illegal_text() throws Exception {
-        SwingUtilities.invokeAndWait(() -> {
-            MultilineLabel label = new MultilineLabel();
-            Assertions.assertThrows(IllegalArgumentException.class, () -> label.setText("a\nbc"));
-        });
-    }
-
-    @Test
     void basic_test_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             MultilineLabel label = new MultilineLabel();
