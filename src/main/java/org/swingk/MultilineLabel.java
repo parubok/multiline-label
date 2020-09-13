@@ -25,7 +25,7 @@ import static javax.swing.SwingUtilities.computeStringWidth;
  * TODO: README
  * TODO: specify width limit in characters
  * TODO: refactor to improve performance
- * TODO: fix AA to be as in L&F
+ * TODO: fix AA to be as in L&F (UI delegate?)
  */
 public class MultilineLabel extends JComponent implements Scrollable {
     private String text = "";
@@ -161,7 +161,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
     }
 
     static String toRenderedText(String text) {
-        StringBuilder sb = new StringBuilder(text.trim());
+        StringBuilder sb = new StringBuilder(text.replace('\n', ' ').trim());
         int doubleSpaceIndex;
         while ((doubleSpaceIndex = sb.indexOf("  ")) > -1) {
             sb.delete(doubleSpaceIndex + 1, doubleSpaceIndex + 2); // delete second space

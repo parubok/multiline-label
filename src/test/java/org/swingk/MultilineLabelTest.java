@@ -120,4 +120,14 @@ class MultilineLabelTest {
             Assertions.assertEquals("abcd 12", MultilineLabel.toRenderedText("abcd 12"));
         });
     }
+
+    @Test
+    void toRenderedText_2() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            Assertions.assertEquals("a b", MultilineLabel.toRenderedText("a\nb"));
+            Assertions.assertEquals("a b", MultilineLabel.toRenderedText("a \n b"));
+            Assertions.assertEquals("a b", MultilineLabel.toRenderedText("\na \n b\n"));
+            Assertions.assertEquals("a b", MultilineLabel.toRenderedText(" \n a \n b \n"));
+        });
+    }
 }
