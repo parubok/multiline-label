@@ -120,6 +120,8 @@ class MultilineLabelTest {
             Assertions.assertEquals("a b", MultilineLabel.toRenderedText("a \n b"));
             Assertions.assertEquals("a b", MultilineLabel.toRenderedText("\na \n b\n"));
             Assertions.assertEquals("a b", MultilineLabel.toRenderedText(" \n a \n b \n"));
+            Assertions.assertEquals("a b", MultilineLabel.toRenderedText(" \n a\n\nb \n"));
+            Assertions.assertEquals("a b", MultilineLabel.toRenderedText("a  \n  b"));
         });
     }
 }
