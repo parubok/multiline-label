@@ -170,13 +170,8 @@ public class MultilineLabel extends JComponent implements Scrollable {
     }
 
     public void setText(String text) {
-        Objects.requireNonNull(text);
-        if (text.contains("\n")) {
-            throw new IllegalArgumentException("Text contains EOL.");
-        }
-        this.text = text;
+        this.text = Objects.requireNonNull(text);
         this.textToRender = toRenderedText(text);
-
         revalidate();
         repaint();
     }
