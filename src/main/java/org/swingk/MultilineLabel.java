@@ -95,10 +95,13 @@ public class MultilineLabel extends JComponent implements Scrollable {
         }
     }
 
+    protected boolean requestLayout(int x, int y, int width, int height) {
+        return (width > 0 && height > 0 && width != getWidth() && calcPreferredSize(width).height != height);
+    }
+
     @Override
     public void setBounds(int x, int y, int width, int height) {
-        if (width > 0 && height > 0 && width != getWidth() && calcPreferredSize(width).height > height) {
-            // the component bounds are insufficient to display the entire text - request another layout attempt.
+        if (requestLayout(x, y, width, height)) {
             SwingUtilities.invokeLater(() -> {
                 revalidate();
                 repaint();
@@ -118,7 +121,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
     /**
      * @param expectedLabelWidth If 0 - use fallback resolution.
      */
-    private Dimension calcPreferredSize(int expectedLabelWidth) {
+    protected Dimension calcPreferredSize(int expectedLabelWidth) {
         Insets insets = getInsets();
         final int horInsets = insets.right + insets.left;
         int textPrefWidth;
@@ -160,7 +163,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
         return text;
     }
 
-    static String toRenderedText(String text) {
+    protected static String toRenderedText(String text) {
         StringBuilder sb = new StringBuilder(text.replace('\n', ' ').trim());
         int doubleSpaceIndex;
         while ((doubleSpaceIndex = sb.indexOf("  ")) > -1) {

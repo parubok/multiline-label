@@ -81,7 +81,7 @@ public class Demo2 {
         controlsPanel.add(pasteButton);
         contentPanel.add(controlsPanel, BorderLayout.NORTH);
 
-        JFrame frame = new JFrame("Demo");
+        JFrame frame = new JFrame("Demo2");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(contentPanel);
         frame.setSize(1200, 600);
