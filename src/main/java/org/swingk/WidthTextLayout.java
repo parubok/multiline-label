@@ -14,7 +14,7 @@ import static org.swingk.MultilineLabelUtils.paintTextInDisabledStyle;
  * Dynamically calculates line breaks based on value of {@link MultilineLabel#getPreferredScrollableViewportSize()}
  * or the current label width. Ignores line breaks in text by replacing them with spaces.
  */
-final class DefaultTextLayout implements TextLayout {
+final class WidthTextLayout implements TextLayout {
 
     static String toRenderedText(String text) {
         StringBuilder sb = new StringBuilder(text.replace('\n', ' ').trim());
@@ -28,7 +28,7 @@ final class DefaultTextLayout implements TextLayout {
     private final MultilineLabel label;
     private final String textToRender;
 
-    public DefaultTextLayout(MultilineLabel label) {
+    public WidthTextLayout(MultilineLabel label) {
         this.label = Objects.requireNonNull(label);
         this.textToRender = toRenderedText(label.getText());
     }
