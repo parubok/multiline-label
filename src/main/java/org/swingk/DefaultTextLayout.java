@@ -11,8 +11,8 @@ import static javax.swing.SwingUtilities.computeStringWidth;
 import static org.swingk.MultilineLabelUtils.paintTextInDisabledStyle;
 
 /**
- * Calculates line breaks based on value of {@link MultilineLabel#getPreferredScrollableViewportSize()} or the current
- * label width. Ignores EOL by replacing them by spaces.
+ * Dynamically calculates line breaks based on value of {@link MultilineLabel#getPreferredScrollableViewportSize()}
+ * or the current label width. Ignores line breaks in text by replacing them with spaces.
  */
 final class DefaultTextLayout implements TextLayout {
 
