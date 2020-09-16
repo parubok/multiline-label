@@ -3,16 +3,10 @@ package org.swingk;
 import javax.swing.JComponent;
 import javax.swing.LookAndFeel;
 import javax.swing.Scrollable;
-import javax.swing.SwingUtilities;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Insets;
 import java.awt.Rectangle;
 import java.util.Objects;
-
-import static javax.swing.SwingUtilities.computeStringWidth;
 
 /**
  * Text label capable of word wrapping.
@@ -30,7 +24,7 @@ import static javax.swing.SwingUtilities.computeStringWidth;
  */
 public class MultilineLabel extends JComponent implements Scrollable {
     private String text = "";
-    private String textToRender = "";
+    private TextLayout textLayout;
 
     /**
      * Default label width limit in pixels.
@@ -43,22 +37,12 @@ public class MultilineLabel extends JComponent implements Scrollable {
         super();
         setOpaque(true);
         LookAndFeel.installColorsAndFont(this, "Label.background", "Label.foreground", "Label.font");
+        setText("");
     }
 
     public MultilineLabel(String text) {
         this();
         setText(text);
-    }
-
-    /**
-     * Draws {@code text} in a style of disabled component text at {@link Graphics} context from the point (x,y). Uses
-     * {@code color} as a base.
-     */
-    private static void paintTextInDisabledStyle(String text, Graphics g, Color color, int x, int y) {
-        g.setColor(color.brighter());
-        g.drawString(text, x + 1, y + 1);
-        g.setColor(color.darker());
-        g.drawString(text, x, y);
     }
 
     @Override
@@ -68,46 +52,12 @@ public class MultilineLabel extends JComponent implements Scrollable {
             g.setColor(getBackground());
             g.fillRect(0, 0, getWidth(), getHeight());
         }
-        if (!textToRender.isEmpty()) {
-            Insets insets = getInsets();
-            int textWidth = (getWidth() - insets.left - insets.right);
-            if (textWidth > 1) {
-                g.setFont(getFont());
-                FontMetrics fm = g.getFontMetrics();
-                g.setColor(getForeground());
-                int x = insets.left;
-                int y = insets.top + fm.getAscent();
-                boolean enabled = isEnabled();
-                MultilineLabelUtils.NextLine nextLine;
-                int index = 0;
-                int widthLimit = getWidth() - insets.right - insets.left;
-                do {
-                    nextLine = MultilineLabelUtils.getNextLine(textToRender, index, fm, widthLimit);
-                    String lineStr = textToRender.substring(nextLine.lineStartIndex, nextLine.lineEndIndex + 1);
-                    if (enabled) {
-                        g.drawString(lineStr, x, y);
-                    } else {
-                        paintTextInDisabledStyle(lineStr, g, getBackground(), x, y);
-                    }
-                    y += fm.getHeight();
-                    index = nextLine.nextLineStartIndex;
-                } while (!nextLine.lastLine);
-            }
-        }
-    }
-
-    protected boolean requestLayout(int x, int y, int width, int height) {
-        return (width > 0 && height > 0 && width != getWidth() && calcPreferredSize(width).height != height);
+        textLayout.paintText(g);
     }
 
     @Override
     public void setBounds(int x, int y, int width, int height) {
-        if (requestLayout(x, y, width, height)) {
-            SwingUtilities.invokeLater(() -> {
-                revalidate();
-                repaint();
-            });
-        }
+        textLayout.preSetBounds(x, y, width, height);
         super.setBounds(x, y, width, height);
     }
 
@@ -116,68 +66,18 @@ public class MultilineLabel extends JComponent implements Scrollable {
         if (isPreferredSizeSet()) {
             return super.getPreferredSize();
         }
-        return calcPreferredSize(0);
-    }
-
-    /**
-     * @param expectedLabelWidth If 0 - use fallback resolution.
-     */
-    protected Dimension calcPreferredSize(int expectedLabelWidth) {
-        Insets insets = getInsets();
-        final int horInsets = insets.right + insets.left;
-        int textPrefWidth;
-        int textPrefHeight;
-        if (!textToRender.isEmpty()) {
-            final FontMetrics fm = getFontMetrics(getFont());
-            assert fm != null;
-            MultilineLabelUtils.NextLine nextLine;
-            int startIndex = 0;
-            final int wLimit;
-            if (expectedLabelWidth > 0) {
-                wLimit = expectedLabelWidth;
-            } else if (getWidth() > 0) {
-                // https://stackoverflow.com/questions/39455573/how-to-set-fixed-width-but-dynamic-height-on-jtextpane/39466255#39466255
-                wLimit = getWidth();
-            } else {
-                wLimit = prefWidthLimit;
-            }
-            final int textWidthLimit = Math.max(1, wLimit - horInsets);
-            int lineCount = 0;
-            int maxLineWidth = 0; // pixels
-            do {
-                nextLine = MultilineLabelUtils.getNextLine(textToRender, startIndex, fm, textWidthLimit);
-                String nextLineStr = textToRender.substring(nextLine.lineStartIndex, nextLine.lineEndIndex + 1);
-                int nextLineWidth = computeStringWidth(fm, nextLineStr);
-                maxLineWidth = Math.max(maxLineWidth, nextLineWidth);
-                lineCount++;
-                startIndex = nextLine.nextLineStartIndex;
-            } while (!nextLine.lastLine);
-            textPrefWidth = maxLineWidth;
-            textPrefHeight = (fm.getAscent() + fm.getDescent()) * lineCount + fm.getLeading() * (lineCount - 1);
-        } else {
-            textPrefWidth = textPrefHeight = 0;
-        }
-        return new Dimension(textPrefWidth + horInsets, textPrefHeight + insets.top + insets.bottom);
+        return textLayout.calculatePreferredSize();
     }
 
     public String getText() {
         return text;
     }
 
-    protected static String toRenderedText(String text) {
-        StringBuilder sb = new StringBuilder(text.replace('\n', ' ').trim());
-        int doubleSpaceIndex;
-        while ((doubleSpaceIndex = sb.indexOf("  ")) > -1) {
-            sb.delete(doubleSpaceIndex + 1, doubleSpaceIndex + 2); // delete second space
-        }
-        return sb.toString();
-    }
-
     public void setText(String text) {
+        String oldValue = this.text;
         this.text = Objects.requireNonNull(text);
-        this.textToRender = toRenderedText(text);
-        revalidate();
-        repaint();
+        this.textLayout = new DefaultTextLayout(this);
+        firePropertyChange("text", oldValue, this.text);
     }
 
     public int getPreferredWidthLimit() {

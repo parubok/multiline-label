@@ -99,29 +99,29 @@ class MultilineLabelTest {
     @Test
     void toRenderedText_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
-            Assertions.assertEquals("", MultilineLabel.toRenderedText(""));
-            Assertions.assertEquals("", MultilineLabel.toRenderedText(" "));
-            Assertions.assertEquals("", MultilineLabel.toRenderedText("  "));
-            Assertions.assertEquals("a b", MultilineLabel.toRenderedText("a b"));
-            Assertions.assertEquals("a b", MultilineLabel.toRenderedText("a  b"));
-            Assertions.assertEquals("a b", MultilineLabel.toRenderedText("a   b"));
-            Assertions.assertEquals("a b", MultilineLabel.toRenderedText("a    b"));
-            Assertions.assertEquals("a b c d", MultilineLabel.toRenderedText(" a  b c  d "));
-            Assertions.assertEquals("abcd", MultilineLabel.toRenderedText("abcd"));
-            Assertions.assertEquals("abcd 1", MultilineLabel.toRenderedText("abcd 1"));
-            Assertions.assertEquals("abcd 12", MultilineLabel.toRenderedText("abcd 12"));
+            Assertions.assertEquals("", DefaultTextLayout.toRenderedText(""));
+            Assertions.assertEquals("", DefaultTextLayout.toRenderedText(" "));
+            Assertions.assertEquals("", DefaultTextLayout.toRenderedText("  "));
+            Assertions.assertEquals("a b", DefaultTextLayout.toRenderedText("a b"));
+            Assertions.assertEquals("a b", DefaultTextLayout.toRenderedText("a  b"));
+            Assertions.assertEquals("a b", DefaultTextLayout.toRenderedText("a   b"));
+            Assertions.assertEquals("a b", DefaultTextLayout.toRenderedText("a    b"));
+            Assertions.assertEquals("a b c d", DefaultTextLayout.toRenderedText(" a  b c  d "));
+            Assertions.assertEquals("abcd", DefaultTextLayout.toRenderedText("abcd"));
+            Assertions.assertEquals("abcd 1", DefaultTextLayout.toRenderedText("abcd 1"));
+            Assertions.assertEquals("abcd 12", DefaultTextLayout.toRenderedText("abcd 12"));
         });
     }
 
     @Test
     void toRenderedText_2() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
-            Assertions.assertEquals("a b", MultilineLabel.toRenderedText("a\nb"));
-            Assertions.assertEquals("a b", MultilineLabel.toRenderedText("a \n b"));
-            Assertions.assertEquals("a b", MultilineLabel.toRenderedText("\na \n b\n"));
-            Assertions.assertEquals("a b", MultilineLabel.toRenderedText(" \n a \n b \n"));
-            Assertions.assertEquals("a b", MultilineLabel.toRenderedText(" \n a\n\nb \n"));
-            Assertions.assertEquals("a b", MultilineLabel.toRenderedText("a  \n  b"));
+            Assertions.assertEquals("a b", DefaultTextLayout.toRenderedText("a\nb"));
+            Assertions.assertEquals("a b", DefaultTextLayout.toRenderedText("a \n b"));
+            Assertions.assertEquals("a b", DefaultTextLayout.toRenderedText("\na \n b\n"));
+            Assertions.assertEquals("a b", DefaultTextLayout.toRenderedText(" \n a \n b \n"));
+            Assertions.assertEquals("a b", DefaultTextLayout.toRenderedText(" \n a\n\nb \n"));
+            Assertions.assertEquals("a b", DefaultTextLayout.toRenderedText("a  \n  b"));
         });
     }
 }
