@@ -3,10 +3,13 @@ package org.swingk;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
+/**
+ * Text layout where line breaks are provided in the text by EOL ('\n') characters.
+ */
 public class ProvidedTextLayout implements TextLayout {
     @Override
     public void paintText(Graphics g) {
-        
+
     }
 
     @Override
