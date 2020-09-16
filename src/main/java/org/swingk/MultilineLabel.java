@@ -26,6 +26,7 @@ import static javax.swing.SwingUtilities.computeStringWidth;
  * TODO: specify width limit in characters
  * TODO: refactor to improve performance
  * TODO: fix AA to be as in L&F (UI delegate?)
+ * TODO: javax.swing.text.Utilities.getBreakLocation ?
  */
 public class MultilineLabel extends JComponent implements Scrollable {
     private String text = "";
