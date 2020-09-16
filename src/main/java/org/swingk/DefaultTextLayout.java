@@ -12,7 +12,7 @@ import static org.swingk.MultilineLabelUtils.paintTextInDisabledStyle;
 
 /**
  * Calculates line breaks based on value of {@link MultilineLabel#getPreferredScrollableViewportSize()} or the current
- * label width.
+ * label width. Ignores EOL by replacing them by spaces.
  */
 final class DefaultTextLayout implements TextLayout {
 
