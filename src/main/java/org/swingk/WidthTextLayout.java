@@ -14,9 +14,9 @@ import static org.swingk.MultilineLabelUtils.paintTextInDisabledStyle;
  * Dynamically calculates line breaks based on value of {@link MultilineLabel#getPreferredScrollableViewportSize()}
  * or the current label width. Ignores line breaks in text by replacing them with spaces.
  */
-final class WidthTextLayout implements TextLayout {
+public class WidthTextLayout implements TextLayout {
 
-    static String toRenderedText(String text) {
+    protected static String toRenderedText(String text) {
         StringBuilder sb = new StringBuilder(text.replace('\n', ' ').trim());
         int doubleSpaceIndex;
         while ((doubleSpaceIndex = sb.indexOf("  ")) > -1) {
@@ -25,8 +25,8 @@ final class WidthTextLayout implements TextLayout {
         return sb.toString();
     }
 
-    private final MultilineLabel label;
-    private final String textToRender;
+    protected final MultilineLabel label;
+    protected final String textToRender;
 
     public WidthTextLayout(MultilineLabel label) {
         this.label = Objects.requireNonNull(label);
@@ -38,13 +38,20 @@ final class WidthTextLayout implements TextLayout {
         return calcPreferredSize(0);
     }
 
+    protected void requestLayout() {
+        SwingUtilities.invokeLater(() -> {
+            label.revalidate();
+            label.repaint();
+        });
+    }
+
     @Override
     public void preSetBounds(int x, int y, int width, int height) {
-        if (width > 0 && height > 0 && width != label.getWidth() && calcPreferredSize(width).height != height) {
-            SwingUtilities.invokeLater(() -> {
-                label.revalidate();
-                label.repaint();
-            });
+        if (!textToRender.isEmpty()
+                && width > 0 && height > 0
+                && width != label.getWidth()
+                && calcPreferredSize(width).height != height) {
+            requestLayout();
         }
     }
 
@@ -94,29 +101,27 @@ final class WidthTextLayout implements TextLayout {
         if (textToRender.isEmpty()) {
             return;
         }
-        Insets insets = label.getInsets();
-        int textWidth = (label.getWidth() - insets.left - insets.right);
-        if (textWidth > 1) {
-            g.setFont(label.getFont());
-            FontMetrics fm = g.getFontMetrics();
-            g.setColor(label.getForeground());
-            int x = insets.left;
-            int y = insets.top + fm.getAscent();
-            boolean enabled = label.isEnabled();
-            MultilineLabelUtils.NextLine nextLine;
-            int index = 0;
-            int widthLimit = label.getWidth() - insets.right - insets.left;
-            do {
-                nextLine = MultilineLabelUtils.getNextLine(textToRender, index, fm, widthLimit);
-                String lineStr = textToRender.substring(nextLine.lineStartIndex, nextLine.lineEndIndex + 1);
-                if (enabled) {
-                    g.drawString(lineStr, x, y);
-                } else {
-                    paintTextInDisabledStyle(lineStr, g, label.getBackground(), x, y);
-                }
-                y += fm.getHeight();
-                index = nextLine.nextLineStartIndex;
-            } while (!nextLine.lastLine);
+        final Insets insets = label.getInsets();
+        final int widthLimit = label.getWidth() - insets.right - insets.left;
+        if (widthLimit < 1) {
+            return;
         }
+        final FontMetrics fm = g.getFontMetrics();
+        final int x = insets.left;
+        int y = insets.top + fm.getAscent();
+        final boolean enabled = label.isEnabled();
+        MultilineLabelUtils.NextLine nextLine;
+        int index = 0;
+        do {
+            nextLine = MultilineLabelUtils.getNextLine(textToRender, index, fm, widthLimit);
+            String lineStr = textToRender.substring(nextLine.lineStartIndex, nextLine.lineEndIndex + 1);
+            if (enabled) {
+                g.drawString(lineStr, x, y);
+            } else {
+                paintTextInDisabledStyle(lineStr, g, label.getBackground(), x, y);
+            }
+            y += fm.getHeight();
+            index = nextLine.nextLineStartIndex;
+        } while (!nextLine.lastLine);
     }
 }

@@ -6,6 +6,7 @@ import java.awt.Graphics;
 interface TextLayout {
     /**
      * Called from {@link MultilineLabel#paintComponent(Graphics)} to paint label's text.
+     * The {@link Graphics} object is preconfigured with the label's font and color.
      */
     void paintText(Graphics g);
 
