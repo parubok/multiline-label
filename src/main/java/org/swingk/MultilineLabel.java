@@ -77,7 +77,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
     public void setText(String text) {
         String oldValue = this.text;
         this.text = Objects.requireNonNull(text);
-        this.textLayout = new WidthTextLayout(this);
+        this.textLayout = text.contains("\n") ? new ProvidedTextLayout(this) : new WidthTextLayout(this);
         firePropertyChange("text", oldValue, this.text);
     }
 
@@ -115,5 +115,9 @@ public class MultilineLabel extends JComponent implements Scrollable {
     @Override
     public boolean getScrollableTracksViewportHeight() {
         return false;
+    }
+
+    TextLayout getTextLayout() {
+        return textLayout;
     }
 }

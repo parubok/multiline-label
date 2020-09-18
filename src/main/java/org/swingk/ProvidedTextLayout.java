@@ -15,23 +15,30 @@ import static org.swingk.MultilineLabelUtils.paintTextInDisabledStyle;
  * Text layout where line breaks are provided in the text by EOL ('\n') characters.
  */
 public class ProvidedTextLayout implements TextLayout {
-    protected final MultilineLabel label;
-
-    protected final List<String> lines = new ArrayList<>();
+    private final MultilineLabel label;
+    private final List<String> lines = new ArrayList<>();
 
     public ProvidedTextLayout(MultilineLabel label) {
         this.label = Objects.requireNonNull(label);
         String t = label.getText().trim();
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < t.length(); i++) {
+        final int len = t.length();
+        for (int i = 0; i < len; i++) {
             char c = t.charAt(i);
             if (c == '\n') {
-                lines.add(sb.toString().trim());
+                addLine(sb);
                 sb = new StringBuilder();
             } else {
                 sb.append(c);
             }
+            if (i == (len - 1)) {
+                addLine(sb);
+            }
         }
+    }
+
+    private void addLine(StringBuilder sb) {
+        lines.add(sb.toString().trim());
     }
 
     @Override
@@ -77,5 +84,9 @@ public class ProvidedTextLayout implements TextLayout {
     @Override
     public void preSetBounds(int x, int y, int width, int height) {
         // do nothing since this layout doesn't depend on the current bounds
+    }
+
+    List<String> getLines() {
+        return lines;
     }
 }
