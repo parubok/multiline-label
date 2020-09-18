@@ -14,7 +14,6 @@ import java.util.Objects;
  * TODO: interline distance coefficient
  * TODO: add spaces to 1st line
  * TODO: support text with "\n"
- * TODO: "text" property
  * TODO: JavaDoc
  * TODO: README
  * TODO: specify width limit in characters
