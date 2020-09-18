@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 class ProvidedTextLayoutTest {
     @Test
-    void getPreferredSize_2() throws Exception {
+    void getLines_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             MultilineLabel label = new MultilineLabel();
             label.setText("\n\nabc \n 12 3\n \n");
