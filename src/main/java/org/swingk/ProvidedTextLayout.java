@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static javax.swing.SwingUtilities.computeStringWidth;
+import static org.swingk.MultilineLabelUtils.paintTextInDisabledStyle;
 
 /**
  * Text layout where line breaks are provided in the text by EOL ('\n') characters.
@@ -35,6 +36,20 @@ public class ProvidedTextLayout implements TextLayout {
 
     @Override
     public void paintText(Graphics g) {
+        final Insets insets = label.getInsets();
+        final FontMetrics fm = g.getFontMetrics();
+        final int x = insets.left;
+        int y = insets.top + fm.getAscent();
+        final boolean enabled = label.isEnabled();
+        for (int i = 0; i < lines.size(); i++) {
+            String line = lines.get(i);
+            if (enabled) {
+                g.drawString(line, x, y);
+            } else {
+                paintTextInDisabledStyle(line, g, label.getBackground(), x, y);
+            }
+            y += fm.getHeight();
+        }
     }
 
     @Override
