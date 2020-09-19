@@ -67,8 +67,6 @@ public class ProvidedTextLayout implements TextLayout {
 
     @Override
     public Dimension calculatePreferredSize() {
-        Insets insets = label.getInsets();
-        final int horInsets = insets.right + insets.left;
         final int textPrefWidth;
         final int textPrefHeight;
         if (!lines.isEmpty()) {
@@ -84,7 +82,8 @@ public class ProvidedTextLayout implements TextLayout {
         } else {
             textPrefWidth = textPrefHeight = 0;
         }
-        return new Dimension(textPrefWidth + horInsets, textPrefHeight + insets.top + insets.bottom);
+        Insets insets = label.getInsets();
+        return new Dimension(textPrefWidth + insets.right + insets.left, textPrefHeight + insets.top + insets.bottom);
     }
 
     @Override
