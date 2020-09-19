@@ -20,6 +20,7 @@ import java.util.Objects;
  * TODO: fix AA to be as in L&F (UI delegate?)
  * TODO: javax.swing.text.Utilities.getBreakLocation ?
  * TODO: lines limit, "..." to display very long messages
+ * TODO: 'flexible' pref. width (e.g. +/-100 pixels) to achieve the best distribution.
  */
 public class MultilineLabel extends JComponent implements Scrollable {
     private String text = "";
@@ -89,10 +90,18 @@ public class MultilineLabel extends JComponent implements Scrollable {
         return textLayout;
     }
 
+    /**
+     * Note: Ignored if the text already contains line separators.
+     *
+     * @see #DEFAULT_WIDTH_LIMIT
+     */
     public int getPreferredWidthLimit() {
         return prefWidthLimit;
     }
 
+    /**
+     * Note: Ignored if the text already contains line separators.
+     */
     public void setPreferredWidthLimit(int prefWidthLimit) {
         if (prefWidthLimit < 1) {
             throw new IllegalArgumentException();
