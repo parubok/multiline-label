@@ -84,6 +84,31 @@ class MultilineLabelTest {
     }
 
     @Test
+    void getPreferredSize_4() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            MultilineLabel label = new MultilineLabel("line1\nline2");
+            Assertions.assertEquals(new Dimension(27, 32), label.getPreferredSize());
+
+            label.setText("line1\nline2\nline3");
+            Assertions.assertEquals(new Dimension(27, 48), label.getPreferredSize());
+
+            label.setText("line1\nline2\nline3\nline4");
+            Assertions.assertEquals(new Dimension(27, 64), label.getPreferredSize());
+
+            label.setBorder(new EmptyBorder(1, 2, 3, 4));
+            Assertions.assertEquals(new Dimension(33, 68), label.getPreferredSize());
+        });
+    }
+
+    @Test
+    void getPreferredSize_5() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            MultilineLabel label = new MultilineLabel("line1\n\n\nline2");
+            Assertions.assertEquals(new Dimension(27, 64), label.getPreferredSize());
+        });
+    }
+
+    @Test
     void setPreferredSize_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             MultilineLabel label = new MultilineLabel(Demo.LOREM_IPSUM);
