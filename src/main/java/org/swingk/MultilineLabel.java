@@ -78,7 +78,6 @@ public class MultilineLabel extends JComponent implements Scrollable {
         return ProvidedTextLayout.hasLineSeparators(text) ? new ProvidedTextLayout(this) : new WidthTextLayout(this);
     }
 
-
     public void setText(String text) {
         String oldValue = this.text;
         this.text = Objects.requireNonNull(text);
