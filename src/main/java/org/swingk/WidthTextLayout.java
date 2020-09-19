@@ -66,7 +66,7 @@ public class WidthTextLayout implements TextLayout {
         if (!textToRender.isEmpty()) {
             final FontMetrics fm = label.getFontMetrics(label.getFont());
             assert fm != null;
-            MultilineLabelUtils.NextLine nextLine;
+            NextLine nextLine;
             int startIndex = 0;
             final int wLimit;
             if (expectedLabelWidth > 0) {
@@ -81,7 +81,7 @@ public class WidthTextLayout implements TextLayout {
             int lineCount = 0;
             int maxLineWidth = 0; // pixels
             do {
-                nextLine = MultilineLabelUtils.getNextLine(textToRender, startIndex, fm, textWidthLimit);
+                nextLine = getNextLine(textToRender, startIndex, fm, textWidthLimit);
                 String nextLineStr = textToRender.substring(nextLine.lineStartIndex, nextLine.lineEndIndex + 1);
                 int nextLineWidth = computeStringWidth(fm, nextLineStr);
                 maxLineWidth = Math.max(maxLineWidth, nextLineWidth);
@@ -110,10 +110,10 @@ public class WidthTextLayout implements TextLayout {
         final int x = insets.left;
         int y = insets.top + fm.getAscent();
         final boolean enabled = label.isEnabled();
-        MultilineLabelUtils.NextLine nextLine;
+        NextLine nextLine;
         int index = 0;
         do {
-            nextLine = MultilineLabelUtils.getNextLine(textToRender, index, fm, widthLimit);
+            nextLine = getNextLine(textToRender, index, fm, widthLimit);
             String lineStr = textToRender.substring(nextLine.lineStartIndex, nextLine.lineEndIndex + 1);
             if (enabled) {
                 g.drawString(lineStr, x, y);
@@ -123,5 +123,87 @@ public class WidthTextLayout implements TextLayout {
             y += fm.getHeight();
             index = nextLine.nextLineStartIndex;
         } while (!nextLine.lastLine);
+    }
+
+    /**
+     * @param text       Text to display in {@link MultilineLabel}.
+     * @param startIndex Index of 1st character in the new line.
+     * @param fm         Current {@link FontMetrics}.
+     * @param widthLimit Limit on the width of the line.
+     * @return Object with details of the next line.
+     */
+    static NextLine getNextLine(final String text, final int startIndex, final FontMetrics fm, final int widthLimit) {
+        assert text != null;
+        assert text.length() > 0;
+        assert startIndex > -1;
+        assert fm != null;
+        assert widthLimit > 0;
+        int spaceIndex = startIndex;
+        while (true) {
+            int nextSpaceIndex = text.indexOf(' ', spaceIndex + 1);
+            if (nextSpaceIndex == -1) { // there is no next space after spaceIndex
+                if (spaceIndex > startIndex && computeStringWidth(fm, text.substring(startIndex)) > widthLimit) {
+                    // next line will be single word last line
+                    return new NextLine(false, startIndex, spaceIndex - 1, spaceIndex + 1);
+                } else {
+                    // last line
+                    return new NextLine(true, startIndex, text.length() - 1, -1);
+                }
+            } else { // there is next space after spaceIndex
+                if (computeStringWidth(fm, text.substring(startIndex, nextSpaceIndex)) > widthLimit) {
+                    if (spaceIndex > startIndex) {
+                        // regular next line
+                        return new NextLine(false, startIndex, spaceIndex - 1, spaceIndex + 1);
+                    } else {
+                        // single word line
+                        return new NextLine(false, startIndex, nextSpaceIndex - 1, nextSpaceIndex + 1);
+                    }
+                } else {
+                    spaceIndex = nextSpaceIndex; // continue with current line
+                }
+            }
+        }
+    }
+
+    static class NextLine {
+        /**
+         * True if this is the last line of the text (end of text).
+         */
+        public final boolean lastLine;
+
+        /**
+         * Index of first character in the line. Inclusive.
+         */
+        public final int lineStartIndex;
+
+        /**
+         * Index of last character in the line. Inclusive.
+         */
+        public final int lineEndIndex;
+
+        /**
+         * Index of first character in the line after that line. Inclusive.
+         */
+        public final int nextLineStartIndex;
+
+        NextLine(boolean lastLine,
+                 int lineStartIndex,
+                 int lineEndIndex,
+                 int nextLineStartIndex) {
+            this.lastLine = lastLine;
+            this.lineStartIndex = lineStartIndex;
+            this.lineEndIndex = lineEndIndex;
+            this.nextLineStartIndex = nextLineStartIndex;
+        }
+
+        @Override
+        public String toString() {
+            return "NextLine{" +
+                    "lastLine=" + lastLine +
+                    ", lineStartIndex=" + lineStartIndex +
+                    ", lineEndIndex=" + lineEndIndex +
+                    ", nextLineStartIndex=" + nextLineStartIndex +
+                    '}';
+        }
     }
 }
