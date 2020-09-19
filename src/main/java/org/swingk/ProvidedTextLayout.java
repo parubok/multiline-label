@@ -16,28 +16,34 @@ import static org.swingk.MultilineLabelUtils.paintTextInDisabledStyle;
  */
 public class ProvidedTextLayout implements TextLayout {
     private final MultilineLabel label;
-    private final List<String> lines = new ArrayList<>();
+    private final List<String> lines;
 
     public ProvidedTextLayout(MultilineLabel label) {
         this.label = Objects.requireNonNull(label);
-        String t = label.getText().trim();
+        this.lines = toLines(label.getText());
+    }
+
+    static List<String> toLines(String text) {
+        List<String> lines = new ArrayList<>();
+        String t = text.trim();
         StringBuilder sb = new StringBuilder();
         final int len = t.length();
         for (int i = 0; i < len; i++) {
             char c = t.charAt(i);
             if (c == '\n') {
-                addLine(sb);
+                addLine(lines, sb);
                 sb = new StringBuilder();
             } else {
                 sb.append(c);
             }
             if (i == (len - 1)) {
-                addLine(sb);
+                addLine(lines, sb);
             }
         }
+        return lines;
     }
 
-    private void addLine(StringBuilder sb) {
+    private static void addLine(List<String> lines, StringBuilder sb) {
         lines.add(sb.toString().trim());
     }
 
