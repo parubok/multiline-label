@@ -9,10 +9,10 @@ import java.awt.Rectangle;
 import java.util.Objects;
 
 /**
- * Text label capable of word wrapping.
+ * Text label capable of presenting multiline text.
  *
  * TODO: interline distance coefficient
- * TODO: add spaces to 1st line
+ * TODO: extend 1st line
  * TODO: support text with "\n"
  * TODO: JavaDoc
  * TODO: README
@@ -20,6 +20,7 @@ import java.util.Objects;
  * TODO: refactor to improve performance
  * TODO: fix AA to be as in L&F (UI delegate?)
  * TODO: javax.swing.text.Utilities.getBreakLocation ?
+ * TODO: lines limit, "..." to display very long messages
  */
 public class MultilineLabel extends JComponent implements Scrollable {
     private String text = "";
