@@ -12,38 +12,59 @@ import static javax.swing.SwingUtilities.computeStringWidth;
 import static org.swingk.MultilineLabelUtils.paintTextInDisabledStyle;
 
 /**
- * Text layout where line breaks are provided in the text by EOL ('\n') characters.
+ * Text layout where line breaks are provided in the text by line separator characters.
  */
 public class ProvidedTextLayout implements TextLayout {
+    public static final String LINE_SEPARATOR_UNIX = "\n";
+    public static final String LINE_SEPARATOR_WIN = "\r\n";
+
+    public static boolean hasLineSeparators(String text) {
+        return text.contains(LINE_SEPARATOR_UNIX) || text.contains(LINE_SEPARATOR_WIN);
+    }
+
     private final MultilineLabel label;
     private final List<String> lines;
+    private final String lineSeparator;
 
     public ProvidedTextLayout(MultilineLabel label) {
         this.label = Objects.requireNonNull(label);
-        this.lines = toLines(label.getText());
+        this.lineSeparator = guessLineSeparator();
+        this.lines = new ArrayList<>();
+        breakToLines();
     }
 
-    static List<String> toLines(String text) {
-        List<String> lines = new ArrayList<>();
-        String t = text.trim();
-        StringBuilder sb = new StringBuilder();
-        final int len = t.length();
-        for (int i = 0; i < len; i++) {
-            char c = t.charAt(i);
-            if (c == '\n') {
-                addLine(lines, sb);
-                sb = new StringBuilder();
-            } else {
-                sb.append(c);
-            }
-            if (i == (len - 1)) {
-                addLine(lines, sb);
-            }
-        }
+    protected String getLineSeparator() {
+        return lineSeparator;
+    }
+
+    protected List<String> getLines() {
         return lines;
     }
 
-    private static void addLine(List<String> lines, StringBuilder sb) {
+    private String guessLineSeparator() {
+        String text = label.getText();
+        return text.contains(LINE_SEPARATOR_WIN) ? LINE_SEPARATOR_WIN : LINE_SEPARATOR_UNIX;
+    }
+
+    private void breakToLines() {
+        String t = label.getText().trim();
+        StringBuilder sb = new StringBuilder();
+        final int len = t.length();
+        for (int i = 0; i < len; i++) {
+            if (t.startsWith(lineSeparator, i)) {
+                addLine(sb);
+                sb = new StringBuilder();
+                i += (lineSeparator.length() - 1);
+            } else {
+                sb.append(t.charAt(i));
+                if (i == (len - 1)) {
+                    addLine(sb);
+                }
+            }
+        }
+    }
+
+    private void addLine(StringBuilder sb) {
         lines.add(sb.toString().trim());
     }
 
