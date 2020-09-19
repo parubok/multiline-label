@@ -13,7 +13,6 @@ import java.util.Objects;
  *
  * TODO: interline distance coefficient
  * TODO: extend 1st line
- * TODO: support text with "\n"
  * TODO: JavaDoc
  * TODO: README
  * TODO: specify width limit in characters
