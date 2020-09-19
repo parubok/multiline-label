@@ -91,8 +91,4 @@ public class ProvidedTextLayout implements TextLayout {
     public void preSetBounds(int x, int y, int width, int height) {
         // do nothing since this layout doesn't depend on the current bounds
     }
-
-    List<String> getLines() {
-        return lines;
-    }
 }
