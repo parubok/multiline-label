@@ -109,6 +109,16 @@ class MultilineLabelTest {
     }
 
     @Test
+    void getTextLayout() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            MultilineLabel label = new MultilineLabel(Demo.LOREM_IPSUM);
+            Assertions.assertTrue(label.getTextLayout() instanceof WidthTextLayout);
+            label.setText("line1\nline2");
+            Assertions.assertTrue(label.getTextLayout() instanceof ProvidedTextLayout);
+        });
+    }
+
+    @Test
     void setPreferredSize_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             MultilineLabel label = new MultilineLabel(Demo.LOREM_IPSUM);
