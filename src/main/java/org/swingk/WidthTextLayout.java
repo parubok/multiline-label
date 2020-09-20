@@ -47,7 +47,7 @@ public class WidthTextLayout implements TextLayout {
 
     @Override
     public void preSetBounds(int x, int y, int width, int height) {
-        if (!label.isCurrentWidthIgnoredForPreferredSizeCalculation()
+        if (label.isUseCurrentWidthForPreferredSize()
                 && !textToRender.isEmpty()
                 && width > 0 && height > 0
                 && width != label.getWidth()
@@ -72,7 +72,7 @@ public class WidthTextLayout implements TextLayout {
             final int wLimit;
             if (expectedLabelWidth > 0) {
                 wLimit = expectedLabelWidth;
-            } else if (!label.isCurrentWidthIgnoredForPreferredSizeCalculation() && label.getWidth() > 0) {
+            } else if (label.isUseCurrentWidthForPreferredSize() && label.getWidth() > 0) {
                 // https://stackoverflow.com/questions/39455573/how-to-set-fixed-width-but-dynamic-height-on-jtextpane/39466255#39466255
                 wLimit = label.getWidth();
             } else {

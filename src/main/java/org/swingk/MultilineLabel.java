@@ -31,7 +31,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
     private String text = "";
     private TextLayout textLayout;
     private int prefWidthLimit = DEFAULT_WIDTH_LIMIT;
-    private boolean currentWidthIgnoredForPreferredSizeCalculation;
+    private boolean useCurrentWidthForPreferredSize = true;
 
     public MultilineLabel() {
         super();
@@ -109,18 +109,18 @@ public class MultilineLabel extends JComponent implements Scrollable {
         this.prefWidthLimit = prefWidthLimit;
     }
 
-    public boolean isCurrentWidthIgnoredForPreferredSizeCalculation() {
-        return currentWidthIgnoredForPreferredSizeCalculation;
+    public boolean isUseCurrentWidthForPreferredSize() {
+        return useCurrentWidthForPreferredSize;
     }
 
     /**
      * In some cases using current width to calculate the preferred size may produce undesired results.
      * This parameter allows to disable this behavior.
      *
-     * @param currentWidthIgnoredForPreferredSizeCalculation
+     * @param useCurrentWidthForPreferredSize
      */
-    public void setCurrentWidthIgnoredForPreferredSizeCalculation(boolean currentWidthIgnoredForPreferredSizeCalculation) {
-        this.currentWidthIgnoredForPreferredSizeCalculation = currentWidthIgnoredForPreferredSizeCalculation;
+    public void setUseCurrentWidthForPreferredSize(boolean useCurrentWidthForPreferredSize) {
+        this.useCurrentWidthForPreferredSize = useCurrentWidthForPreferredSize;
     }
 
     @Override

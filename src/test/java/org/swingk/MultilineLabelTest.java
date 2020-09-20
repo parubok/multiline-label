@@ -112,15 +112,18 @@ class MultilineLabelTest {
     void setCurrentWidthIgnoredForPreferredSizeCalculation_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             MultilineLabel label = new MultilineLabel(Demo.LOREM_IPSUM);
+            Assertions.assertTrue(label.isUseCurrentWidthForPreferredSize());
             Assertions.assertEquals(new Dimension(488, 48), label.getPreferredSize());
 
             label.setBounds(0, 0, 200, 20);
             Assertions.assertEquals(new Dimension(195, 112), label.getPreferredSize());
 
-            label.setCurrentWidthIgnoredForPreferredSizeCalculation(true);
+            label.setUseCurrentWidthForPreferredSize(false);
+            Assertions.assertFalse(label.isUseCurrentWidthForPreferredSize());
             Assertions.assertEquals(new Dimension(488, 48), label.getPreferredSize());
 
-            label.setCurrentWidthIgnoredForPreferredSizeCalculation(false);
+            label.setUseCurrentWidthForPreferredSize(true);
+            Assertions.assertTrue(label.isUseCurrentWidthForPreferredSize());
             Assertions.assertEquals(new Dimension(195, 112), label.getPreferredSize());
         });
     }
