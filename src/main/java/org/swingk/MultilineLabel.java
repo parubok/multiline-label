@@ -113,6 +113,12 @@ public class MultilineLabel extends JComponent implements Scrollable {
         return currentWidthIgnoredForPreferredSizeCalculation;
     }
 
+    /**
+     * In some cases using current width to calculate the preferred size may produce undesired results.
+     * This parameter allows to disable this behavior.
+     *
+     * @param currentWidthIgnoredForPreferredSizeCalculation
+     */
     public void setCurrentWidthIgnoredForPreferredSizeCalculation(boolean currentWidthIgnoredForPreferredSizeCalculation) {
         this.currentWidthIgnoredForPreferredSizeCalculation = currentWidthIgnoredForPreferredSizeCalculation;
     }
