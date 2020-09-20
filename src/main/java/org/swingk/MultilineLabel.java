@@ -23,15 +23,15 @@ import java.util.Objects;
  * TODO: 'flexible' pref. width (e.g. +/-100 pixels) to achieve the best distribution.
  */
 public class MultilineLabel extends JComponent implements Scrollable {
-    private String text = "";
-    private TextLayout textLayout;
-
     /**
      * Default label width limit in pixels.
      */
     public static final int DEFAULT_WIDTH_LIMIT = 500;
 
+    private String text = "";
+    private TextLayout textLayout;
     private int prefWidthLimit = DEFAULT_WIDTH_LIMIT;
+    private boolean currentWidthIgnoredForPreferredSizeCalculation;
 
     public MultilineLabel() {
         super();
@@ -107,6 +107,14 @@ public class MultilineLabel extends JComponent implements Scrollable {
             throw new IllegalArgumentException();
         }
         this.prefWidthLimit = prefWidthLimit;
+    }
+
+    public boolean isCurrentWidthIgnoredForPreferredSizeCalculation() {
+        return currentWidthIgnoredForPreferredSizeCalculation;
+    }
+
+    public void setCurrentWidthIgnoredForPreferredSizeCalculation(boolean currentWidthIgnoredForPreferredSizeCalculation) {
+        this.currentWidthIgnoredForPreferredSizeCalculation = currentWidthIgnoredForPreferredSizeCalculation;
     }
 
     @Override
