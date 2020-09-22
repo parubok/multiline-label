@@ -14,7 +14,7 @@ import java.util.Objects;
  * TODO: interline distance coefficient
  * TODO: extend 1st line
  * TODO: JavaDoc
- * TODO: README
+ * TODO: README with examples and screenshots
  * TODO: specify width limit in characters
  * TODO: refactor to improve performance
  * TODO: fix AA to be as in L&F (UI delegate?)
