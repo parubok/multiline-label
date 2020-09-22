@@ -151,4 +151,13 @@ public class MultilineLabel extends JComponent implements Scrollable {
     public boolean getScrollableTracksViewportHeight() {
         return false;
     }
+
+    @Override
+    protected String paramString() {
+        return super.paramString()
+                + ",prefWidthLimit=" + prefWidthLimit
+                + ",useCurrentWidthForPreferredSize=" + useCurrentWidthForPreferredSize
+                + ",textLayout=" + textLayout
+                + ",text=" + getText();
+    }
 }
