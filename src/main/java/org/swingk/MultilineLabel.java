@@ -158,6 +158,6 @@ public class MultilineLabel extends JComponent implements Scrollable {
                 + ",prefWidthLimit=" + prefWidthLimit
                 + ",useCurrentWidthForPreferredSize=" + useCurrentWidthForPreferredSize
                 + ",textLayout=" + textLayout
-                + ",text=" + getText();
+                + ",text=" + text;
     }
 }
