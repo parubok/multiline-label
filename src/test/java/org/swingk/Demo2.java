@@ -1,6 +1,7 @@
 package org.swingk;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -12,7 +13,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
@@ -28,6 +28,7 @@ public class Demo2 {
     }
 
     private final MultilineLabel label;
+    private final JCheckBox prefSizeCheckBox;
     private final JTextField widthTextField;
     private final JTextField heightTextField;
     private final JTextField borderSizeTextField;
@@ -36,6 +37,7 @@ public class Demo2 {
 
     private Demo2() {
         JPanel contentPanel = new JPanel(new BorderLayout());
+        contentPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         label = new MultilineLabel();
         label.setText(Demo.LOREM_IPSUM);
@@ -44,8 +46,11 @@ public class Demo2 {
         labelPanel.add(label);
         contentPanel.add(labelPanel, BorderLayout.CENTER);
 
-        JPanel controlsPanel = new JPanel(new FlowLayout());
+        JPanel controlsPanel = new JPanel();
+        controlsPanel.setLayout(new BoxLayout(controlsPanel, BoxLayout.Y_AXIS));
         controlsPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
+        prefSizeCheckBox = new JCheckBox("Preferred Size:");
+        prefSizeCheckBox.setSelected(true);
         widthTextField = new JTextField("400");
         widthTextField.setColumns(5);
         heightTextField = new JTextField("200");
@@ -68,6 +73,7 @@ public class Demo2 {
                     }
                 }
         );
+        controlsPanel.add(prefSizeCheckBox);
         controlsPanel.add(new JLabel("Width:"));
         controlsPanel.add(widthTextField);
         controlsPanel.add(new JLabel("Height:"));
@@ -79,7 +85,10 @@ public class Demo2 {
         controlsPanel.add(enabledCheckBox);
         controlsPanel.add(setButton);
         controlsPanel.add(pasteButton);
-        contentPanel.add(controlsPanel, BorderLayout.NORTH);
+
+        JPanel westPanel = new JPanel(new BorderLayout());
+        westPanel.add(controlsPanel, BorderLayout.NORTH);
+        contentPanel.add(westPanel, BorderLayout.WEST);
 
         JFrame frame = new JFrame("Demo2");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -92,9 +101,13 @@ public class Demo2 {
     }
 
     private void updateLabel() {
-        int w = Integer.parseInt(widthTextField.getText());
-        int h = Integer.parseInt(heightTextField.getText());
-        label.setPreferredSize(new Dimension(w, h));
+        if (prefSizeCheckBox.isSelected()) {
+            int w = Integer.parseInt(widthTextField.getText());
+            int h = Integer.parseInt(heightTextField.getText());
+            label.setPreferredSize(new Dimension(w, h));
+        } else {
+            label.setPreferredSize(null);
+        }
         int b = Integer.parseInt(borderSizeTextField.getText());
         label.setBorder(BorderFactory.createLineBorder(Color.BLACK, b));
         float f = Float.parseFloat(fontSizeTextField.getText());
