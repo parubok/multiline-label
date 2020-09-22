@@ -83,6 +83,8 @@ public class MultilineLabel extends JComponent implements Scrollable {
         String oldValue = this.text;
         this.text = Objects.requireNonNull(text);
         this.textLayout = createTextLayout(text);
+        revalidate();
+        repaint();
         firePropertyChange("text", oldValue, this.text);
     }
 
@@ -107,6 +109,8 @@ public class MultilineLabel extends JComponent implements Scrollable {
             throw new IllegalArgumentException();
         }
         this.prefWidthLimit = prefWidthLimit;
+        revalidate();
+        repaint();
     }
 
     public boolean isUseCurrentWidthForPreferredSize() {
