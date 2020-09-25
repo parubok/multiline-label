@@ -14,7 +14,7 @@ public class MultilineLabelUtils {
     public static final String LINE_SEPARATOR_UNIX = "\n";
     public static final String LINE_SEPARATOR_WIN = "\r\n";
 
-    public static boolean hasLineSeparators(String text) {
+    static boolean hasLineSeparators(String text) {
         return text.contains(LINE_SEPARATOR_UNIX) || text.contains(LINE_SEPARATOR_WIN);
     }
 
