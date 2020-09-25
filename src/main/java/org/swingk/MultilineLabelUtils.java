@@ -24,9 +24,9 @@ public class MultilineLabelUtils {
     }
 
     /**
-         * Draws {@code text} in a style of disabled component text at {@link Graphics} context from the point (x,y). Uses
-         * {@code color} as a base.
-         */
+     * Draws {@code text} in a style of disabled component text at {@link Graphics} context from the point (x,y). Uses
+     * {@code color} as a base.
+     */
     public static void paintTextInDisabledStyle(String text, Graphics g, Color color, int x, int y) {
         g.setColor(color.brighter());
         g.drawString(text, x + 1, y + 1);
