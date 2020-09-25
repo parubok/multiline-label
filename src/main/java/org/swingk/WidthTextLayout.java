@@ -24,6 +24,10 @@ public class WidthTextLayout implements TextLayout {
      * @return Component preferred size.
      */
     static Dimension calcPreferredSize(Insets insets, FontMetrics fm, String text, int wLimit) {
+        return calcPreferredSize2(insets, fm, toRenderedText(text), wLimit);
+    }
+
+    private static Dimension calcPreferredSize2(Insets insets, FontMetrics fm, String text, int wLimit) {
         assert insets != null;
         assert fm != null;
         assert text != null;
@@ -188,7 +192,7 @@ public class WidthTextLayout implements TextLayout {
         }
         final FontMetrics fm = label.getFontMetrics(label.getFont());
         final Insets insets = label.getInsets();
-        return calcPreferredSize(insets, fm, textToRender, wLimit);
+        return calcPreferredSize2(insets, fm, textToRender, wLimit);
     }
 
     @Override
