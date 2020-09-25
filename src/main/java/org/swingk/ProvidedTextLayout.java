@@ -26,7 +26,6 @@ public class ProvidedTextLayout implements TextLayout {
         this.label = Objects.requireNonNull(label);
         this.lineSeparator = guessLineSeparator(label.getText());
         this.lines = breakToLines(label.getText(), this.lineSeparator);
-
     }
 
     String getLineSeparator() {
