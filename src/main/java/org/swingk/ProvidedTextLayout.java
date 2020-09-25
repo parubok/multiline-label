@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Objects;
 
 import static javax.swing.SwingUtilities.computeStringWidth;
-import static org.swingk.MultilineLabelUtils.paintTextInDisabledStyle;
-import static org.swingk.MultilineLabelUtils.LINE_SEPARATOR_WIN;
 import static org.swingk.MultilineLabelUtils.LINE_SEPARATOR_UNIX;
+import static org.swingk.MultilineLabelUtils.LINE_SEPARATOR_WIN;
+import static org.swingk.MultilineLabelUtils.paintTextInDisabledStyle;
 
 /**
  * Text layout where line breaks are provided in the text by line separator characters.
@@ -24,43 +24,44 @@ public class ProvidedTextLayout implements TextLayout {
 
     public ProvidedTextLayout(MultilineLabel label) {
         this.label = Objects.requireNonNull(label);
-        this.lineSeparator = guessLineSeparator();
-        this.lines = new ArrayList<>();
-        breakToLines();
+        this.lineSeparator = guessLineSeparator(label.getText());
+        this.lines = breakToLines(label.getText(), this.lineSeparator);
+
     }
 
-    protected String getLineSeparator() {
+    String getLineSeparator() {
         return lineSeparator;
     }
 
-    protected List<String> getLines() {
+    List<String> getLines() {
         return lines;
     }
 
-    private String guessLineSeparator() {
-        String text = label.getText();
+    private static String guessLineSeparator(String text) {
         return text.contains(LINE_SEPARATOR_WIN) ? LINE_SEPARATOR_WIN : LINE_SEPARATOR_UNIX;
     }
 
-    private void breakToLines() {
-        String t = label.getText().trim();
+    private static List<String> breakToLines(String text, String lineSeparator) {
+        String t = text.trim();
         StringBuilder sb = new StringBuilder();
+        List<String> lines = new ArrayList<>();
         final int len = t.length();
         for (int i = 0; i < len; i++) {
             if (t.startsWith(lineSeparator, i)) {
-                addLine(sb);
+                addLine(sb, lines);
                 sb = new StringBuilder();
                 i += (lineSeparator.length() - 1);
             } else {
                 sb.append(t.charAt(i));
                 if (i == (len - 1)) {
-                    addLine(sb);
+                    addLine(sb, lines);
                 }
             }
         }
+        return lines;
     }
 
-    private void addLine(StringBuilder sb) {
+    private static void addLine(StringBuilder sb, List<String> lines) {
         lines.add(sb.toString().trim());
     }
 
@@ -82,13 +83,15 @@ public class ProvidedTextLayout implements TextLayout {
         }
     }
 
-    @Override
-    public Dimension calculatePreferredSize() {
+    static Dimension calcPreferredSize(String text, FontMetrics fm, Insets insets) {
+        return calcPreferredSize(breakToLines(text, guessLineSeparator(text)), fm, insets);
+    }
+
+    static Dimension calcPreferredSize(List<String> lines, FontMetrics fm, Insets insets) {
+        assert fm != null;
         final int textPrefWidth;
         final int textPrefHeight;
         if (!lines.isEmpty()) {
-            final FontMetrics fm = label.getFontMetrics(label.getFont());
-            assert fm != null;
             final int lineCount = lines.size();
             int maxLineWidth = 0;
             for (int i = 0; i < lineCount; i++) {
@@ -99,8 +102,12 @@ public class ProvidedTextLayout implements TextLayout {
         } else {
             textPrefWidth = textPrefHeight = 0;
         }
-        Insets insets = label.getInsets();
         return new Dimension(textPrefWidth + insets.right + insets.left, textPrefHeight + insets.top + insets.bottom);
+    }
+
+    @Override
+    public Dimension calculatePreferredSize() {
+        return calcPreferredSize(lines, label.getFontMetrics(label.getFont()), label.getInsets());
     }
 
     @Override

@@ -23,8 +23,7 @@ public class WidthTextLayout implements TextLayout {
      * @param wLimit Requested component width limit in pixels. Greater than 0.
      * @return Component preferred size.
      */
-    static Dimension calcComponentPreferredSizeForWidthLimit(Insets insets, FontMetrics fm, String text,
-                                                                    int wLimit) {
+    static Dimension calcPreferredSize(Insets insets, FontMetrics fm, String text, int wLimit) {
         assert insets != null;
         assert fm != null;
         assert text != null;
@@ -34,7 +33,6 @@ public class WidthTextLayout implements TextLayout {
         int textPrefWidth;
         int textPrefHeight;
         if (!text.isEmpty()) {
-            assert fm != null;
             NextLine nextLine;
             int startIndex = 0;
             final int textWidthLimit = Math.max(1, wLimit - horInsets);
@@ -190,7 +188,7 @@ public class WidthTextLayout implements TextLayout {
         }
         final FontMetrics fm = label.getFontMetrics(label.getFont());
         final Insets insets = label.getInsets();
-        return calcComponentPreferredSizeForWidthLimit(insets, fm, textToRender, wLimit);
+        return calcPreferredSize(insets, fm, textToRender, wLimit);
     }
 
     @Override
