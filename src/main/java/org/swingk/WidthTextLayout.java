@@ -149,8 +149,8 @@ public class WidthTextLayout implements TextLayout {
         return sb.toString();
     }
 
-    protected final MultilineLabel label;
-    protected final String textToRender;
+    private final MultilineLabel label;
+    private final String textToRender;
 
     public WidthTextLayout(MultilineLabel label) {
         this.label = Objects.requireNonNull(label);
