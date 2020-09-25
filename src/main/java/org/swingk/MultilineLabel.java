@@ -76,7 +76,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
     }
 
     protected TextLayout createTextLayout(String text) {
-        return ProvidedTextLayout.hasLineSeparators(text) ? new ProvidedTextLayout(this) : new WidthTextLayout(this);
+        return MultilineLabelUtils.hasLineSeparators(text) ? new ProvidedTextLayout(this) : new WidthTextLayout(this);
     }
 
     public void setText(String text) {

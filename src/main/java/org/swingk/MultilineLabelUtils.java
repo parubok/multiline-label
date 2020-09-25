@@ -8,6 +8,13 @@ public class MultilineLabelUtils {
     private MultilineLabelUtils() {
     }
 
+    public static final String LINE_SEPARATOR_UNIX = "\n";
+    public static final String LINE_SEPARATOR_WIN = "\r\n";
+
+    public static boolean hasLineSeparators(String text) {
+        return text.contains(LINE_SEPARATOR_UNIX) || text.contains(LINE_SEPARATOR_WIN);
+    }
+
     /**
      * Draws {@code text} in a style of disabled component text at {@link Graphics} context from the point (x,y). Uses
      * {@code color} as a base.

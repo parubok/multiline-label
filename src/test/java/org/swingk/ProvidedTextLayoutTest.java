@@ -57,11 +57,4 @@ class ProvidedTextLayoutTest {
             Assertions.assertEquals(asList("ab c", "12 3"), textLayout.getLines());
         });
     }
-
-    @Test
-    void hasLineSeparators() {
-        Assertions.assertTrue(ProvidedTextLayout.hasLineSeparators("abc\r\n123"));
-        Assertions.assertTrue(ProvidedTextLayout.hasLineSeparators("abc\n123"));
-        Assertions.assertFalse(ProvidedTextLayout.hasLineSeparators("abc 123"));
-    }
 }

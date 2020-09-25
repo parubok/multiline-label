@@ -10,17 +10,13 @@ import java.util.Objects;
 
 import static javax.swing.SwingUtilities.computeStringWidth;
 import static org.swingk.MultilineLabelUtils.paintTextInDisabledStyle;
+import static org.swingk.MultilineLabelUtils.LINE_SEPARATOR_WIN;
+import static org.swingk.MultilineLabelUtils.LINE_SEPARATOR_UNIX;
 
 /**
  * Text layout where line breaks are provided in the text by line separator characters.
  */
 public class ProvidedTextLayout implements TextLayout {
-    public static final String LINE_SEPARATOR_UNIX = "\n";
-    public static final String LINE_SEPARATOR_WIN = "\r\n";
-
-    public static boolean hasLineSeparators(String text) {
-        return text.contains(LINE_SEPARATOR_UNIX) || text.contains(LINE_SEPARATOR_WIN);
-    }
 
     private final MultilineLabel label;
     private final List<String> lines;
