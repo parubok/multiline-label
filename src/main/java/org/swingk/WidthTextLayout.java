@@ -17,16 +17,16 @@ import static org.swingk.MultilineLabel.paintTextInDisabledStyle;
  */
 public class WidthTextLayout implements TextLayout {
 
-    static void paintText(Graphics g, String text, Insets insets, int width, boolean enabled, Color backgroundColor) {
-        paintText2(g, toRenderedText(text), insets, width, enabled, backgroundColor);
+    static void paintText(Graphics g, String text, Insets insets, int wLimit, boolean enabled, Color backgroundColor) {
+        paintText2(g, toRenderedText(text), insets, wLimit, enabled, backgroundColor);
     }
 
-    private static void paintText2(Graphics g, String text, Insets insets, int width, boolean enabled, Color backgroundColor) {
+    private static void paintText2(Graphics g, String text, Insets insets, int wLimit, boolean enabled, Color backgroundColor) {
         if (text.isEmpty()) {
             return;
         }
-        final int widthLimit = width - insets.right - insets.left;
-        if (widthLimit < 1) {
+        final int wLimitText = wLimit - insets.right - insets.left;
+        if (wLimitText < 1) {
             return;
         }
         final FontMetrics fm = g.getFontMetrics();
@@ -35,7 +35,7 @@ public class WidthTextLayout implements TextLayout {
         NextLine nextLine;
         int index = 0;
         do {
-            nextLine = getNextLine(text, index, fm, widthLimit);
+            nextLine = getNextLine(text, index, fm, wLimitText);
             String lineStr = text.substring(nextLine.lineStartIndex, nextLine.lineEndIndex + 1);
             if (enabled) {
                 g.drawString(lineStr, x, y);

@@ -43,7 +43,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
      * @param insets Insets to include in the calculation. Not null.
      * @param fm     {@link FontMetrics} to calculate text size. Not null.
      * @param text   Text to calculate preferred size for. Not null.
-     * @param wLimit Width limit in pixels. Greater than 0. Applicable only if the text doesn't contain EOL.
+     * @param wLimit Width limit in pixels (incl. insets). Greater than 0. Applicable only if the text doesn't contain EOL.
      * @return Preferred size of text bounds.
      */
     public static Dimension calculatePreferredSize(Insets insets, FontMetrics fm, String text, int wLimit) {
@@ -55,16 +55,16 @@ public class MultilineLabel extends JComponent implements Scrollable {
      * @param g               Graphics to paint text on. Not null.
      * @param text            Text to paint. Not null.
      * @param insets          Insets. Not null.
-     * @param width           Width limit in pixels.
+     * @param wLimit          Width limit in pixels (incl. insets). Greater than 0. Applicable only if the text doesn't contain EOL.
      * @param enabled         If false - paint disabled text.
      * @param backgroundColor Background color of the target component. Not null.
      */
-    public static void paintText(Graphics g, String text, Insets insets, int width, boolean enabled,
+    public static void paintText(Graphics g, String text, Insets insets, int wLimit, boolean enabled,
                                  Color backgroundColor) {
         if (hasLineSeparators(text)) {
             ProvidedTextLayout.paintText(g, text, insets, enabled, backgroundColor);
         } else {
-            WidthTextLayout.paintText(g, text, insets, width, enabled, backgroundColor);
+            WidthTextLayout.paintText(g, text, insets, wLimit, enabled, backgroundColor);
         }
     }
 
