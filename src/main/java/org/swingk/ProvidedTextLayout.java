@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Objects;
 
 import static javax.swing.SwingUtilities.computeStringWidth;
-import static org.swingk.MultilineLabelUtils.LINE_SEPARATOR_UNIX;
-import static org.swingk.MultilineLabelUtils.LINE_SEPARATOR_WIN;
-import static org.swingk.MultilineLabelUtils.paintTextInDisabledStyle;
+import static org.swingk.MultilineLabel.LINE_SEPARATOR_UNIX;
+import static org.swingk.MultilineLabel.LINE_SEPARATOR_WIN;
+import static org.swingk.MultilineLabel.paintTextInDisabledStyle;
 
 /**
  * Text layout where line breaks are provided in the text by line separator characters.

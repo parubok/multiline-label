@@ -8,7 +8,7 @@ import java.awt.Insets;
 import java.util.Objects;
 
 import static javax.swing.SwingUtilities.computeStringWidth;
-import static org.swingk.MultilineLabelUtils.paintTextInDisabledStyle;
+import static org.swingk.MultilineLabel.paintTextInDisabledStyle;
 
 /**
  * Dynamically calculates line breaks based on value of {@link MultilineLabel#getPreferredScrollableViewportSize()}
