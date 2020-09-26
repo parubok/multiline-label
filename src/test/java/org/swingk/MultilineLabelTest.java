@@ -68,6 +68,24 @@ class MultilineLabelTest {
     }
 
     @Test
+    void calculatePreferredSize_1() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            MultilineLabel label = new MultilineLabel(Demo.LOREM_IPSUM);
+            Assertions.assertEquals(new Dimension(488, 48), MultilineLabel.calculatePreferredSize(new Insets(0, 0, 0, 0),
+                    label.getFontMetrics(label.getFont()), Demo.LOREM_IPSUM, label.getPreferredWidthLimit()));
+
+            Assertions.assertEquals(new Dimension(987, 32), MultilineLabel.calculatePreferredSize(new Insets(0, 0, 0, 0),
+                    label.getFontMetrics(label.getFont()), Demo.LOREM_IPSUM, 1_000));
+
+            Assertions.assertEquals(new Dimension(72, 528), MultilineLabel.calculatePreferredSize(new Insets(0, 0, 0, 0),
+                    label.getFontMetrics(label.getFont()), Demo.LOREM_IPSUM, 10));
+
+            Assertions.assertEquals(new Dimension(488, 48), MultilineLabel.calculatePreferredSize(new Insets(0, 0, 0, 0),
+                    label.getFontMetrics(label.getFont()), Demo.LOREM_IPSUM, MultilineLabel.DEFAULT_WIDTH_LIMIT));
+        });
+    }
+
+    @Test
     void getPreferredSize_2() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             MultilineLabel label = new MultilineLabel();
