@@ -43,6 +43,15 @@ public class MultilineLabel extends JComponent implements Scrollable {
                 WidthTextLayout.calcPreferredSize(insets, fm, text, wLimit);
     }
 
+    public static void paintText(Graphics g, String text, Insets insets, int componentWidth, boolean enabled,
+                                 Color backgroundColor) {
+        if (hasLineSeparators(text)) {
+
+        } else {
+            WidthTextLayout.paintText(g, text, insets, componentWidth, enabled, backgroundColor);
+        }
+    }
+
     /**
      * Draws {@code text} in a style of disabled component text at {@link Graphics} context from the point (x,y). Uses
      * {@code color} as a base.

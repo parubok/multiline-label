@@ -1,6 +1,7 @@
 package org.swingk;
 
 import javax.swing.SwingUtilities;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -15,6 +16,36 @@ import static org.swingk.MultilineLabel.paintTextInDisabledStyle;
  * or the current label width. Ignores line breaks in text by replacing them with spaces.
  */
 public class WidthTextLayout implements TextLayout {
+
+    static void paintText(Graphics g, String text, Insets insets, int componentWidth, boolean enabled, Color backgroundColor) {
+        paintText2(g, toRenderedText(text), insets, componentWidth, enabled, backgroundColor);
+    }
+
+    private static void paintText2(Graphics g, String text, Insets insets, int componentWidth, boolean enabled, Color backgroundColor) {
+        if (text.isEmpty()) {
+            return;
+        }
+        final int widthLimit = componentWidth - insets.right - insets.left;
+        if (widthLimit < 1) {
+            return;
+        }
+        final FontMetrics fm = g.getFontMetrics();
+        final int x = insets.left;
+        int y = insets.top + fm.getAscent();
+        NextLine nextLine;
+        int index = 0;
+        do {
+            nextLine = getNextLine(text, index, fm, widthLimit);
+            String lineStr = text.substring(nextLine.lineStartIndex, nextLine.lineEndIndex + 1);
+            if (enabled) {
+                g.drawString(lineStr, x, y);
+            } else {
+                paintTextInDisabledStyle(lineStr, g, backgroundColor, x, y);
+            }
+            y += fm.getHeight();
+            index = nextLine.nextLineStartIndex;
+        } while (!nextLine.lastLine);
+    }
 
     /**
      * @param insets Component insets. Not null.
@@ -197,30 +228,6 @@ public class WidthTextLayout implements TextLayout {
 
     @Override
     public void paintText(Graphics g) {
-        if (textToRender.isEmpty()) {
-            return;
-        }
-        final Insets insets = label.getInsets();
-        final int widthLimit = label.getWidth() - insets.right - insets.left;
-        if (widthLimit < 1) {
-            return;
-        }
-        final FontMetrics fm = g.getFontMetrics();
-        final int x = insets.left;
-        int y = insets.top + fm.getAscent();
-        final boolean enabled = label.isEnabled();
-        NextLine nextLine;
-        int index = 0;
-        do {
-            nextLine = getNextLine(textToRender, index, fm, widthLimit);
-            String lineStr = textToRender.substring(nextLine.lineStartIndex, nextLine.lineEndIndex + 1);
-            if (enabled) {
-                g.drawString(lineStr, x, y);
-            } else {
-                paintTextInDisabledStyle(lineStr, g, label.getBackground(), x, y);
-            }
-            y += fm.getHeight();
-            index = nextLine.nextLineStartIndex;
-        } while (!nextLine.lastLine);
+        paintText2(g, textToRender, label.getInsets(), label.getWidth(), label.isEnabled(), label.getBackground());
     }
 }
