@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import java.awt.Dimension;
+import java.awt.Insets;
 
 class MultilineLabelTest {
     @Test
@@ -24,6 +25,8 @@ class MultilineLabelTest {
             Assertions.assertEquals("", label.getText());
             Assertions.assertEquals(MultilineLabel.DEFAULT_WIDTH_LIMIT, label.getPreferredWidthLimit());
             Assertions.assertEquals(new Dimension(0, 0), label.getPreferredSize());
+            Assertions.assertEquals(new Dimension(0, 0), MultilineLabel.calculatePreferredSize(new Insets(0, 0, 0, 0),
+                    label.getFontMetrics(label.getFont()), "", label.getPreferredWidthLimit()));
             Assertions.assertEquals(new JLabel().getFont(), label.getFont());
             Assertions.assertEquals(new JLabel().getForeground(), label.getForeground());
             Assertions.assertEquals(new JLabel().getBackground(), label.getBackground());
@@ -31,11 +34,13 @@ class MultilineLabelTest {
     }
 
     @Test
-    void setText() throws Exception {
+    void setGetText() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             MultilineLabel label = new MultilineLabel();
             label.setText(Demo.LOREM_IPSUM);
             Assertions.assertEquals(Demo.LOREM_IPSUM, label.getText());
+            label.setText(" ");
+            Assertions.assertEquals(" ", label.getText());
         });
     }
 
