@@ -17,15 +17,15 @@ import static org.swingk.MultilineLabel.paintTextInDisabledStyle;
  */
 public class WidthTextLayout implements TextLayout {
 
-    static void paintText(Graphics g, String text, Insets insets, int componentWidth, boolean enabled, Color backgroundColor) {
-        paintText2(g, toRenderedText(text), insets, componentWidth, enabled, backgroundColor);
+    static void paintText(Graphics g, String text, Insets insets, int width, boolean enabled, Color backgroundColor) {
+        paintText2(g, toRenderedText(text), insets, width, enabled, backgroundColor);
     }
 
-    private static void paintText2(Graphics g, String text, Insets insets, int componentWidth, boolean enabled, Color backgroundColor) {
+    private static void paintText2(Graphics g, String text, Insets insets, int width, boolean enabled, Color backgroundColor) {
         if (text.isEmpty()) {
             return;
         }
-        final int widthLimit = componentWidth - insets.right - insets.left;
+        final int widthLimit = width - insets.right - insets.left;
         if (widthLimit < 1) {
             return;
         }
@@ -47,13 +47,6 @@ public class WidthTextLayout implements TextLayout {
         } while (!nextLine.lastLine);
     }
 
-    /**
-     * @param insets Component insets. Not null.
-     * @param fm     Component {@link FontMetrics}. Not null.
-     * @param text   Text to paint. Not null.
-     * @param wLimit Requested component width limit in pixels. Greater than 0.
-     * @return Component preferred size.
-     */
     static Dimension calcPreferredSize(Insets insets, FontMetrics fm, String text, int wLimit) {
         return calcPreferredSize2(insets, fm, toRenderedText(text), wLimit);
     }

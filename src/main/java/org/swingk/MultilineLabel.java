@@ -31,6 +31,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
      */
     public static final int DEFAULT_WIDTH_LIMIT = 500;
 
+    // EOL strings.
     static final String LINE_SEPARATOR_UNIX = "\n";
     static final String LINE_SEPARATOR_WIN = "\r\n";
 
@@ -38,17 +39,32 @@ public class MultilineLabel extends JComponent implements Scrollable {
         return text.contains(LINE_SEPARATOR_UNIX) || text.contains(LINE_SEPARATOR_WIN);
     }
 
+    /**
+     * @param insets Insets to include in the calculation. Not null.
+     * @param fm     {@link FontMetrics} to calculate text size. Not null.
+     * @param text   Text to calculate preferred size for. Not null.
+     * @param wLimit Width limit in pixels. Greater than 0. Applicable only if the text doesn't contain EOL.
+     * @return Preferred size of text bounds.
+     */
     public static Dimension calculatePreferredSize(Insets insets, FontMetrics fm, String text, int wLimit) {
         return hasLineSeparators(text) ? ProvidedTextLayout.calcPreferredSize(text, fm, insets) :
                 WidthTextLayout.calcPreferredSize(insets, fm, text, wLimit);
     }
 
-    public static void paintText(Graphics g, String text, Insets insets, int componentWidth, boolean enabled,
+    /**
+     * @param g               Graphics to paint text on. Not null.
+     * @param text            Text to paint. Not null.
+     * @param insets          Insets. Not null.
+     * @param width           Width limit in pixels.
+     * @param enabled         If false - paint disabled text.
+     * @param backgroundColor Background color of the target component. Not null.
+     */
+    public static void paintText(Graphics g, String text, Insets insets, int width, boolean enabled,
                                  Color backgroundColor) {
         if (hasLineSeparators(text)) {
             ProvidedTextLayout.paintText(g, text, insets, enabled, backgroundColor);
         } else {
-            WidthTextLayout.paintText(g, text, insets, componentWidth, enabled, backgroundColor);
+            WidthTextLayout.paintText(g, text, insets, width, enabled, backgroundColor);
         }
     }
 
