@@ -46,7 +46,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
     public static void paintText(Graphics g, String text, Insets insets, int componentWidth, boolean enabled,
                                  Color backgroundColor) {
         if (hasLineSeparators(text)) {
-
+            ProvidedTextLayout.paintText(g, text, insets, enabled, backgroundColor);
         } else {
             WidthTextLayout.paintText(g, text, insets, componentWidth, enabled, backgroundColor);
         }
