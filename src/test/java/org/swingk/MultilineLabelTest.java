@@ -34,12 +34,12 @@ class MultilineLabelTest {
     }
 
     @Test
-    void isWidthBased() throws Exception {
+    void isWidthBasedLayout() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             MultilineLabel label = new MultilineLabel("text1");
-            Assertions.assertTrue(label.isWidthBased());
+            Assertions.assertTrue(label.isWidthBasedLayout());
             label.setText("line1\r\nline2");
-            Assertions.assertFalse(label.isWidthBased());
+            Assertions.assertFalse(label.isWidthBasedLayout());
         });
     }
 

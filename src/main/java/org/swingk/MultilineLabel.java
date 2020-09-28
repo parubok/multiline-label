@@ -146,7 +146,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
      * @see #LINE_SEPARATOR_UNIX
      * @see #LINE_SEPARATOR_WIN
      */
-    public boolean isWidthBased() {
+    public boolean isWidthBasedLayout() {
         return textLayout instanceof WidthTextLayout;
     }
 
