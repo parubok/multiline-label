@@ -80,14 +80,13 @@ public class MultilineLabel extends JComponent implements Scrollable {
     private boolean useCurrentWidthForPreferredSize = true;
 
     public MultilineLabel() {
-        super();
-        setOpaque(true);
-        LookAndFeel.installColorsAndFont(this, "Label.background", "Label.foreground", "Label.font");
-        setText("");
+        this("");
     }
 
     public MultilineLabel(String text) {
-        this();
+        super();
+        setOpaque(true);
+        LookAndFeel.installColorsAndFont(this, "Label.background", "Label.foreground", "Label.font");
         setText(text);
     }
 
