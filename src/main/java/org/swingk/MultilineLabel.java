@@ -187,8 +187,10 @@ public class MultilineLabel extends JComponent implements Scrollable {
     /**
      * In some cases using current width to calculate the preferred size may produce undesired results.
      * This parameter allows to disable this behavior.
+     * See https://stackoverflow.com/questions/39455573/how-to-set-fixed-width-but-dynamic-height-on-jtextpane/39466255#39466255
      *
-     * @param useCurrentWidthForPreferredSize
+     * @param useCurrentWidthForPreferredSize If true, the label will try to layout its text according to the current width,
+     *                                        if false - the current width will be ignored by the text layout.
      */
     public void setUseCurrentWidthForPreferredSize(boolean useCurrentWidthForPreferredSize) {
         this.useCurrentWidthForPreferredSize = useCurrentWidthForPreferredSize;
