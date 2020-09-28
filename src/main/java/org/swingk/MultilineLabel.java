@@ -12,7 +12,7 @@ import java.awt.Rectangle;
 import java.util.Objects;
 
 /**
- * Component to present (possibly multiline) plain text.
+ * Component to display plain text. Supports multiline text.
  * <p>
  * Operates in 2 modes:
  * <ol>
