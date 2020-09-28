@@ -28,8 +28,8 @@ public class MultilineLabel extends JComponent implements Scrollable {
     public static final int DEFAULT_WIDTH_LIMIT = 500;
 
     // EOL strings.
-    static final String LINE_SEPARATOR_UNIX = "\n";
-    static final String LINE_SEPARATOR_WIN = "\r\n";
+    public static final String LINE_SEPARATOR_UNIX = "\n";
+    public static final String LINE_SEPARATOR_WIN = "\r\n";
 
     public static boolean hasLineSeparators(String text) {
         return text.contains(LINE_SEPARATOR_UNIX) || text.contains(LINE_SEPARATOR_WIN);
@@ -67,7 +67,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
      * Draws {@code text} in a style of disabled component text at {@link Graphics} context from the point (x,y). Uses
      * {@code color} as a base.
      */
-    static void paintTextInDisabledStyle(String text, Graphics g, Color color, int x, int y) {
+    public static void paintTextInDisabledStyle(String text, Graphics g, Color color, int x, int y) {
         g.setColor(color.brighter());
         g.drawString(text, x + 1, y + 1);
         g.setColor(color.darker());
