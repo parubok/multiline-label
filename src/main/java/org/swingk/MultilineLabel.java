@@ -140,7 +140,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
     }
 
     /**
-     * @return True is the label displays its text according to the preferred/current width, false if the text lines
+     * @return True is the label displays its text according to the preferred/current width, false if the line breaks
      * are predefined by EOL in the text.
      * @see #setPreferredWidthLimit(int)
      */
