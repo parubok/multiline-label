@@ -126,6 +126,20 @@ public class MultilineLabel extends JComponent implements Scrollable {
     }
 
     /**
+     * @param text Text of this label. Not null. The actually displayed text may differ from this value - multiple
+     *             adjacent spaces may collapsed into one space, text may trimmed, EOL may be inserted, etc.
+     *             Fires change event for property "text".
+     */
+    public void setText(String text) {
+        String oldValue = this.text;
+        this.text = Objects.requireNonNull(text);
+        this.textLayout = createTextLayout(text);
+        revalidate();
+        repaint();
+        firePropertyChange("text", oldValue, this.text);
+    }
+
+    /**
      * @return True is the label displays its text according to the preferred/current width, false if the text lines
      * are predefined by EOL in the text.
      * @see #setPreferredWidthLimit(int)
@@ -136,15 +150,6 @@ public class MultilineLabel extends JComponent implements Scrollable {
 
     protected TextLayout createTextLayout(String text) {
         return hasLineSeparators(text) ? new ProvidedTextLayout(this) : new WidthTextLayout(this);
-    }
-
-    public void setText(String text) {
-        String oldValue = this.text;
-        this.text = Objects.requireNonNull(text);
-        this.textLayout = createTextLayout(text);
-        revalidate();
-        repaint();
-        firePropertyChange("text", oldValue, this.text);
     }
 
     protected TextLayout getTextLayout() {
