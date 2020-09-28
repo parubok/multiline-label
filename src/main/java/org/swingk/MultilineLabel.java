@@ -12,18 +12,14 @@ import java.awt.Rectangle;
 import java.util.Objects;
 
 /**
- * Text label capable of presenting multiline text.
- *
- * TODO: interline distance coefficient
- * TODO: extend 1st line
- * TODO: JavaDoc
- * TODO: README with examples and screenshots
- * TODO: specify width limit in characters
- * TODO: refactor to improve performance
- * TODO: fix AA to be as in L&F (UI delegate?)
- * TODO: javax.swing.text.Utilities.getBreakLocation ?
- * TODO: lines limit, "..." to display very long messages
- * TODO: 'flexible' pref. width (e.g. +/-100 pixels) to achieve the best distribution.
+ * Text label component to present (possibly multiline) plain text.
+ * <p>
+ * Operates in 2 modes:
+ * <ol>
+ *     <li>When the label text doesn't contain EOL, then the label dynamically decides how to break it into multiple lines.</li>
+ *     <li>When the label text contains EOL, it is broken into lines according to the EOL.</li>
+ * </ol>
+ * </p>
  */
 public class MultilineLabel extends JComponent implements Scrollable {
     /**

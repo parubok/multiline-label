@@ -11,3 +11,13 @@ The goal of this component is to provide a multiline label with predictable and 
 This project has no dependencies (except JUnit 5, for testing).
 
 Requires Java 8 or later.
+
+ * TODO: interline distance coefficient
+ * TODO: JavaDoc
+ * TODO: README with examples and screenshots
+ * TODO: specify width limit in characters
+ * TODO: refactor to improve performance
+ * TODO: fix AA to be as in L&F (UI delegate?)
+ * TODO: javax.swing.text.Utilities.getBreakLocation ?
+ * TODO: lines limit, "..." to display very long messages
+ * TODO: 'flexible' pref. width (e.g. +/-100 pixels) to achieve the best distribution.
