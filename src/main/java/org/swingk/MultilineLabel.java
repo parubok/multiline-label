@@ -121,8 +121,21 @@ public class MultilineLabel extends JComponent implements Scrollable {
         return textLayout.calculatePreferredSize();
     }
 
+    /**
+     * @return Text of this label. The actually displayed text may differ from this value - multiple adjacent spaces
+     * may collapsed into one space, text may trimmed, EOL may be inserted, etc.
+     */
     public String getText() {
         return text;
+    }
+
+    /**
+     * @return True is the label displays its text according to the preferred/current width, false if the text lines
+     * are predefined by EOL in the text.
+     * @see #setPreferredWidthLimit(int)
+     */
+    public boolean isWidthBased() {
+        return textLayout instanceof WidthTextLayout;
     }
 
     protected TextLayout createTextLayout(String text) {

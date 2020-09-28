@@ -69,16 +69,15 @@ public class ProvidedTextLayout implements TextLayout {
         paintText2(g, breakToLines(text, guessLineSeparator(text)), insets, enabled, backgroundColor);
     }
 
-    private static void paintText2(Graphics g, List<String> lines, Insets insets, boolean enabled, Color backgroundColor) {
+    private static void paintText2(Graphics g, List<String> lines, Insets insets, boolean enabled, Color background) {
         final FontMetrics fm = g.getFontMetrics();
         final int x = insets.left;
         int y = insets.top + fm.getAscent();
-        for (int i = 0; i < lines.size(); i++) {
-            String line = lines.get(i);
+        for (String line : lines) {
             if (enabled) {
                 g.drawString(line, x, y);
             } else {
-                paintTextInDisabledStyle(line, g, backgroundColor, x, y);
+                paintTextInDisabledStyle(line, g, background, x, y);
             }
             y += fm.getHeight();
         }
