@@ -17,13 +17,13 @@ import static org.swingk.MultilineLabel.paintTextInDisabledStyle;
 /**
  * Text layout where line breaks are provided in the text by line separator characters (EOL).
  */
-public class ProvidedTextLayout implements TextLayout {
+final class ProvidedTextLayout implements TextLayout {
 
     private final MultilineLabel label;
     private final List<String> lines;
     private final String lineSeparator;
 
-    public ProvidedTextLayout(MultilineLabel label) {
+    ProvidedTextLayout(MultilineLabel label) {
         this.label = Objects.requireNonNull(label);
         this.lineSeparator = guessLineSeparator(label.getText());
         this.lines = breakToLines(label.getText(), this.lineSeparator);
@@ -33,9 +33,7 @@ public class ProvidedTextLayout implements TextLayout {
         return lineSeparator;
     }
 
-    List<String> getLines() {
-        return lines;
-    }
+    List<String> getLines() { return lines; }
 
     private static String guessLineSeparator(String text) {
         return text.contains(LINE_SEPARATOR_WIN) ? LINE_SEPARATOR_WIN : LINE_SEPARATOR_UNIX;

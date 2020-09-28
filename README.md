@@ -12,6 +12,7 @@ This project has no dependencies (except JUnit 5, for testing).
 
 Requires Java 8 or later.
 
+ * TODO: Consolidate demos
  * TODO: interline distance coefficient
  * TODO: JavaDoc
  * TODO: README with examples and screenshots
