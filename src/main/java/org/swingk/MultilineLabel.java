@@ -170,7 +170,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
     }
 
     /**
-     * Note: Ignored if the text already contains line separators.
+     * Note: This property is ignored if the text contains line separators.
      */
     public void setPreferredWidthLimit(int prefWidthLimit) {
         if (prefWidthLimit < 1) {
