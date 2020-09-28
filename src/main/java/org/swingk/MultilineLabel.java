@@ -16,8 +16,8 @@ import java.util.Objects;
  * <p>
  * Operates in 2 modes:
  * <ol>
- *     <li>When the label text doesn't contain EOL, then the label dynamically decides how to break it into multiple lines.</li>
- *     <li>When the label text contains EOL, it is broken into lines according to the EOL.</li>
+ *     <li>When the label text doesn't contain line separators, then the label dynamically decides how to break it into multiple lines.</li>
+ *     <li>When the label text contains line separators, it is broken into lines according to them.</li>
  * </ol>
  * </p>
  */
