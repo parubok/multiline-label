@@ -141,7 +141,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
 
     /**
      * @return True is the label displays its text according to the preferred/current width, false if the line breaks
-     * are predefined by line separators in the text.
+     * are predefined by line separators in the text and the label width is ignored.
      * @see #setPreferredWidthLimit(int)
      * @see #LINE_SEPARATOR_UNIX
      * @see #LINE_SEPARATOR_WIN
