@@ -3,6 +3,9 @@ package org.swingk;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
+/**
+ * Instances provide implementation of preferred size calculation and text painting.
+ */
 public interface TextLayout {
 
     /**
