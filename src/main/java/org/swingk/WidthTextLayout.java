@@ -6,16 +6,14 @@ import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Insets;
-import java.util.Objects;
 
 import static javax.swing.SwingUtilities.computeStringWidth;
-import static org.swingk.MultilineLabel.paintTextInDisabledStyle;
 
 /**
  * Dynamically calculates line breaks based on value of {@link MultilineLabel#getPreferredScrollableViewportSize()}
  * or the current label width. Ignores line breaks in text by replacing them with spaces.
  */
-final class WidthTextLayout implements TextLayout {
+final class WidthTextLayout extends AbstractTextLayout {
 
     static void paintText(Graphics g, String text, Insets insets, int wLimit, boolean enabled, Color background) {
         paintText2(g, toRenderedText(text), insets, wLimit, enabled, background);
@@ -75,7 +73,7 @@ final class WidthTextLayout implements TextLayout {
                 startIndex = nextLine.nextLineStartIndex;
             } while (!nextLine.lastLine);
             textPrefWidth = maxLineWidth;
-            textPrefHeight = (fm.getAscent() + fm.getDescent()) * lineCount + fm.getLeading() * (lineCount - 1);
+            textPrefHeight = getTextPreferredHeight(lineCount, fm);
         } else {
             textPrefWidth = textPrefHeight = 0;
         }
@@ -173,11 +171,10 @@ final class WidthTextLayout implements TextLayout {
         return sb.toString();
     }
 
-    private final MultilineLabel label;
     private final String textToRender;
 
     WidthTextLayout(MultilineLabel label) {
-        this.label = Objects.requireNonNull(label);
+        super(label);
         this.textToRender = toRenderedText(label.getText());
     }
 

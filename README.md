@@ -14,11 +14,9 @@ Requires Java 8 or later.
 
  * TODO: Consolidate demos
  * TODO: Improve UT coverage
- * TODO: interline distance coefficient
  * TODO: JavaDoc
  * TODO: README with examples and screenshots
  * TODO: specify width limit in characters
- * TODO: refactor to improve performance
  * TODO: fix AA to be as in L&F (UI delegate?)
  * TODO: javax.swing.text.Utilities.getBreakLocation ?
  * TODO: lines limit, "..." to display very long messages

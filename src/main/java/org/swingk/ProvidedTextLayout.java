@@ -7,24 +7,21 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static javax.swing.SwingUtilities.computeStringWidth;
 import static org.swingk.MultilineLabel.LINE_SEPARATOR_UNIX;
 import static org.swingk.MultilineLabel.LINE_SEPARATOR_WIN;
-import static org.swingk.MultilineLabel.paintTextInDisabledStyle;
 
 /**
  * Text layout where line breaks are provided in the text by line separator characters (EOL).
  */
-final class ProvidedTextLayout implements TextLayout {
+final class ProvidedTextLayout extends AbstractTextLayout {
 
-    private final MultilineLabel label;
     private final List<String> lines;
     private final String lineSeparator;
 
     ProvidedTextLayout(MultilineLabel label) {
-        this.label = Objects.requireNonNull(label);
+        super(label);
         this.lineSeparator = guessLineSeparator(label.getText());
         this.lines = breakToLines(label.getText(), this.lineSeparator);
     }
@@ -91,17 +88,19 @@ final class ProvidedTextLayout implements TextLayout {
     }
 
     static Dimension calcPreferredSize(List<String> lines, FontMetrics fm, Insets insets) {
+        assert lines != null;
         assert fm != null;
+        assert insets != null;
+
         final int textPrefWidth;
         final int textPrefHeight;
         if (!lines.isEmpty()) {
-            final int lineCount = lines.size();
             int maxLineWidth = 0;
-            for (int i = 0; i < lineCount; i++) {
-                maxLineWidth = Math.max(maxLineWidth, computeStringWidth(fm, lines.get(i)));
+            for (String line : lines) {
+                maxLineWidth = Math.max(maxLineWidth, computeStringWidth(fm, line));
             }
             textPrefWidth = maxLineWidth;
-            textPrefHeight = (fm.getAscent() + fm.getDescent()) * lineCount + fm.getLeading() * (lineCount - 1);
+            textPrefHeight = getTextPreferredHeight(lines.size(), fm);
         } else {
             textPrefWidth = textPrefHeight = 0;
         }
