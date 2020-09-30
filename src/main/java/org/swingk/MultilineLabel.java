@@ -65,7 +65,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
     }
 
     private String text = "";
-    private TextLayout textLayout;
+    private TextLayout textLayout; // not null
     private int prefWidthLimit = DEFAULT_WIDTH_LIMIT;
     private boolean useCurrentWidthForPreferredSize = true;
 
@@ -105,6 +105,23 @@ public class MultilineLabel extends JComponent implements Scrollable {
             return super.getPreferredSize();
         }
         return textLayout.calculatePreferredSize();
+    }
+
+    @Override
+    public Dimension getMinimumSize() {
+        if (isMinimumSizeSet()) {
+            return super.getMinimumSize();
+        }
+        Insets insets = getInsets();
+        return new Dimension(insets.left + insets.right, insets.top + insets.bottom);
+    }
+
+    @Override
+    public Dimension getMaximumSize() {
+        if (isMaximumSizeSet()) {
+            return super.getMaximumSize();
+        }
+        return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
 
     /**
