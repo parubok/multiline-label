@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="multiline-label" target="1.8" />
+      <module name="multiline-label" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

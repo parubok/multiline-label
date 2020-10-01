@@ -10,7 +10,7 @@ The goal of this component is to provide a multiline label with predictable and 
 
 This project has no dependencies (except JUnit 5, for testing).
 
-Requires Java 8 or later.
+Requires Java 11 or later.
 
  * TODO: Consolidate demos
  * TODO: Improve UT coverage

@@ -55,11 +55,11 @@ public class MultilineLabel extends JComponent implements Scrollable {
      * @param enabled    If false - paint disabled text.
      * @param background Background color of the target component. Not null.
      */
-    public static void paintText(Graphics g, String text, Insets insets, int wLimit, boolean enabled, Color background) {
+    public static void paintText(JComponent c, Graphics g, String text, Insets insets, int wLimit, boolean enabled, Color background) {
         if (hasLineSeparators(text)) {
             ProvidedTextLayout.paintText(g, text, insets, enabled, background);
         } else {
-            WidthTextLayout.paintText(g, text, insets, wLimit, enabled, background);
+            WidthTextLayout.paintText(c, g, text, insets, wLimit, enabled, background);
         }
     }
 

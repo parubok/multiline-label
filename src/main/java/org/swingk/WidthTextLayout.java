@@ -1,10 +1,13 @@
 package org.swingk;
 
+import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
+import javax.swing.plaf.basic.BasicGraphicsUtils;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Insets;
 
 import static javax.swing.SwingUtilities.computeStringWidth;
@@ -15,11 +18,11 @@ import static javax.swing.SwingUtilities.computeStringWidth;
  */
 final class WidthTextLayout extends AbstractTextLayout {
 
-    static void paintText(Graphics g, String text, Insets insets, int wLimit, boolean enabled, Color background) {
-        paintText2(g, toRenderedText(text), insets, wLimit, enabled, background);
+    static void paintText(JComponent c, Graphics g, String text, Insets insets, int wLimit, boolean enabled, Color background) {
+        paintText2(c, g, toRenderedText(text), insets, wLimit, enabled, background);
     }
 
-    private static void paintText2(Graphics g, String text, Insets insets, int wLimit, boolean enabled, Color background) {
+    private static void paintText2(JComponent c, Graphics g, String text, Insets insets, int wLimit, boolean enabled, Color background) {
         if (text.isEmpty()) {
             return;
         }
@@ -36,7 +39,7 @@ final class WidthTextLayout extends AbstractTextLayout {
             nextLine = getNextLine(text, index, fm, wLimitText);
             String lineStr = text.substring(nextLine.lineStartIndex, nextLine.lineEndIndex + 1);
             if (enabled) {
-                g.drawString(lineStr, x, y);
+                BasicGraphicsUtils.drawString(c, (Graphics2D) g, lineStr, x, y);
             } else {
                 paintTextInDisabledStyle(lineStr, g, background, x, y);
             }
@@ -218,6 +221,6 @@ final class WidthTextLayout extends AbstractTextLayout {
 
     @Override
     public void paintText(Graphics g) {
-        paintText2(g, textToRender, label.getInsets(), label.getWidth(), label.isEnabled(), label.getBackground());
+        paintText2(label, g, textToRender, label.getInsets(), label.getWidth(), label.isEnabled(), label.getBackground());
     }
 }
