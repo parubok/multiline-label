@@ -2,7 +2,6 @@ package org.swingk;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
-import javax.swing.LookAndFeel;
 import javax.swing.Scrollable;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -77,20 +76,13 @@ public class MultilineLabel extends JComponent implements Scrollable {
         super();
         setBorder(BorderFactory.createEmptyBorder());
         setOpaque(true);
-        LookAndFeel.installColorsAndFont(this, "Label.background", "Label.foreground", "Label.font");
+        updateUI();
         setText(text);
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g); // ???
-        if (isOpaque()) {
-            g.setColor(getBackground());
-            g.fillRect(0, 0, getWidth(), getHeight());
-        }
-        g.setColor(getForeground());
-        g.setFont(getFont());
-        textLayout.paintText(g);
+    public void updateUI() {
+        setUI(new BasicMultilineLabelUI());
     }
 
     @Override
