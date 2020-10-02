@@ -5,6 +5,9 @@ import javax.swing.LookAndFeel;
 import javax.swing.plaf.ComponentUI;
 import java.awt.Graphics;
 
+/**
+ * UI delegate of {@link MultilineLabel}.
+ */
 public class MultilineLabelUI extends ComponentUI {
     @Override
     public void installUI(JComponent c) {
