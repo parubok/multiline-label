@@ -1,5 +1,6 @@
 package org.swingk;
 
+import javax.swing.JComponent;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
@@ -9,7 +10,7 @@ import java.awt.Graphics;
 public interface TextLayout {
 
     /**
-     * Called from {@link MultilineLabel#paintComponent(Graphics)} to paint label's text.
+     * Called from {@link MultilineLabelUI#paint(Graphics, JComponent)} to paint label's text.
      * The {@link Graphics} object is preconfigured with the label's font and foreground color.
      */
     void paintText(Graphics g);
@@ -20,7 +21,7 @@ public interface TextLayout {
     Dimension calculatePreferredSize();
 
     /**
-     * Called before {@link MultilineLabel#setBounds(int, int, int, int)}.
+     * Called from {@link MultilineLabel#setBounds(int, int, int, int)} before applying the new bounds.
      */
     void preSetBounds(int x, int y, int width, int height);
 }
