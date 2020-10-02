@@ -14,6 +14,7 @@ class MultilineLabelTest {
     @Test
     void basic_test_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
+            Assertions.assertTrue(MultilineLabel.isApplySystemAA());
             MultilineLabel label = new MultilineLabel();
             Assertions.assertTrue(label.isOpaque());
             Assertions.assertEquals("", label.getText());
@@ -144,6 +145,9 @@ class MultilineLabelTest {
             Assertions.assertEquals(new Dimension(27, 48), label.getPreferredSize());
 
             label.setText("line1\nline2\nline3\nline4");
+            Assertions.assertEquals(new Dimension(27, 64), label.getPreferredSize());
+
+            label.setText("  line1 \n line2\nline3\r\nline4   ");
             Assertions.assertEquals(new Dimension(27, 64), label.getPreferredSize());
 
             label.setBorder(new EmptyBorder(1, 2, 3, 4));
