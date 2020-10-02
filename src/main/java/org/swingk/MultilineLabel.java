@@ -69,26 +69,21 @@ public class MultilineLabel extends JComponent implements Scrollable {
     }
 
     /**
-     * @param g          Graphics to paint text on. Not null.
+     * @param g          Graphics to paint text on. Must be preconfigured with font and color. Not null.
      * @param text       Text to paint. Not null.
      * @param insets     Insets. Not null.
      * @param wLimit     Width limit in pixels (incl. insets). Greater than 0. Applicable only if the text doesn't contain EOL.
      * @param enabled    If false - paint disabled text.
-     * @param background Background color of the target component. Not null.
+     * @param background Background color of the target component. Used to paint disabled text. Not null.
      */
     public static void paintText(Graphics g, String text, Insets insets, int wLimit, boolean enabled, Color background) {
         if (staticLabel == null) {
             staticLabel = new MultilineLabel();
         }
-        Graphics gg = g.create();
-        try {
-            if (ProvidedTextLayout.hasLines(text)) {
-                ProvidedTextLayout.paintText(staticLabel, g, text, insets, enabled, background);
-            } else {
-                WidthTextLayout.paintText(staticLabel, g, text, insets, wLimit, enabled, background);
-            }
-        } finally {
-            gg.dispose();
+        if (ProvidedTextLayout.hasLines(text)) {
+            ProvidedTextLayout.paintText(staticLabel, g, text, insets, enabled, background);
+        } else {
+            WidthTextLayout.paintText(staticLabel, g, text, insets, wLimit, enabled, background);
         }
     }
 
