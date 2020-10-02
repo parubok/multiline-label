@@ -14,7 +14,9 @@ import static org.swingk.MultilineLabel.LINE_SEPARATOR_UNIX;
 import static org.swingk.MultilineLabel.LINE_SEPARATOR_WIN;
 
 /**
- * Text layout where line breaks are provided in the text by line separator characters (EOL).
+ * Text layout where line breaks are provided in the text by line separators.
+ *
+ * @see MultilineLabel#hasLineSeparators(String)
  */
 final class ProvidedTextLayout extends AbstractTextLayout {
 
