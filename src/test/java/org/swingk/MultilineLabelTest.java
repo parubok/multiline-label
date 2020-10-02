@@ -10,12 +10,6 @@ import java.awt.Dimension;
 import java.awt.Insets;
 
 class MultilineLabelTest {
-    @Test
-    void hasLineSeparators() {
-        Assertions.assertTrue(MultilineLabel.hasLineSeparators("abc\r\n123"));
-        Assertions.assertTrue(MultilineLabel.hasLineSeparators("abc\n123"));
-        Assertions.assertFalse(MultilineLabel.hasLineSeparators("abc 123"));
-    }
 
     @Test
     void basic_test_1() throws Exception {

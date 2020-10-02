@@ -29,10 +29,6 @@ public class MultilineLabel extends JComponent implements Scrollable {
      */
     public static final int DEFAULT_WIDTH_LIMIT = 500;
 
-    // EOL strings.
-    public static final String LINE_SEPARATOR_UNIX = "\n";
-    public static final String LINE_SEPARATOR_WIN = "\r\n";
-
     private static boolean applySystemAA = true;
 
     /**
@@ -55,10 +51,6 @@ public class MultilineLabel extends JComponent implements Scrollable {
         MultilineLabel.applySystemAA = applySystemAA;
     }
 
-    public static boolean hasLineSeparators(String text) {
-        return text.contains(LINE_SEPARATOR_UNIX) || text.contains(LINE_SEPARATOR_WIN);
-    }
-
     /**
      * @param insets Insets to include in the calculation. Not null.
      * @param fm     {@link FontMetrics} to calculate text size. Not null.
@@ -67,7 +59,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
      * @return Preferred size of text bounds.
      */
     public static Dimension calculatePreferredSize(Insets insets, FontMetrics fm, String text, int wLimit) {
-        return hasLineSeparators(text) ? ProvidedTextLayout.calcPreferredSize(text, fm, insets) :
+        return ProvidedTextLayout.hasLines(text) ? ProvidedTextLayout.calcPreferredSize(text, fm, insets) :
                 WidthTextLayout.calcPreferredSize(insets, fm, text, wLimit);
     }
 
@@ -80,7 +72,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
      * @param background Background color of the target component. Not null.
      */
     public static void paintText(JComponent c, Graphics g, String text, Insets insets, int wLimit, boolean enabled, Color background) {
-        if (hasLineSeparators(text)) {
+        if (ProvidedTextLayout.hasLines(text)) {
             ProvidedTextLayout.paintText(c, g, text, insets, enabled, background);
         } else {
             WidthTextLayout.paintText(c, g, text, insets, wLimit, enabled, background);
@@ -166,15 +158,13 @@ public class MultilineLabel extends JComponent implements Scrollable {
      * @return True is the label displays its text according to the preferred/current width, false if the line breaks
      * are predefined by line separators in the text and the label width is ignored.
      * @see #setPreferredWidthLimit(int)
-     * @see #LINE_SEPARATOR_UNIX
-     * @see #LINE_SEPARATOR_WIN
      */
     public boolean isWidthBasedLayout() {
         return textLayout instanceof WidthTextLayout;
     }
 
     protected TextLayout createTextLayout(String text) {
-        return hasLineSeparators(text) ? new ProvidedTextLayout(this) : new WidthTextLayout(this);
+        return ProvidedTextLayout.hasLines(text) ? new ProvidedTextLayout(this) : new WidthTextLayout(this);
     }
 
     protected TextLayout getTextLayout() {
@@ -185,8 +175,6 @@ public class MultilineLabel extends JComponent implements Scrollable {
      * Note: This property is ignored if the text contains line separators.
      *
      * @see #DEFAULT_WIDTH_LIMIT
-     * @see #LINE_SEPARATOR_UNIX
-     * @see #LINE_SEPARATOR_WIN
      */
     public int getPreferredWidthLimit() {
         return prefWidthLimit;

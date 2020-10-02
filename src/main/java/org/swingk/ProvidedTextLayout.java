@@ -6,65 +6,40 @@ import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Insets;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static javax.swing.SwingUtilities.computeStringWidth;
-import static org.swingk.MultilineLabel.LINE_SEPARATOR_UNIX;
-import static org.swingk.MultilineLabel.LINE_SEPARATOR_WIN;
 
 /**
  * Text layout where line breaks are provided in the text by line separators.
- *
- * @see MultilineLabel#hasLineSeparators(String)
  */
 final class ProvidedTextLayout extends AbstractTextLayout {
 
     private final List<String> lines;
-    private final String lineSeparator;
 
     ProvidedTextLayout(MultilineLabel label) {
         super(label);
-        this.lineSeparator = guessLineSeparator(label.getText());
-        this.lines = breakToLines(label.getText(), this.lineSeparator);
-    }
-
-    String getLineSeparator() {
-        return lineSeparator;
+        this.lines = breakToLines(label.getText());
     }
 
     List<String> getLines() { return lines; }
 
-    private static String guessLineSeparator(String text) {
-        return text.contains(LINE_SEPARATOR_WIN) ? LINE_SEPARATOR_WIN : LINE_SEPARATOR_UNIX;
+    private static Stream<String> lineStream(String text) {
+        return text.strip().lines();
     }
 
-    private static List<String> breakToLines(String text, String lineSeparator) {
-        String t = text.trim();
-        var sb = new StringBuilder();
-        List<String> lines = new ArrayList<>();
-        final int len = t.length();
-        for (int i = 0; i < len; i++) {
-            if (t.startsWith(lineSeparator, i)) {
-                addLine(sb, lines);
-                sb = new StringBuilder();
-                i += (lineSeparator.length() - 1);
-            } else {
-                sb.append(t.charAt(i));
-                if (i == (len - 1)) {
-                    addLine(sb, lines);
-                }
-            }
-        }
-        return lines;
+    private static List<String> breakToLines(String text) {
+        return lineStream(text).map(String::strip).collect(Collectors.toUnmodifiableList());
     }
 
-    private static void addLine(StringBuilder sb, List<String> lines) {
-        lines.add(sb.toString().trim());
+    static boolean hasLines(String text) {
+        return lineStream(text).skip(1).findFirst().isPresent();
     }
 
     static void paintText(JComponent c, Graphics g, String text, Insets insets, boolean enabled, Color backgroundColor) {
-        paintText2(c, g, breakToLines(text, guessLineSeparator(text)), insets, enabled, backgroundColor);
+        paintText2(c, g, breakToLines(text), insets, enabled, backgroundColor);
     }
 
     private static void paintText2(JComponent c, Graphics g, List<String> lines, Insets insets, boolean enabled,
@@ -88,7 +63,7 @@ final class ProvidedTextLayout extends AbstractTextLayout {
     }
 
     static Dimension calcPreferredSize(String text, FontMetrics fm, Insets insets) {
-        return calcPreferredSize(breakToLines(text, guessLineSeparator(text)), fm, insets);
+        return calcPreferredSize(breakToLines(text), fm, insets);
     }
 
     static Dimension calcPreferredSize(List<String> lines, FontMetrics fm, Insets insets) {
