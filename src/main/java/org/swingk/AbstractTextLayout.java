@@ -1,8 +1,11 @@
 package org.swingk;
 
+import javax.swing.JComponent;
+import javax.swing.plaf.basic.BasicGraphicsUtils;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.Objects;
 
 public abstract class AbstractTextLayout implements TextLayout {
@@ -17,14 +20,22 @@ public abstract class AbstractTextLayout implements TextLayout {
         return (fm.getAscent() + fm.getDescent()) * lineCount + fm.getLeading() * (lineCount - 1);
     }
 
+    protected static void drawString(JComponent c, Graphics g, String str, int x, int y) {
+        if (MultilineLabel.isApplySystemAA()) {
+            BasicGraphicsUtils.drawString(c, (Graphics2D) g, str, x, y);
+        } else {
+            g.drawString(str, x, y);
+        }
+    }
+
     /**
      * Draws {@code text} in a style of disabled component text at {@link Graphics} context from the point (x,y). Uses
      * {@code color} as a base.
      */
-    protected static void paintTextInDisabledStyle(String text, Graphics g, Color color, int x, int y) {
+    protected static void drawStringInDisabledStyle(JComponent c, String str, Graphics g, Color color, int x, int y) {
         g.setColor(color.brighter());
-        g.drawString(text, x + 1, y + 1);
+        drawString(c, g, str, x + 1, y + 1);
         g.setColor(color.darker());
-        g.drawString(text, x, y);
+        drawString(c, g, str, x, y);
     }
 }

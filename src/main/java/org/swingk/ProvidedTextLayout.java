@@ -1,5 +1,6 @@
 package org.swingk;
 
+import javax.swing.JComponent;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
@@ -60,19 +61,20 @@ final class ProvidedTextLayout extends AbstractTextLayout {
         lines.add(sb.toString().trim());
     }
 
-    static void paintText(Graphics g, String text, Insets insets, boolean enabled, Color backgroundColor) {
-        paintText2(g, breakToLines(text, guessLineSeparator(text)), insets, enabled, backgroundColor);
+    static void paintText(JComponent c, Graphics g, String text, Insets insets, boolean enabled, Color backgroundColor) {
+        paintText2(c, g, breakToLines(text, guessLineSeparator(text)), insets, enabled, backgroundColor);
     }
 
-    private static void paintText2(Graphics g, List<String> lines, Insets insets, boolean enabled, Color background) {
+    private static void paintText2(JComponent c, Graphics g, List<String> lines, Insets insets, boolean enabled,
+                                   Color background) {
         final FontMetrics fm = g.getFontMetrics();
         final int x = insets.left;
         int y = insets.top + fm.getAscent();
         for (String line : lines) {
             if (enabled) {
-                g.drawString(line, x, y);
+                drawString(c, g, line, x, y);
             } else {
-                paintTextInDisabledStyle(line, g, background, x, y);
+                drawStringInDisabledStyle(c, line, g, background, x, y);
             }
             y += fm.getHeight();
         }
@@ -80,7 +82,7 @@ final class ProvidedTextLayout extends AbstractTextLayout {
 
     @Override
     public void paintText(Graphics g) {
-        paintText2(g, lines, label.getInsets(), label.isEnabled(), label.getBackground());
+        paintText2(label, g, lines, label.getInsets(), label.isEnabled(), label.getBackground());
     }
 
     static Dimension calcPreferredSize(String text, FontMetrics fm, Insets insets) {

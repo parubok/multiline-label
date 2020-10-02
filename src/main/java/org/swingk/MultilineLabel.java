@@ -3,10 +3,12 @@ package org.swingk;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.Scrollable;
+import javax.swing.plaf.basic.BasicGraphicsUtils;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.util.Objects;
@@ -30,6 +32,28 @@ public class MultilineLabel extends JComponent implements Scrollable {
     // EOL strings.
     public static final String LINE_SEPARATOR_UNIX = "\n";
     public static final String LINE_SEPARATOR_WIN = "\r\n";
+
+    private static boolean applySystemAA = true;
+
+    /**
+     * @return True if the text drawing is performed by calling
+     * {@link BasicGraphicsUtils#drawString(JComponent, Graphics2D, String, float, float)},
+     * which applies the system anti-aliasing, otherwise the text is drawn via
+     * {@link Graphics#drawString(String, int, int)}.
+     */
+    public static boolean isApplySystemAA() {
+        return applySystemAA;
+    }
+
+    /**
+     * @param applySystemAA If true, the text drawing is performed by calling
+     *                      {@link BasicGraphicsUtils#drawString(JComponent, Graphics2D, String, float, float)},
+     *                      which applies the system anti-aliasing, otherwise the text is drawn via
+     *                      {@link Graphics#drawString(String, int, int)}.
+     */
+    public static void setApplySystemAA(boolean applySystemAA) {
+        MultilineLabel.applySystemAA = applySystemAA;
+    }
 
     public static boolean hasLineSeparators(String text) {
         return text.contains(LINE_SEPARATOR_UNIX) || text.contains(LINE_SEPARATOR_WIN);
@@ -57,7 +81,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
      */
     public static void paintText(JComponent c, Graphics g, String text, Insets insets, int wLimit, boolean enabled, Color background) {
         if (hasLineSeparators(text)) {
-            ProvidedTextLayout.paintText(g, text, insets, enabled, background);
+            ProvidedTextLayout.paintText(c, g, text, insets, enabled, background);
         } else {
             WidthTextLayout.paintText(c, g, text, insets, wLimit, enabled, background);
         }

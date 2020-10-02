@@ -2,12 +2,10 @@ package org.swingk;
 
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
-import javax.swing.plaf.basic.BasicGraphicsUtils;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Insets;
 
 import static javax.swing.SwingUtilities.computeStringWidth;
@@ -39,9 +37,9 @@ final class WidthTextLayout extends AbstractTextLayout {
             nextLine = getNextLine(text, index, fm, wLimitText);
             String lineStr = text.substring(nextLine.lineStartIndex, nextLine.lineEndIndex + 1);
             if (enabled) {
-                BasicGraphicsUtils.drawString(c, (Graphics2D) g, lineStr, x, y);
+                drawString(c, g, lineStr, x, y);
             } else {
-                paintTextInDisabledStyle(lineStr, g, background, x, y);
+                drawStringInDisabledStyle(c, lineStr, g, background, x, y);
             }
             y += fm.getHeight();
             index = nextLine.nextLineStartIndex;

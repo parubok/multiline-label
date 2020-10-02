@@ -17,7 +17,7 @@ Requires Java 11 or later.
  * TODO: JavaDoc
  * TODO: README with examples and screenshots
  * TODO: specify width limit in characters
- * TODO: fix AA to be as in L&F (UI delegate?)
+ * TODO: get rid of static methods (use TextLayout classes)
  * TODO: javax.swing.text.Utilities.getBreakLocation ?
  * TODO: lines limit, "..." to display very long messages
  * TODO: 'flexible' pref. width (e.g. +/-100 pixels) to achieve the best distribution.
