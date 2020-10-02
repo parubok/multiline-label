@@ -2,12 +2,13 @@ package org.swingk;
 
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
-import javax.swing.plaf.basic.BasicGraphicsUtils;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Insets;
+
+import static javax.swing.plaf.basic.BasicGraphicsUtils.getStringWidth;
 
 /**
  * Dynamically calculates line breaks based on value of {@link MultilineLabel#getPreferredScrollableViewportSize()}
@@ -67,7 +68,7 @@ final class WidthTextLayout extends AbstractTextLayout {
             do {
                 nextLine = getNextLine(c, text, startIndex, fm, textWidthLimit);
                 String nextLineStr = text.substring(nextLine.lineStartIndex, nextLine.lineEndIndex + 1);
-                int nextLineWidth = Math.round(BasicGraphicsUtils.getStringWidth(c, fm, nextLineStr));
+                int nextLineWidth = Math.round(getStringWidth(c, fm, nextLineStr));
                 maxLineWidth = Math.max(maxLineWidth, nextLineWidth);
                 lineCount++;
                 startIndex = nextLine.nextLineStartIndex;
@@ -87,17 +88,18 @@ final class WidthTextLayout extends AbstractTextLayout {
      * @param widthLimit Limit on the width of the line.
      * @return Object with details of the next line.
      */
-    static NextLine getNextLine(JComponent c, final String text, final int startIndex, final FontMetrics fm, final int widthLimit) {
+    static NextLine getNextLine(JComponent c, String text, int startIndex, FontMetrics fm, int widthLimit) {
         assert text != null;
         assert text.length() > 0;
         assert startIndex > -1;
         assert fm != null;
         assert widthLimit > 0;
+
         int spaceIndex = startIndex;
         while (true) {
             int nextSpaceIndex = text.indexOf(' ', spaceIndex + 1);
             if (nextSpaceIndex == -1) { // there is no next space after spaceIndex
-                if (spaceIndex > startIndex && BasicGraphicsUtils.getStringWidth(c, fm, text.substring(startIndex)) > widthLimit) {
+                if (spaceIndex > startIndex && getStringWidth(c, fm, text.substring(startIndex)) > widthLimit) {
                     // next line will be single word last line
                     return new NextLine(false, startIndex, spaceIndex - 1, spaceIndex + 1);
                 } else {
@@ -105,7 +107,7 @@ final class WidthTextLayout extends AbstractTextLayout {
                     return new NextLine(true, startIndex, text.length() - 1, -1);
                 }
             } else { // there is next space after spaceIndex
-                if (BasicGraphicsUtils.getStringWidth(c, fm, text.substring(startIndex, nextSpaceIndex)) > widthLimit) {
+                if (getStringWidth(c, fm, text.substring(startIndex, nextSpaceIndex)) > widthLimit) {
                     if (spaceIndex > startIndex) {
                         // regular next line
                         return new NextLine(false, startIndex, spaceIndex - 1, spaceIndex + 1);

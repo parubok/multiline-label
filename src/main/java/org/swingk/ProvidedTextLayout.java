@@ -1,7 +1,6 @@
 package org.swingk;
 
 import javax.swing.JComponent;
-import javax.swing.plaf.basic.BasicGraphicsUtils;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
@@ -10,6 +9,8 @@ import java.awt.Insets;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static javax.swing.plaf.basic.BasicGraphicsUtils.getStringWidth;
 
 /**
  * Text layout where line breaks are provided in the text by line separators.
@@ -75,7 +76,7 @@ final class ProvidedTextLayout extends AbstractTextLayout {
         if (!lines.isEmpty()) {
             int maxLineWidth = 0;
             for (String line : lines) {
-                maxLineWidth = Math.max(maxLineWidth, Math.round(BasicGraphicsUtils.getStringWidth(c, fm, line)));
+                maxLineWidth = Math.max(maxLineWidth, Math.round(getStringWidth(c, fm, line)));
             }
             textPrefWidth = maxLineWidth;
             textPrefHeight = getTextPreferredHeight(lines.size(), fm);
