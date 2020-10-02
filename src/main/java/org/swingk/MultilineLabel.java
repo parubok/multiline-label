@@ -56,7 +56,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
     }
 
     private String text = "";
-    private TextLayout textLayout; // not null
+    private TextLayout textLayout; // not null after constructor
     private int prefWidthLimit = DEFAULT_WIDTH_LIMIT;
     private boolean useCurrentWidthForPreferredSize = true;
 
