@@ -41,7 +41,7 @@ final class ProvidedTextLayout extends AbstractTextLayout {
 
     private static List<String> breakToLines(String text, String lineSeparator) {
         String t = text.trim();
-        StringBuilder sb = new StringBuilder();
+        var sb = new StringBuilder();
         List<String> lines = new ArrayList<>();
         final int len = t.length();
         for (int i = 0; i < len; i++) {
@@ -69,7 +69,7 @@ final class ProvidedTextLayout extends AbstractTextLayout {
 
     private static void paintText2(JComponent c, Graphics g, List<String> lines, Insets insets, boolean enabled,
                                    Color background) {
-        final FontMetrics fm = g.getFontMetrics();
+        final var fm = g.getFontMetrics();
         final int x = insets.left;
         int y = insets.top + fm.getAscent();
         for (String line : lines) {

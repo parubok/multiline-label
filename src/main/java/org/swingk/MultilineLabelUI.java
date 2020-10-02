@@ -13,7 +13,7 @@ public class MultilineLabelUI extends ComponentUI {
 
     @Override
     public void paint(Graphics g, JComponent c) {
-        MultilineLabel label = (MultilineLabel) c;
+        var label = (MultilineLabel) c;
         g.setColor(label.getForeground());
         g.setFont(label.getFont());
         label.getTextLayout().paintText(g);

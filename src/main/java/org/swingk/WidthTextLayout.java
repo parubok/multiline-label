@@ -28,7 +28,7 @@ final class WidthTextLayout extends AbstractTextLayout {
         if (wLimitText < 1) {
             return;
         }
-        final FontMetrics fm = g.getFontMetrics();
+        final var fm = g.getFontMetrics();
         final int x = insets.left;
         int y = insets.top + fm.getAscent();
         NextLine nextLine;
@@ -164,7 +164,7 @@ final class WidthTextLayout extends AbstractTextLayout {
     }
 
     static String toRenderedText(String text) {
-        StringBuilder sb = new StringBuilder(text.replace('\n', ' ').trim());
+        var sb = new StringBuilder(text.replace('\n', ' ').trim());
         int doubleSpaceIndex;
         while ((doubleSpaceIndex = sb.indexOf("  ")) > -1) {
             sb.delete(doubleSpaceIndex + 1, doubleSpaceIndex + 2); // delete second space
@@ -212,8 +212,8 @@ final class WidthTextLayout extends AbstractTextLayout {
         } else {
             wLimit = label.getPreferredWidthLimit();
         }
-        final FontMetrics fm = label.getFontMetrics(label.getFont());
-        final Insets insets = label.getInsets();
+        final var fm = label.getFontMetrics(label.getFont());
+        final var insets = label.getInsets();
         return calcPreferredSize2(insets, fm, textToRender, wLimit);
     }
 
