@@ -33,6 +33,11 @@ public abstract class AbstractTextLayout implements TextLayout {
      * {@code color} as a base.
      */
     protected static void drawStringInDisabledStyle(JComponent c, String str, Graphics g, Color color, int x, int y) {
+        assert c != null;
+        assert str != null;
+        assert g != null;
+        assert color != null;
+
         g.setColor(color.brighter());
         drawString(c, g, str, x + 1, y + 1);
         g.setColor(color.darker());
