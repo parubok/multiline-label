@@ -43,9 +43,9 @@ class WidthTextLayoutTest {
     @Test
     void getNextLine_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
-            String text = "text";
-            MultilineLabel label = new MultilineLabel();
-            FontMetrics fm = label.getFontMetrics(font);
+            var text = "text";
+            var label = new MultilineLabel();
+            var fm = label.getFontMetrics(font);
             WidthTextLayout.NextLine nextLine = WidthTextLayout.getNextLine(text, 0, fm, 10_000);
             Assertions.assertTrue(nextLine.lastLine);
             Assertions.assertEquals(0, nextLine.lineStartIndex);
@@ -57,9 +57,9 @@ class WidthTextLayoutTest {
     @Test
     void getNextLine_2() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
-            String text = "text1 text2";
-            MultilineLabel label = new MultilineLabel();
-            FontMetrics fm = label.getFontMetrics(font);
+            var text = "text1 text2";
+            var label = new MultilineLabel();
+            var fm = label.getFontMetrics(font);
             WidthTextLayout.NextLine nextLine = WidthTextLayout.getNextLine(text, 0, fm, 10_000);
             Assertions.assertTrue(nextLine.lastLine);
             Assertions.assertEquals(0, nextLine.lineStartIndex);
@@ -71,9 +71,9 @@ class WidthTextLayoutTest {
     @Test
     void getNextLine_3() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
-            String text = "text";
-            MultilineLabel label = new MultilineLabel();
-            FontMetrics fm = label.getFontMetrics(font);
+            var text = "text";
+            var label = new MultilineLabel();
+            var fm = label.getFontMetrics(font);
             WidthTextLayout.NextLine nextLine = WidthTextLayout.getNextLine(text, 0, fm, 1);
             Assertions.assertTrue(nextLine.lastLine);
             Assertions.assertEquals(0, nextLine.lineStartIndex);
@@ -162,9 +162,9 @@ class WidthTextLayoutTest {
     @Test
     void getNextLine_8() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
-            String text = "a abcdvfsl2808kdfkfkdjk94893483dkjdkfjkfjkdjfkdfjdkjdkd b";
-            MultilineLabel label = new MultilineLabel();
-            FontMetrics fm = label.getFontMetrics(font);
+            var text = "a abcdvfsl2808kdfkfkdjk94893483dkjdkfjkfjkdjfkdfjdkjdkd b";
+            var label = new MultilineLabel();
+            var fm = label.getFontMetrics(font);
             final int limit = 30;
             WidthTextLayout.NextLine nextLine1 = WidthTextLayout.getNextLine(text, 0, fm, limit);
             Assertions.assertFalse(nextLine1.lastLine);
