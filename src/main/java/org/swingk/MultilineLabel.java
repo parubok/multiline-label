@@ -3,12 +3,10 @@ package org.swingk;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.Scrollable;
-import javax.swing.plaf.basic.BasicGraphicsUtils;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.util.Objects;
@@ -29,30 +27,6 @@ public class MultilineLabel extends JComponent implements Scrollable {
      */
     public static final int DEFAULT_WIDTH_LIMIT = 500;
 
-    private static boolean applySystemAA = true;
-
-    /**
-     * @return True if the text drawing is performed by calling
-     * {@link BasicGraphicsUtils#drawString(JComponent, Graphics2D, String, float, float)},
-     * which applies the system anti-aliasing, otherwise the text is drawn via
-     * {@link Graphics#drawString(String, int, int)}.
-     */
-    public static boolean isApplySystemAA() {
-        return applySystemAA;
-    }
-
-    /**
-     * @param applySystemAA If true, the text drawing is performed by calling
-     *                      {@link BasicGraphicsUtils#drawString(JComponent, Graphics2D, String, float, float)},
-     *                      which applies the system anti-aliasing, otherwise the text is drawn via
-     *                      {@link Graphics#drawString(String, int, int)}.
-     */
-    public static void setApplySystemAA(boolean applySystemAA) {
-        MultilineLabel.applySystemAA = applySystemAA;
-    }
-
-    private static MultilineLabel staticLabel;
-
     /**
      * @param insets Insets to include in the calculation. Not null.
      * @param fm     {@link FontMetrics} to calculate text size. Not null.
@@ -61,11 +35,8 @@ public class MultilineLabel extends JComponent implements Scrollable {
      * @return Preferred size of text bounds.
      */
     public static Dimension calculatePreferredSize(Insets insets, FontMetrics fm, String text, int wLimit) {
-        if (staticLabel == null) {
-            staticLabel = new MultilineLabel();
-        }
-        return ProvidedTextLayout.hasLines(text) ? ProvidedTextLayout.calcPreferredSize(staticLabel, text, fm, insets) :
-                WidthTextLayout.calcPreferredSize(staticLabel, insets, fm, text, wLimit);
+        return ProvidedTextLayout.hasLines(text) ? ProvidedTextLayout.calcPreferredSize(null, text, fm, insets) :
+                WidthTextLayout.calcPreferredSize(null, insets, fm, text, wLimit);
     }
 
     /**
@@ -77,13 +48,10 @@ public class MultilineLabel extends JComponent implements Scrollable {
      * @param background Background color of the target component. Used to paint disabled text. Not null.
      */
     public static void paintText(Graphics g, String text, Insets insets, int wLimit, boolean enabled, Color background) {
-        if (staticLabel == null) {
-            staticLabel = new MultilineLabel();
-        }
         if (ProvidedTextLayout.hasLines(text)) {
-            ProvidedTextLayout.paintText(staticLabel, g, text, insets, enabled, background);
+            ProvidedTextLayout.paintText(null, g, text, insets, enabled, background);
         } else {
-            WidthTextLayout.paintText(staticLabel, g, text, insets, wLimit, enabled, background);
+            WidthTextLayout.paintText(null, g, text, insets, wLimit, enabled, background);
         }
     }
 

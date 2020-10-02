@@ -21,11 +21,7 @@ public abstract class AbstractTextLayout implements TextLayout {
     }
 
     protected static void drawString(JComponent c, Graphics g, String str, int x, int y) {
-        if (MultilineLabel.isApplySystemAA()) {
-            BasicGraphicsUtils.drawString(c, (Graphics2D) g, str, x, y);
-        } else {
-            g.drawString(str, x, y);
-        }
+        BasicGraphicsUtils.drawString(c, (Graphics2D) g, str, x, y);
     }
 
     /**

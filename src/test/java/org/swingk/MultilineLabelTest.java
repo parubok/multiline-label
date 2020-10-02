@@ -14,7 +14,6 @@ class MultilineLabelTest {
     @Test
     void basic_test_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
-            Assertions.assertTrue(MultilineLabel.isApplySystemAA());
             MultilineLabel label = new MultilineLabel();
             Assertions.assertTrue(label.isOpaque());
             Assertions.assertEquals("", label.getText());
