@@ -5,7 +5,7 @@ import javax.swing.LookAndFeel;
 import javax.swing.plaf.ComponentUI;
 import java.awt.Graphics;
 
-public class BasicMultilineLabelUI extends ComponentUI {
+public class MultilineLabelUI extends ComponentUI {
     @Override
     public void installUI(JComponent c) {
         LookAndFeel.installColorsAndFont(c, "Label.background", "Label.foreground", "Label.font");
