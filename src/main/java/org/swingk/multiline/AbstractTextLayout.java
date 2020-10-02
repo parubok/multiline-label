@@ -1,4 +1,4 @@
-package org.swingk;
+package org.swingk.multiline;
 
 import javax.swing.JComponent;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
