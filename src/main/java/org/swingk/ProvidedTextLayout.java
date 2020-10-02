@@ -1,6 +1,7 @@
 package org.swingk;
 
 import javax.swing.JComponent;
+import javax.swing.plaf.basic.BasicGraphicsUtils;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
@@ -9,8 +10,6 @@ import java.awt.Insets;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static javax.swing.SwingUtilities.computeStringWidth;
 
 /**
  * Text layout where line breaks are provided in the text by line separators.
@@ -62,11 +61,11 @@ final class ProvidedTextLayout extends AbstractTextLayout {
         paintText2(label, g, lines, label.getInsets(), label.isEnabled(), label.getBackground());
     }
 
-    static Dimension calcPreferredSize(String text, FontMetrics fm, Insets insets) {
-        return calcPreferredSize(breakToLines(text), fm, insets);
+    static Dimension calcPreferredSize(JComponent c, String text, FontMetrics fm, Insets insets) {
+        return calcPreferredSize(c, breakToLines(text), fm, insets);
     }
 
-    static Dimension calcPreferredSize(List<String> lines, FontMetrics fm, Insets insets) {
+    static Dimension calcPreferredSize(JComponent c, List<String> lines, FontMetrics fm, Insets insets) {
         assert lines != null;
         assert fm != null;
         assert insets != null;
@@ -76,7 +75,7 @@ final class ProvidedTextLayout extends AbstractTextLayout {
         if (!lines.isEmpty()) {
             int maxLineWidth = 0;
             for (String line : lines) {
-                maxLineWidth = Math.max(maxLineWidth, computeStringWidth(fm, line));
+                maxLineWidth = Math.max(maxLineWidth, Math.round(BasicGraphicsUtils.getStringWidth(c, fm, line)));
             }
             textPrefWidth = maxLineWidth;
             textPrefHeight = getTextPreferredHeight(lines.size(), fm);
@@ -88,7 +87,7 @@ final class ProvidedTextLayout extends AbstractTextLayout {
 
     @Override
     public Dimension calculatePreferredSize() {
-        return calcPreferredSize(lines, label.getFontMetrics(label.getFont()), label.getInsets());
+        return calcPreferredSize(label, lines, label.getFontMetrics(label.getFont()), label.getInsets());
     }
 
     @Override

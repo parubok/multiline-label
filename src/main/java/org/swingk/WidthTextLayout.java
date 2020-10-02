@@ -2,13 +2,12 @@ package org.swingk;
 
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
+import javax.swing.plaf.basic.BasicGraphicsUtils;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Insets;
-
-import static javax.swing.SwingUtilities.computeStringWidth;
 
 /**
  * Dynamically calculates line breaks based on value of {@link MultilineLabel#getPreferredScrollableViewportSize()}
@@ -34,7 +33,7 @@ final class WidthTextLayout extends AbstractTextLayout {
         NextLine nextLine;
         int index = 0;
         do {
-            nextLine = getNextLine(text, index, fm, wLimitText);
+            nextLine = getNextLine(c, text, index, fm, wLimitText);
             String lineStr = text.substring(nextLine.lineStartIndex, nextLine.lineEndIndex + 1);
             if (enabled) {
                 drawString(c, g, lineStr, x, y);
@@ -46,11 +45,11 @@ final class WidthTextLayout extends AbstractTextLayout {
         } while (!nextLine.lastLine);
     }
 
-    static Dimension calcPreferredSize(Insets insets, FontMetrics fm, String text, int wLimit) {
-        return calcPreferredSize2(insets, fm, toRenderedText(text), wLimit);
+    static Dimension calcPreferredSize(JComponent c, Insets insets, FontMetrics fm, String text, int wLimit) {
+        return calcPreferredSize2(c, insets, fm, toRenderedText(text), wLimit);
     }
 
-    private static Dimension calcPreferredSize2(Insets insets, FontMetrics fm, String text, int wLimit) {
+    private static Dimension calcPreferredSize2(JComponent c, Insets insets, FontMetrics fm, String text, int wLimit) {
         assert insets != null;
         assert fm != null;
         assert text != null;
@@ -66,9 +65,9 @@ final class WidthTextLayout extends AbstractTextLayout {
             int lineCount = 0;
             int maxLineWidth = 0; // pixels
             do {
-                nextLine = getNextLine(text, startIndex, fm, textWidthLimit);
+                nextLine = getNextLine(c, text, startIndex, fm, textWidthLimit);
                 String nextLineStr = text.substring(nextLine.lineStartIndex, nextLine.lineEndIndex + 1);
-                int nextLineWidth = computeStringWidth(fm, nextLineStr);
+                int nextLineWidth = Math.round(BasicGraphicsUtils.getStringWidth(c, fm, nextLineStr));
                 maxLineWidth = Math.max(maxLineWidth, nextLineWidth);
                 lineCount++;
                 startIndex = nextLine.nextLineStartIndex;
@@ -88,7 +87,7 @@ final class WidthTextLayout extends AbstractTextLayout {
      * @param widthLimit Limit on the width of the line.
      * @return Object with details of the next line.
      */
-    static NextLine getNextLine(final String text, final int startIndex, final FontMetrics fm, final int widthLimit) {
+    static NextLine getNextLine(JComponent c, final String text, final int startIndex, final FontMetrics fm, final int widthLimit) {
         assert text != null;
         assert text.length() > 0;
         assert startIndex > -1;
@@ -98,7 +97,7 @@ final class WidthTextLayout extends AbstractTextLayout {
         while (true) {
             int nextSpaceIndex = text.indexOf(' ', spaceIndex + 1);
             if (nextSpaceIndex == -1) { // there is no next space after spaceIndex
-                if (spaceIndex > startIndex && computeStringWidth(fm, text.substring(startIndex)) > widthLimit) {
+                if (spaceIndex > startIndex && BasicGraphicsUtils.getStringWidth(c, fm, text.substring(startIndex)) > widthLimit) {
                     // next line will be single word last line
                     return new NextLine(false, startIndex, spaceIndex - 1, spaceIndex + 1);
                 } else {
@@ -106,7 +105,7 @@ final class WidthTextLayout extends AbstractTextLayout {
                     return new NextLine(true, startIndex, text.length() - 1, -1);
                 }
             } else { // there is next space after spaceIndex
-                if (computeStringWidth(fm, text.substring(startIndex, nextSpaceIndex)) > widthLimit) {
+                if (BasicGraphicsUtils.getStringWidth(c, fm, text.substring(startIndex, nextSpaceIndex)) > widthLimit) {
                     if (spaceIndex > startIndex) {
                         // regular next line
                         return new NextLine(false, startIndex, spaceIndex - 1, spaceIndex + 1);
@@ -181,7 +180,7 @@ final class WidthTextLayout extends AbstractTextLayout {
 
     @Override
     public Dimension calculatePreferredSize() {
-        return calcPreferredSize(0);
+        return calcPreferredSize(label, 0);
     }
 
     protected void requestLayout() {
@@ -197,12 +196,12 @@ final class WidthTextLayout extends AbstractTextLayout {
                 && !textToRender.isEmpty()
                 && width > 0 && height > 0
                 && width != label.getWidth()
-                && calcPreferredSize(width).height != height) {
+                && calcPreferredSize(label, width).height != height) {
             requestLayout();
         }
     }
 
-    private Dimension calcPreferredSize(int expectedLabelWidth) {
+    private Dimension calcPreferredSize(JComponent c, int expectedLabelWidth) {
         final int wLimit;
         if (expectedLabelWidth > 0) {
             wLimit = expectedLabelWidth;
@@ -214,7 +213,7 @@ final class WidthTextLayout extends AbstractTextLayout {
         }
         final var fm = label.getFontMetrics(label.getFont());
         final var insets = label.getInsets();
-        return calcPreferredSize2(insets, fm, textToRender, wLimit);
+        return calcPreferredSize2(c, insets, fm, textToRender, wLimit);
     }
 
     @Override

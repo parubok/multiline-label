@@ -58,9 +58,9 @@ public class MultilineLabel extends JComponent implements Scrollable {
      * @param wLimit Width limit in pixels (incl. insets). Greater than 0. Applicable only if the text doesn't contain EOL.
      * @return Preferred size of text bounds.
      */
-    public static Dimension calculatePreferredSize(Insets insets, FontMetrics fm, String text, int wLimit) {
-        return ProvidedTextLayout.hasLines(text) ? ProvidedTextLayout.calcPreferredSize(text, fm, insets) :
-                WidthTextLayout.calcPreferredSize(insets, fm, text, wLimit);
+    public static Dimension calculatePreferredSize(JComponent c, Insets insets, FontMetrics fm, String text, int wLimit) {
+        return ProvidedTextLayout.hasLines(text) ? ProvidedTextLayout.calcPreferredSize(c, text, fm, insets) :
+                WidthTextLayout.calcPreferredSize(c, insets, fm, text, wLimit);
     }
 
     /**
