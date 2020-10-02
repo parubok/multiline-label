@@ -51,6 +51,8 @@ public class MultilineLabel extends JComponent implements Scrollable {
         MultilineLabel.applySystemAA = applySystemAA;
     }
 
+    private static MultilineLabel staticLabel;
+
     /**
      * @param insets Insets to include in the calculation. Not null.
      * @param fm     {@link FontMetrics} to calculate text size. Not null.
@@ -58,9 +60,12 @@ public class MultilineLabel extends JComponent implements Scrollable {
      * @param wLimit Width limit in pixels (incl. insets). Greater than 0. Applicable only if the text doesn't contain EOL.
      * @return Preferred size of text bounds.
      */
-    public static Dimension calculatePreferredSize(JComponent c, Insets insets, FontMetrics fm, String text, int wLimit) {
-        return ProvidedTextLayout.hasLines(text) ? ProvidedTextLayout.calcPreferredSize(c, text, fm, insets) :
-                WidthTextLayout.calcPreferredSize(c, insets, fm, text, wLimit);
+    public static Dimension calculatePreferredSize(Insets insets, FontMetrics fm, String text, int wLimit) {
+        if (staticLabel == null) {
+            staticLabel = new MultilineLabel();
+        }
+        return ProvidedTextLayout.hasLines(text) ? ProvidedTextLayout.calcPreferredSize(staticLabel, text, fm, insets) :
+                WidthTextLayout.calcPreferredSize(staticLabel, insets, fm, text, wLimit);
     }
 
     /**
@@ -71,11 +76,19 @@ public class MultilineLabel extends JComponent implements Scrollable {
      * @param enabled    If false - paint disabled text.
      * @param background Background color of the target component. Not null.
      */
-    public static void paintText(JComponent c, Graphics g, String text, Insets insets, int wLimit, boolean enabled, Color background) {
-        if (ProvidedTextLayout.hasLines(text)) {
-            ProvidedTextLayout.paintText(c, g, text, insets, enabled, background);
-        } else {
-            WidthTextLayout.paintText(c, g, text, insets, wLimit, enabled, background);
+    public static void paintText(Graphics g, String text, Insets insets, int wLimit, boolean enabled, Color background) {
+        if (staticLabel == null) {
+            staticLabel = new MultilineLabel();
+        }
+        Graphics gg = g.create();
+        try {
+            if (ProvidedTextLayout.hasLines(text)) {
+                ProvidedTextLayout.paintText(staticLabel, g, text, insets, enabled, background);
+            } else {
+                WidthTextLayout.paintText(staticLabel, g, text, insets, wLimit, enabled, background);
+            }
+        } finally {
+            gg.dispose();
         }
     }
 
