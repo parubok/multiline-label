@@ -29,8 +29,8 @@ public class MultilineLabel extends JComponent implements Scrollable {
 
     /**
      * @param insets Insets to include in the calculation. Not null.
-     * @param fm     {@link FontMetrics} to calculate text size. Not null.
-     * @param text   Text to calculate preferred size for. Not null.
+     * @param fm {@link FontMetrics} to calculate text size. Not null.
+     * @param text Text to calculate preferred size for. Not null.
      * @param wLimit Width limit in pixels (incl. insets). Greater than 0. Applicable only if the text doesn't contain EOL.
      * @return Preferred size of text bounds.
      */
@@ -40,11 +40,11 @@ public class MultilineLabel extends JComponent implements Scrollable {
     }
 
     /**
-     * @param g          Graphics to paint text on. Must be preconfigured with font, color and AA hints. Not null.
-     * @param text       Text to paint. Not null.
-     * @param insets     Insets. Not null.
-     * @param wLimit     Width limit in pixels (incl. insets). Greater than 0. Applicable only if the text doesn't contain EOL.
-     * @param enabled    If false - paint disabled text.
+     * @param g Graphics to paint text on. Must be preconfigured with font, color and AA hints. Not null.
+     * @param text Text to paint. Not null.
+     * @param insets Insets. Not null.
+     * @param wLimit Width limit in pixels (incl. insets). Greater than 0. Applicable only if the text doesn't contain EOL.
+     * @param enabled If false - paint disabled text.
      * @param background Background color of the target component. Used to paint disabled text. Not null.
      */
     public static void paintText(Graphics g, String text, Insets insets, int wLimit, boolean enabled, Color background) {
@@ -118,8 +118,8 @@ public class MultilineLabel extends JComponent implements Scrollable {
 
     /**
      * @param text Text of this label. Not null. The actually displayed text may differ from this value - multiple
-     *             adjacent spaces may collapsed into one space, text may trimmed, EOL may be inserted, etc.
-     *             Fires change event for property "text".
+     * adjacent spaces may collapsed into one space, text may trimmed, EOL may be inserted, etc.
+     * Fires change event for property "text".
      */
     public void setText(String text) {
         String oldValue = this.text;
@@ -177,8 +177,8 @@ public class MultilineLabel extends JComponent implements Scrollable {
      * This parameter allows to disable this behavior.
      * See https://stackoverflow.com/questions/39455573/how-to-set-fixed-width-but-dynamic-height-on-jtextpane/39466255#39466255
      *
-     * @param useCurrentWidthForPreferredSize If true, the label will try to layout its text according to the current width,
-     *                                        if false - the current width will be ignored by the text layout.
+     * @param useCurrentWidthForPreferredSize If true, the label will try to layout its text according to the current
+     * width, if false - the current width will be ignored by the text layout.
      */
     public void setUseCurrentWidthForPreferredSize(boolean useCurrentWidthForPreferredSize) {
         this.useCurrentWidthForPreferredSize = useCurrentWidthForPreferredSize;

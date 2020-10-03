@@ -82,9 +82,9 @@ final class WidthTextLayout extends AbstractTextLayout {
     }
 
     /**
-     * @param text       Text to display in {@link MultilineLabel}.
+     * @param text Text to display in {@link MultilineLabel}.
      * @param startIndex Index of 1st character in the new line.
-     * @param fm         Current {@link FontMetrics}.
+     * @param fm Current {@link FontMetrics}.
      * @param widthLimit Limit on the width of the line.
      * @return Object with details of the next line.
      */
