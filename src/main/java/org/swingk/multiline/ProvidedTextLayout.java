@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static javax.swing.plaf.basic.BasicGraphicsUtils.getStringWidth;
+import static org.swingk.multiline.MultilineUtils.toDimension;
 
 /**
  * Text layout where line breaks are provided in the text by line separators.
@@ -83,7 +84,7 @@ final class ProvidedTextLayout extends AbstractTextLayout {
         } else {
             textPrefWidth = textPrefHeight = 0;
         }
-        return new Dimension(textPrefWidth + insets.right + insets.left, textPrefHeight + insets.top + insets.bottom);
+        return toDimension(textPrefWidth, textPrefHeight, insets);
     }
 
     @Override

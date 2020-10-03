@@ -11,12 +11,15 @@ import java.awt.Insets;
 import java.awt.Rectangle;
 import java.util.Objects;
 
+import static org.swingk.multiline.MultilineUtils.toDimension;
+
 /**
  * Component to display plain text. Supports multiline text.
  * <p>
  * Operates in 2 modes:
  * <ol>
- *     <li>When the label text doesn't contain line separators, then the label dynamically decides how to break it into multiple lines.</li>
+ *     <li>When the label text doesn't contain line separators, then the label dynamically decides how to break it
+ *     into multiple lines according to available space.</li>
  *     <li>When the label text contains line separators, it is broken into lines according to them.</li>
  * </ol>
  * </p>
@@ -96,8 +99,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
         if (isMinimumSizeSet()) {
             return super.getMinimumSize();
         }
-        Insets insets = getInsets();
-        return new Dimension(insets.left + insets.right, insets.top + insets.bottom);
+        return toDimension(0, 0, getInsets());
     }
 
     @Override

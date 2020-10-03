@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.Insets;
 
 import static javax.swing.plaf.basic.BasicGraphicsUtils.getStringWidth;
+import static org.swingk.multiline.MultilineUtils.toDimension;
 
 /**
  * Dynamically calculates line breaks based on value of {@link MultilineLabel#getPreferredScrollableViewportSize()}
@@ -56,13 +57,12 @@ final class WidthTextLayout extends AbstractTextLayout {
         assert text != null;
         assert wLimit > 0;
 
-        final int horInsets = insets.right + insets.left;
         int textPrefWidth;
         int textPrefHeight;
         if (!text.isEmpty()) {
             NextLine nextLine;
             int startIndex = 0;
-            final int textWidthLimit = Math.max(1, wLimit - horInsets);
+            final int textWidthLimit = Math.max(1, wLimit - insets.right - insets.left);
             int lineCount = 0;
             int maxLineWidth = 0; // pixels
             do {
@@ -78,7 +78,7 @@ final class WidthTextLayout extends AbstractTextLayout {
         } else {
             textPrefWidth = textPrefHeight = 0;
         }
-        return new Dimension(textPrefWidth + horInsets, textPrefHeight + insets.top + insets.bottom);
+        return toDimension(textPrefWidth, textPrefHeight, insets);
     }
 
     /**
