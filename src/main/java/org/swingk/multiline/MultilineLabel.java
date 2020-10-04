@@ -14,7 +14,7 @@ import java.util.Objects;
 import static org.swingk.multiline.MultilineUtils.toDimension;
 
 /**
- * Component to display plain text. Supports multiline text.
+ * Component to display plain text (possibly on multiple lines).
  * <p>
  * Operates in 2 modes:
  * <ol>
