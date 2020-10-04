@@ -34,7 +34,8 @@ public class MultilineLabel extends JComponent implements Scrollable {
      * @param insets Insets to include in the calculation. Not null.
      * @param fm {@link FontMetrics} to calculate text size. Not null.
      * @param text Text to calculate preferred size for. Not null.
-     * @param wLimit Width limit in pixels (incl. insets). Greater than 0. Applicable only if the text doesn't contain EOL.
+     * @param wLimit Positive width limit in pixels (incl. insets). Applicable only if the text doesn't
+     * contain line separators.
      * @return Preferred size of text bounds.
      */
     public static Dimension calculatePreferredSize(Insets insets, FontMetrics fm, String text, int wLimit) {
@@ -45,8 +46,9 @@ public class MultilineLabel extends JComponent implements Scrollable {
     /**
      * @param g Graphics to paint text on. Must be preconfigured with font, color and AA hints. Not null.
      * @param text Text to paint. Not null.
-     * @param insets Insets. Not null.
-     * @param wLimit Width limit in pixels (incl. insets). Greater than 0. Applicable only if the text doesn't contain EOL.
+     * @param insets Insets to leave around the painted text. Not null.
+     * @param wLimit Positive width limit in pixels (incl. insets). Applicable only if the text doesn't
+     * contain line separators.
      * @param enabled If false - paint disabled text.
      * @param background Background color of the target component. Used to paint disabled text. Not null.
      */
