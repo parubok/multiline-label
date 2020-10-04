@@ -19,6 +19,12 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 
+/**
+ * TODO: scroll pane
+ * TODO: static methods
+ * TODO: english text
+ * TODO: display metrics
+ */
 public class Demo2 {
 
     public static void main(String[] args) {
