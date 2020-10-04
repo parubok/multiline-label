@@ -182,7 +182,7 @@ final class WidthTextLayout extends AbstractTextLayout {
 
     @Override
     public Dimension calculatePreferredSize() {
-        return calcPreferredSize(label, 0);
+        return calcPreferredSize(0);
     }
 
     protected void requestLayout() {
@@ -198,12 +198,12 @@ final class WidthTextLayout extends AbstractTextLayout {
                 && !textToRender.isEmpty()
                 && width > 0 && height > 0
                 && width != label.getWidth()
-                && calcPreferredSize(label, width).height != height) {
+                && calcPreferredSize(width).height != height) {
             requestLayout();
         }
     }
 
-    private Dimension calcPreferredSize(JComponent c, int expectedLabelWidth) {
+    private Dimension calcPreferredSize(int expectedLabelWidth) {
         final int wLimit;
         if (expectedLabelWidth > 0) {
             wLimit = expectedLabelWidth;
@@ -215,7 +215,7 @@ final class WidthTextLayout extends AbstractTextLayout {
         }
         final var fm = label.getFontMetrics(label.getFont());
         final var insets = label.getInsets();
-        return calcPreferredSize2(c, insets, fm, textToRender, wLimit);
+        return calcPreferredSize2(label, insets, fm, textToRender, wLimit);
     }
 
     @Override
