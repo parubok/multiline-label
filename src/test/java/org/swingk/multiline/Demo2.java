@@ -122,7 +122,9 @@ public class Demo2 {
             label.setPreferredSize(null);
         }
         int b = Integer.parseInt(borderSizeTextField.getText());
-        label.setBorder(BorderFactory.createLineBorder(Color.BLACK, b));
+        if (b > 0) {
+            label.setBorder(BorderFactory.createLineBorder(Color.BLACK, b));
+        }
         float f = Float.parseFloat(fontSizeTextField.getText());
         label.setFont(label.getFont().deriveFont(f));
         label.setEnabled(enabledCheckBox.isSelected());
