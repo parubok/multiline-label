@@ -76,6 +76,8 @@ public class Demo2 {
                         if (clipboardText != null) {
                             labelText = clipboardText;
                             updateLabel();
+                        } else {
+                            Toolkit.getDefaultToolkit().beep();
                         }
                     } catch (IOException | UnsupportedFlavorException ex) {
                         ex.printStackTrace();
