@@ -114,6 +114,7 @@ public class Demo2 {
 
     private void updateLabel() {
         MultilineLabel label = new MultilineLabel(labelText);
+
         if (prefSizeCheckBox.isSelected()) {
             int w = Integer.parseInt(widthTextField.getText());
             int h = Integer.parseInt(heightTextField.getText());
@@ -121,12 +122,15 @@ public class Demo2 {
         } else {
             label.setPreferredSize(null);
         }
+
         int b = Integer.parseInt(borderSizeTextField.getText());
         if (b > 0) {
             label.setBorder(BorderFactory.createLineBorder(Color.BLACK, b));
         }
+
         float f = Float.parseFloat(fontSizeTextField.getText());
         label.setFont(label.getFont().deriveFont(f));
+
         label.setEnabled(enabledCheckBox.isSelected());
 
         labelPanel.removeAll();
