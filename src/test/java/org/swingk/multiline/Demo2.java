@@ -7,6 +7,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
@@ -28,28 +29,25 @@ import java.io.IOException;
 public class Demo2 {
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new Demo2();
-        });
+        SwingUtilities.invokeLater(Demo2::new);
     }
 
-    private final MultilineLabel label;
+    private String labelText = Demo.LOREM_IPSUM;
+
     private final JCheckBox prefSizeCheckBox;
     private final JTextField widthTextField;
     private final JTextField heightTextField;
     private final JTextField borderSizeTextField;
     private final JTextField fontSizeTextField;
     private final JCheckBox enabledCheckBox;
+    private final JCheckBox scrollPaneCheckBox;
+    private final JPanel labelPanel;
 
     private Demo2() {
         JPanel contentPanel = new JPanel(new BorderLayout());
         contentPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        label = new MultilineLabel();
-        label.setText(Demo.LOREM_IPSUM);
-
-        JPanel labelPanel = new JPanel();
-        labelPanel.add(label);
+        labelPanel = new JPanel();
         contentPanel.add(labelPanel, BorderLayout.CENTER);
 
         JPanel controlsPanel = new JPanel();
@@ -67,13 +65,18 @@ public class Demo2 {
         fontSizeTextField.setColumns(5);
         enabledCheckBox = new JCheckBox("Enabled");
         enabledCheckBox.setSelected(true);
+        scrollPaneCheckBox = new JCheckBox("Scroll pane");
         JButton setButton = new JButton("Set");
         setButton.addActionListener(e -> updateLabel());
         JButton pasteButton = new JButton("Paste");
         pasteButton.addActionListener(e -> {
                     try {
                         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-                        label.setText((String) clipboard.getData(DataFlavor.stringFlavor));
+                        String clipboardText = (String) clipboard.getData(DataFlavor.stringFlavor);
+                        if (clipboardText != null) {
+                            labelText = clipboardText;
+                            updateLabel();
+                        }
                     } catch (IOException | UnsupportedFlavorException ex) {
                         ex.printStackTrace();
                     }
@@ -89,6 +92,7 @@ public class Demo2 {
         controlsPanel.add(new JLabel("Font:"));
         controlsPanel.add(fontSizeTextField);
         controlsPanel.add(enabledCheckBox);
+        controlsPanel.add(scrollPaneCheckBox);
         controlsPanel.add(setButton);
         controlsPanel.add(pasteButton);
 
@@ -107,6 +111,7 @@ public class Demo2 {
     }
 
     private void updateLabel() {
+        MultilineLabel label = new MultilineLabel(labelText);
         if (prefSizeCheckBox.isSelected()) {
             int w = Integer.parseInt(widthTextField.getText());
             int h = Integer.parseInt(heightTextField.getText());
@@ -119,7 +124,10 @@ public class Demo2 {
         float f = Float.parseFloat(fontSizeTextField.getText());
         label.setFont(label.getFont().deriveFont(f));
         label.setEnabled(enabledCheckBox.isSelected());
-        label.revalidate();
-        label.repaint();
+
+        labelPanel.removeAll();
+        labelPanel.add(scrollPaneCheckBox.isSelected() ? new JScrollPane(label) : label);
+        labelPanel.revalidate();
+        labelPanel.repaint();
     }
 }
