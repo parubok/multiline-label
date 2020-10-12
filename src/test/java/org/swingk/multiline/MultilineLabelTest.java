@@ -11,6 +11,10 @@ import java.awt.Insets;
 
 class MultilineLabelTest {
 
+    public static final String LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed " +
+            "bibendum, lacus vel convallis consectetur, erat dui pharetra lectus, ac venenatis nulla nisi eget erat. " +
+            "Donec ornare volutpat augue, a venenatis magna rutrum non.";
+
     @Test
     void basic_test_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
@@ -41,8 +45,8 @@ class MultilineLabelTest {
     void setGetText() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel();
-            label.setText(Demo.LOREM_IPSUM);
-            Assertions.assertEquals(Demo.LOREM_IPSUM, label.getText());
+            label.setText(LOREM_IPSUM);
+            Assertions.assertEquals(LOREM_IPSUM, label.getText());
             label.setText(" ");
             Assertions.assertEquals(" ", label.getText());
         });
@@ -51,7 +55,7 @@ class MultilineLabelTest {
     @Test
     void getPreferredSize_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
-            var label = new MultilineLabel(Demo.LOREM_IPSUM);
+            var label = new MultilineLabel(LOREM_IPSUM);
             Assertions.assertEquals(new Dimension(488, 48), label.getPreferredSize());
 
             label.setPreferredWidthLimit(1000);
@@ -74,18 +78,18 @@ class MultilineLabelTest {
     @Test
     void calculatePreferredSize_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
-            var label = new MultilineLabel(Demo.LOREM_IPSUM);
+            var label = new MultilineLabel(LOREM_IPSUM);
             Assertions.assertEquals(new Dimension(488, 48), MultilineLabel.calculatePreferredSize(new Insets(0, 0, 0, 0),
-                    label.getFontMetrics(label.getFont()), Demo.LOREM_IPSUM, label.getPreferredWidthLimit()));
+                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, label.getPreferredWidthLimit()));
 
             Assertions.assertEquals(new Dimension(987, 32), MultilineLabel.calculatePreferredSize(new Insets(0, 0, 0, 0),
-                    label.getFontMetrics(label.getFont()), Demo.LOREM_IPSUM, 1_000));
+                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, 1_000));
 
             Assertions.assertEquals(new Dimension(72, 528), MultilineLabel.calculatePreferredSize(new Insets(0, 0, 0, 0),
-                    label.getFontMetrics(label.getFont()), Demo.LOREM_IPSUM, 10));
+                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, 10));
 
             Assertions.assertEquals(new Dimension(488, 48), MultilineLabel.calculatePreferredSize(new Insets(0, 0, 0, 0),
-                    label.getFontMetrics(label.getFont()), Demo.LOREM_IPSUM, MultilineLabel.DEFAULT_WIDTH_LIMIT));
+                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, MultilineLabel.DEFAULT_WIDTH_LIMIT));
         });
     }
 
@@ -101,7 +105,7 @@ class MultilineLabelTest {
     @Test
     void getPreferredSize_3() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
-            var label = new MultilineLabel(Demo.LOREM_IPSUM);
+            var label = new MultilineLabel(LOREM_IPSUM);
             label.setBorder(new EmptyBorder(10, 20, 30, 40));
             Assertions.assertEquals(new Dimension(499, 88), label.getPreferredSize());
             label.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -122,15 +126,15 @@ class MultilineLabelTest {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel();
             Assertions.assertEquals(new Dimension(499, 88), MultilineLabel.calculatePreferredSize(new Insets(10, 20, 30, 40),
-                    label.getFontMetrics(label.getFont()), Demo.LOREM_IPSUM, MultilineLabel.DEFAULT_WIDTH_LIMIT));
+                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, MultilineLabel.DEFAULT_WIDTH_LIMIT));
             Assertions.assertEquals(new Dimension(489, 48), MultilineLabel.calculatePreferredSize(new Insets(0, 1, 0, 0),
-                    label.getFontMetrics(label.getFont()), Demo.LOREM_IPSUM, MultilineLabel.DEFAULT_WIDTH_LIMIT));
+                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, MultilineLabel.DEFAULT_WIDTH_LIMIT));
             Assertions.assertEquals(new Dimension(489, 48), MultilineLabel.calculatePreferredSize(new Insets(0, 0, 0, 1),
-                    label.getFontMetrics(label.getFont()), Demo.LOREM_IPSUM, MultilineLabel.DEFAULT_WIDTH_LIMIT));
+                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, MultilineLabel.DEFAULT_WIDTH_LIMIT));
             Assertions.assertEquals(new Dimension(488, 53), MultilineLabel.calculatePreferredSize(new Insets(5, 0, 0, 0),
-                    label.getFontMetrics(label.getFont()), Demo.LOREM_IPSUM, MultilineLabel.DEFAULT_WIDTH_LIMIT));
+                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, MultilineLabel.DEFAULT_WIDTH_LIMIT));
             Assertions.assertEquals(new Dimension(488, 56), MultilineLabel.calculatePreferredSize(new Insets(5, 0, 3, 0),
-                    label.getFontMetrics(label.getFont()), Demo.LOREM_IPSUM, MultilineLabel.DEFAULT_WIDTH_LIMIT));
+                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, MultilineLabel.DEFAULT_WIDTH_LIMIT));
         });
     }
 
@@ -180,7 +184,7 @@ class MultilineLabelTest {
     @Test
     void setCurrentWidthIgnoredForPreferredSizeCalculation_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
-            var label = new MultilineLabel(Demo.LOREM_IPSUM);
+            var label = new MultilineLabel(LOREM_IPSUM);
             Assertions.assertTrue(label.isUseCurrentWidthForPreferredSize());
             Assertions.assertEquals(new Dimension(488, 48), label.getPreferredSize());
 
@@ -200,7 +204,7 @@ class MultilineLabelTest {
     @Test
     void getTextLayout() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
-            var label = new MultilineLabel(Demo.LOREM_IPSUM);
+            var label = new MultilineLabel(LOREM_IPSUM);
             Assertions.assertTrue(label.getTextLayout() instanceof WidthTextLayout);
             label.setText("line1\nline2");
             Assertions.assertTrue(label.getTextLayout() instanceof ProvidedTextLayout);
@@ -210,7 +214,7 @@ class MultilineLabelTest {
     @Test
     void setPreferredSize_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
-            var label = new MultilineLabel(Demo.LOREM_IPSUM);
+            var label = new MultilineLabel(LOREM_IPSUM);
             var d = new Dimension(13, 15);
             label.setPreferredSize(d);
             Assertions.assertEquals(d, label.getPreferredSize());
