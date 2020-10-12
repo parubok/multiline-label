@@ -20,17 +20,12 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 
 /**
- * TODO: scroll pane
  * TODO: static methods
- * TODO: english text
  * TODO: display metrics
  */
 public class Demo2 {
 
     private static final String TEXT = "Reference types are the class types, the interface types, and the array types. The reference types are implemented by dynamically created objects that are either instances of classes or arrays. Many references to each object can exist. All objects (including arrays) support the methods of the class Object, which is the (single) root of the class hierarchy. A predefined String class supports Unicode character strings. Classes exist for wrapping primitive values inside of objects. In many cases, wrapping and unwrapping is performed automatically by the compiler (in which case, wrapping is called boxing, and unwrapping is called unboxing). Class and interface declarations may be generic, that is, they may be parameterized by other reference types. Such declarations may then be invoked with specific type arguments.";
-
-    private static final String LAYOUT_FLOW = "FlowLayout";
-    private static final String LAYOUT_BORDER_CENTER = "BorderLayout (CENTER)";
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Demo2::new);
