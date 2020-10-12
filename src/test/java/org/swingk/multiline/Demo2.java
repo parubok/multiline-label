@@ -20,7 +20,7 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 
 /**
- * TODO: static methods
+ * TODO: static methods (separate demo)
  * TODO: display metrics
  */
 public class Demo2 {
