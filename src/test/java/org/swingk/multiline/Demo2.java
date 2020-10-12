@@ -7,7 +7,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
@@ -28,19 +27,24 @@ import java.io.IOException;
  */
 public class Demo2 {
 
+    private static final String TEXT = "Reference types are the class types, the interface types, and the array types. The reference types are implemented by dynamically created objects that are either instances of classes or arrays. Many references to each object can exist. All objects (including arrays) support the methods of the class Object, which is the (single) root of the class hierarchy. A predefined String class supports Unicode character strings. Classes exist for wrapping primitive values inside of objects. In many cases, wrapping and unwrapping is performed automatically by the compiler (in which case, wrapping is called boxing, and unwrapping is called unboxing). Class and interface declarations may be generic, that is, they may be parameterized by other reference types. Such declarations may then be invoked with specific type arguments.";
+
+    private static final String LAYOUT_FLOW = "FlowLayout";
+    private static final String LAYOUT_BORDER_CENTER = "BorderLayout (CENTER)";
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Demo2::new);
     }
 
-    private String labelText = Demo.LOREM_IPSUM;
+    private String labelText = TEXT;
 
+    private final JTextField preferredWidthLimitTextField;
     private final JCheckBox prefSizeCheckBox;
     private final JTextField widthTextField;
     private final JTextField heightTextField;
     private final JTextField borderSizeTextField;
     private final JTextField fontSizeTextField;
     private final JCheckBox enabledCheckBox;
-    private final JCheckBox scrollPaneCheckBox;
     private final JPanel labelPanel;
 
     private Demo2() {
@@ -53,6 +57,8 @@ public class Demo2 {
         JPanel controlsPanel = new JPanel();
         controlsPanel.setLayout(new BoxLayout(controlsPanel, BoxLayout.Y_AXIS));
         controlsPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
+
+        preferredWidthLimitTextField = new JTextField(Integer.toString(MultilineLabel.DEFAULT_WIDTH_LIMIT));
         prefSizeCheckBox = new JCheckBox("Preferred Size:");
         prefSizeCheckBox.setSelected(true);
         widthTextField = new JTextField("400");
@@ -65,7 +71,7 @@ public class Demo2 {
         fontSizeTextField.setColumns(5);
         enabledCheckBox = new JCheckBox("Enabled");
         enabledCheckBox.setSelected(true);
-        scrollPaneCheckBox = new JCheckBox("Scroll pane");
+
         JButton setButton = new JButton("Set");
         setButton.addActionListener(e -> updateLabel());
         JButton pasteButton = new JButton("Paste");
@@ -84,6 +90,8 @@ public class Demo2 {
                     }
                 }
         );
+        controlsPanel.add(new JLabel("Preferred Width Limit:"));
+        controlsPanel.add(preferredWidthLimitTextField);
         controlsPanel.add(prefSizeCheckBox);
         controlsPanel.add(new JLabel("Width:"));
         controlsPanel.add(widthTextField);
@@ -94,7 +102,6 @@ public class Demo2 {
         controlsPanel.add(new JLabel("Font:"));
         controlsPanel.add(fontSizeTextField);
         controlsPanel.add(enabledCheckBox);
-        controlsPanel.add(scrollPaneCheckBox);
         controlsPanel.add(setButton);
         controlsPanel.add(pasteButton);
 
@@ -115,6 +122,8 @@ public class Demo2 {
     private void updateLabel() {
         MultilineLabel label = new MultilineLabel(labelText);
 
+        label.setPreferredWidthLimit(Integer.parseInt(preferredWidthLimitTextField.getText()));
+
         if (prefSizeCheckBox.isSelected()) {
             int w = Integer.parseInt(widthTextField.getText());
             int h = Integer.parseInt(heightTextField.getText());
@@ -134,7 +143,7 @@ public class Demo2 {
         label.setEnabled(enabledCheckBox.isSelected());
 
         labelPanel.removeAll();
-        labelPanel.add(scrollPaneCheckBox.isSelected() ? new JScrollPane(label) : label);
+        labelPanel.add(label);
         labelPanel.revalidate();
         labelPanel.repaint();
     }
