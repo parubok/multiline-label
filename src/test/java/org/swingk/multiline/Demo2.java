@@ -25,7 +25,15 @@ import java.io.IOException;
  */
 public class Demo2 {
 
-    private static final String TEXT = "Reference types are the class types, the interface types, and the array types. The reference types are implemented by dynamically created objects that are either instances of classes or arrays. Many references to each object can exist. All objects (including arrays) support the methods of the class Object, which is the (single) root of the class hierarchy. A predefined String class supports Unicode character strings. Classes exist for wrapping primitive values inside of objects. In many cases, wrapping and unwrapping is performed automatically by the compiler (in which case, wrapping is called boxing, and unwrapping is called unboxing). Class and interface declarations may be generic, that is, they may be parameterized by other reference types. Such declarations may then be invoked with specific type arguments.";
+    private static final String TEXT = "Reference types are the class types, the interface types, and the array " +
+            "types. The reference types are implemented by dynamically created objects that are either instances of " +
+            "classes or arrays. Many references to each object can exist. All objects (including arrays) support " +
+            "the methods of the class Object, which is the (single) root of the class hierarchy. A predefined " +
+            "String class supports Unicode character strings. Classes exist for wrapping primitive values inside " +
+            "of objects. In many cases, wrapping and unwrapping is performed automatically by the compiler (in " +
+            "which case, wrapping is called boxing, and unwrapping is called unboxing). Class and interface " +
+            "declarations may be generic, that is, they may be parameterized by other reference types. Such " +
+            "declarations may then be invoked with specific type arguments.";
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Demo2::new);
@@ -55,7 +63,7 @@ public class Demo2 {
 
         preferredWidthLimitTextField = new JTextField(Integer.toString(MultilineLabel.DEFAULT_WIDTH_LIMIT));
         prefSizeCheckBox = new JCheckBox("Preferred Size:");
-        prefSizeCheckBox.setSelected(true);
+        prefSizeCheckBox.setSelected(false);
         widthTextField = new JTextField("400");
         widthTextField.setColumns(5);
         heightTextField = new JTextField("200");
@@ -107,7 +115,7 @@ public class Demo2 {
         JFrame frame = new JFrame("Demo2");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(contentPanel);
-        frame.setSize(1200, 600);
+        frame.setSize(1000, 500);
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
 
