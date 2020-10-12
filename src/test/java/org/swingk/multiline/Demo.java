@@ -23,7 +23,7 @@ import java.io.IOException;
  * TODO: static methods (separate demo)
  * TODO: display metrics
  */
-public class Demo2 {
+public class Demo {
 
     private static final String TEXT = "Reference types are the class types, the interface types, and the array " +
             "types. The reference types are implemented by dynamically created objects that are either instances of " +
@@ -36,7 +36,7 @@ public class Demo2 {
             "declarations may then be invoked with specific type arguments.";
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(Demo2::new);
+        SwingUtilities.invokeLater(Demo::new);
     }
 
     private String labelText = TEXT;
@@ -50,7 +50,7 @@ public class Demo2 {
     private final JCheckBox enabledCheckBox;
     private final JPanel labelPanel;
 
-    private Demo2() {
+    private Demo() {
         JPanel contentPanel = new JPanel(new BorderLayout());
         contentPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
