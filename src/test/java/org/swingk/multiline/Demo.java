@@ -25,7 +25,7 @@ import java.io.IOException;
  */
 public class Demo {
 
-    private static final String TEXT = "Reference types are the class types, the interface types, and the array " +
+    static final String TEXT = "Reference types are the class types, the interface types, and the array " +
             "types. The reference types are implemented by dynamically created objects that are either instances of " +
             "classes or arrays. Many references to each object can exist. All objects (including arrays) support " +
             "the methods of the class Object, which is the (single) root of the class hierarchy. A predefined " +
