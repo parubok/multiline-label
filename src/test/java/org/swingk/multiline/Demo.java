@@ -112,7 +112,7 @@ public class Demo {
         westPanel.add(controlsPanel, BorderLayout.NORTH);
         contentPanel.add(westPanel, BorderLayout.WEST);
 
-        JFrame frame = new JFrame("Demo2");
+        JFrame frame = new JFrame("Demo: multiline-label");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(contentPanel);
         frame.setSize(1000, 500);
