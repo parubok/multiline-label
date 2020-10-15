@@ -154,6 +154,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
     /**
      * Note: This property is ignored if the text contains line separators.
      *
+     * @return A limit on a preferred width value to use for preferred size calculation.
      * @see #DEFAULT_WIDTH_LIMIT
      */
     public int getPreferredWidthLimit() {
@@ -162,6 +163,10 @@ public class MultilineLabel extends JComponent implements Scrollable {
 
     /**
      * Note: This property is ignored if the text contains line separators.
+     *
+     * @param prefWidthLimit A limit on a preferred width value to use for preferred size calculation.
+     * Default: {@link #DEFAULT_WIDTH_LIMIT}.
+     * @see #getPreferredSize()
      */
     public void setPreferredWidthLimit(int prefWidthLimit) {
         if (prefWidthLimit < 1) {
@@ -205,11 +210,13 @@ public class MultilineLabel extends JComponent implements Scrollable {
 
     @Override
     public boolean getScrollableTracksViewportWidth() {
+        // no horizontal scroll bar
         return true;
     }
 
     @Override
     public boolean getScrollableTracksViewportHeight() {
+        // vertical scroll bar is OK
         return false;
     }
 
