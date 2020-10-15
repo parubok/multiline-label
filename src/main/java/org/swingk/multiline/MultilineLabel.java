@@ -140,6 +140,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
      * @see #setPreferredWidthLimit(int)
      */
     public boolean isWidthBasedLayout() {
+        assert textLayout != null;
         return textLayout instanceof WidthTextLayout;
     }
 
