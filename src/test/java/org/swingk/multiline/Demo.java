@@ -13,6 +13,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
@@ -78,21 +79,7 @@ public class Demo {
         JButton setButton = new JButton("Set");
         setButton.addActionListener(e -> updateLabel());
         JButton pasteButton = new JButton("Paste");
-        pasteButton.addActionListener(e -> {
-                    try {
-                        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-                        String clipboardText = (String) clipboard.getData(DataFlavor.stringFlavor);
-                        if (clipboardText != null) {
-                            labelText = clipboardText;
-                            updateLabel();
-                        } else {
-                            Toolkit.getDefaultToolkit().beep();
-                        }
-                    } catch (IOException | UnsupportedFlavorException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-        );
+        pasteButton.addActionListener(e -> pasteText());
         controlsPanel.add(new JLabel("Preferred Width Limit:"));
         controlsPanel.add(preferredWidthLimitTextField);
         controlsPanel.add(prefSizeCheckBox);
@@ -122,8 +109,29 @@ public class Demo {
         updateLabel();
     }
 
+    private void pasteText() {
+        try {
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            String clipboardText = (String) clipboard.getData(DataFlavor.stringFlavor);
+            if (clipboardText != null) {
+                labelText = clipboardText;
+                updateLabel();
+            } else {
+                Toolkit.getDefaultToolkit().beep();
+            }
+        } catch (IOException | UnsupportedFlavorException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     private void updateLabel() {
-        MultilineLabel label = new MultilineLabel(labelText);
+        MultilineLabel label = new MultilineLabel(labelText) {
+            @Override
+            public void paint(Graphics g) {
+                System.out.println(getBounds());
+                super.paint(g);
+            }
+        };
 
         label.setPreferredWidthLimit(Integer.parseInt(preferredWidthLimitTextField.getText()));
 
