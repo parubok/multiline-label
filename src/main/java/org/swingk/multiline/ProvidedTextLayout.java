@@ -39,6 +39,14 @@ final class ProvidedTextLayout extends AbstractTextLayout {
         return lineStream(text).skip(1).findFirst().isPresent();
     }
 
+    /**
+     * @param c Component. If not null, its AA settings will be used for the painting.
+     * @param g Not null.
+     * @param text Text to paint. Not null.
+     * @param insets Insets to honor when painting. Not null.
+     * @param enabled Paint text as enabled or disabled.
+     * @param backgroundColor Needed to paint disabled text. Not null.
+     */
     static void paintText(JComponent c, Graphics g, String text, Insets insets, boolean enabled, Color backgroundColor) {
         paintText2(c, g, breakToLines(text), insets, enabled, backgroundColor);
     }
