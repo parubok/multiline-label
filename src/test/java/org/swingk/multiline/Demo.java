@@ -13,7 +13,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
@@ -125,14 +124,7 @@ public class Demo {
     }
 
     private void updateLabel() {
-        MultilineLabel label = new MultilineLabel(labelText) {
-            @Override
-            public void paint(Graphics g) {
-                System.out.println(getBounds());
-                super.paint(g);
-            }
-        };
-
+        MultilineLabel label = new MultilineLabel(labelText);
         label.setPreferredWidthLimit(Integer.parseInt(preferredWidthLimitTextField.getText()));
 
         if (prefSizeCheckBox.isSelected()) {
