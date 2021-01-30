@@ -48,35 +48,39 @@ final class ProvidedTextLayout extends AbstractTextLayout {
      * @param enabled Paint text as enabled or disabled.
      * @param backgroundColor Needed to paint disabled text. Not null.
      */
-    static void paintText(JComponent c, Graphics g, String text, Insets insets, boolean enabled, Color backgroundColor) {
-        paintText2(c, g, breakToLines(text), insets, enabled, backgroundColor);
+    static void paintText(JComponent c, Graphics g, String text, Insets insets, boolean enabled, Color backgroundColor,
+                          float lineSpacing) {
+        paintText2(c, g, breakToLines(text), insets, enabled, backgroundColor, lineSpacing);
     }
 
     private static void paintText2(JComponent c, Graphics g, List<String> lines, Insets insets, boolean enabled,
-                                   Color background) {
+                                   Color background, float lineSpacing) {
         final var fm = g.getFontMetrics();
         final int x = insets.left;
         int y = insets.top + fm.getAscent();
+        final int yIncrement = MultilineUtils.getHeightIncrement(fm, lineSpacing);
         for (String line : lines) {
             if (enabled) {
                 drawString(c, g, line, x, y);
             } else {
                 drawStringInDisabledStyle(c, line, g, background, x, y);
             }
-            y += fm.getHeight();
+            y += yIncrement;
         }
     }
 
     @Override
     public void paintText(Graphics g) {
-        paintText2(label, g, lines, label.getInsets(), label.isEnabled(), label.getBackground());
+        paintText2(label, g, lines, label.getInsets(), label.isEnabled(), label.getBackground(),
+                label.getLineSpacing());
     }
 
-    static Dimension calcPreferredSize(JComponent c, String text, FontMetrics fm, Insets insets) {
-        return calcPreferredSize(c, breakToLines(text), fm, insets);
+    static Dimension calcPreferredSize(JComponent c, String text, FontMetrics fm, Insets insets, float lineSpacing) {
+        return calcPreferredSize(c, breakToLines(text), fm, insets, lineSpacing);
     }
 
-    static Dimension calcPreferredSize(JComponent c, List<String> lines, FontMetrics fm, Insets insets) {
+    static Dimension calcPreferredSize(JComponent c, List<String> lines, FontMetrics fm, Insets insets,
+                                       float lineSpacing) {
         assert lines != null;
         assert fm != null;
         assert insets != null;
@@ -89,7 +93,7 @@ final class ProvidedTextLayout extends AbstractTextLayout {
                 maxLineWidth = Math.max(maxLineWidth, Math.round(getStringWidth(c, fm, line)));
             }
             textPrefWidth = maxLineWidth;
-            textPrefHeight = getTextPreferredHeight(lines.size(), fm);
+            textPrefHeight = getTextPreferredHeight(lines.size(), fm, lineSpacing);
         } else {
             textPrefWidth = textPrefHeight = 0;
         }
@@ -98,7 +102,8 @@ final class ProvidedTextLayout extends AbstractTextLayout {
 
     @Override
     public Dimension calculatePreferredSize() {
-        return calcPreferredSize(label, lines, label.getFontMetrics(label.getFont()), label.getInsets());
+        return calcPreferredSize(label, lines, label.getFontMetrics(label.getFont()), label.getInsets(),
+                label.getLineSpacing());
     }
 
     @Override

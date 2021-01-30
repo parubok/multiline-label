@@ -38,9 +38,11 @@ public class MultilineLabel extends JComponent implements Scrollable {
      * contain line separators.
      * @return Preferred size of text bounds.
      */
-    public static Dimension calculatePreferredSize(Insets insets, FontMetrics fm, String text, int wLimit) {
-        return ProvidedTextLayout.hasLines(text) ? ProvidedTextLayout.calcPreferredSize(null, text, fm, insets) :
-                WidthTextLayout.calcPreferredSize(null, insets, fm, text, wLimit);
+    public static Dimension calculatePreferredSize(JComponent c, Insets insets, FontMetrics fm, String text,
+                                                   int wLimit, float lineSpacing) {
+        return ProvidedTextLayout.hasLines(text) ?
+                ProvidedTextLayout.calcPreferredSize(c, text, fm, insets, lineSpacing) :
+                WidthTextLayout.calcPreferredSize(c, insets, fm, text, wLimit, lineSpacing);
     }
 
     /**
@@ -56,15 +58,15 @@ public class MultilineLabel extends JComponent implements Scrollable {
      * @param background Background color of the target component. Used to paint disabled text. Not null.
      */
     public static void paintText(JComponent c, Graphics g, String text, Insets insets, int wLimit, boolean enabled,
-                                 Color background) {
+                                 Color background, float lineSpacing) {
         assert g != null;
         assert text != null;
         assert insets != null;
         assert background != null;
         if (ProvidedTextLayout.hasLines(text)) {
-            ProvidedTextLayout.paintText(c, g, text, insets, enabled, background);
+            ProvidedTextLayout.paintText(c, g, text, insets, enabled, background, lineSpacing);
         } else {
-            WidthTextLayout.paintText(c, g, text, insets, wLimit, enabled, background);
+            WidthTextLayout.paintText(c, g, text, insets, wLimit, enabled, background, lineSpacing);
         }
     }
 
@@ -72,6 +74,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
     private TextLayout textLayout; // not null after constructor
     private int prefWidthLimit = DEFAULT_WIDTH_LIMIT;
     private boolean useCurrentWidthForPreferredSize = true;
+    private float lineSpacing = 1.0f;
 
     public MultilineLabel() {
         this("");
@@ -227,6 +230,31 @@ public class MultilineLabel extends JComponent implements Scrollable {
     public boolean getScrollableTracksViewportHeight() {
         // vertical scroll bar is OK
         return false;
+    }
+
+    /**
+     * @return Value of X means line spacing (distance between two adjacent baselines) will be the font
+     * height as returned by {@link FontMetrics#getHeight()} multiplied by X.
+     */
+    public float getLineSpacing() {
+        return lineSpacing;
+    }
+
+    /**
+     * @param lineSpacing Value of X means line spacing (distance between two adjacent baselines) will be the font
+     * height as returned by {@link FontMetrics#getHeight()} multiplied by X.
+     * <p>
+     * Fires {@link java.beans.PropertyChangeEvent} for {@code "lineSpacing"} property.
+     */
+    public void setLineSpacing(float lineSpacing) {
+        if (lineSpacing <= 0.0f) {
+            throw new IllegalArgumentException("Line spacing must be positive.");
+        }
+        float oldValue = this.lineSpacing;
+        this.lineSpacing = lineSpacing;
+        firePropertyChange("lineSpacing", Float.valueOf(oldValue), Float.valueOf(this.lineSpacing));
+        revalidate();
+        repaint();
     }
 
     @Override

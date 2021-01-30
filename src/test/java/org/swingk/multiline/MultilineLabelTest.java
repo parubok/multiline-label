@@ -25,8 +25,9 @@ class MultilineLabelTest {
             Assertions.assertEquals("", label.getText());
             Assertions.assertEquals(MultilineLabel.DEFAULT_WIDTH_LIMIT, label.getPreferredWidthLimit());
             Assertions.assertEquals(new Dimension(0, 0), label.getPreferredSize());
-            Assertions.assertEquals(new Dimension(0, 0), MultilineLabel.calculatePreferredSize(new Insets(0, 0, 0, 0),
-                    label.getFontMetrics(label.getFont()), "", label.getPreferredWidthLimit()));
+            Assertions.assertEquals(new Dimension(0, 0), MultilineLabel.calculatePreferredSize(label,
+                    new Insets(0, 0, 0, 0), label.getFontMetrics(label.getFont()), "", label.getPreferredWidthLimit(),
+                    1.0f));
             Assertions.assertEquals(new JLabel().getFont(), label.getFont());
             Assertions.assertEquals(new JLabel().getForeground(), label.getForeground());
             Assertions.assertEquals(new JLabel().getBackground(), label.getBackground());
@@ -81,17 +82,17 @@ class MultilineLabelTest {
     void calculatePreferredSize_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel(LOREM_IPSUM);
-            Assertions.assertEquals(new Dimension(488, 48), MultilineLabel.calculatePreferredSize(new Insets(0, 0, 0, 0),
-                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, label.getPreferredWidthLimit()));
+            Assertions.assertEquals(new Dimension(488, 48), MultilineLabel.calculatePreferredSize(label, new Insets(0, 0, 0, 0),
+                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, label.getPreferredWidthLimit(), 1.0f));
 
-            Assertions.assertEquals(new Dimension(987, 32), MultilineLabel.calculatePreferredSize(new Insets(0, 0, 0, 0),
-                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, 1_000));
+            Assertions.assertEquals(new Dimension(987, 32), MultilineLabel.calculatePreferredSize(label, new Insets(0, 0, 0, 0),
+                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, 1_000, 1.0f));
 
-            Assertions.assertEquals(new Dimension(72, 528), MultilineLabel.calculatePreferredSize(new Insets(0, 0, 0, 0),
-                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, 10));
+            Assertions.assertEquals(new Dimension(72, 528), MultilineLabel.calculatePreferredSize(label, new Insets(0, 0, 0, 0),
+                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, 10, 1.0f));
 
-            Assertions.assertEquals(new Dimension(488, 48), MultilineLabel.calculatePreferredSize(new Insets(0, 0, 0, 0),
-                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, MultilineLabel.DEFAULT_WIDTH_LIMIT));
+            Assertions.assertEquals(new Dimension(488, 48), MultilineLabel.calculatePreferredSize(label, new Insets(0, 0, 0, 0),
+                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, MultilineLabel.DEFAULT_WIDTH_LIMIT, 1.0f));
         });
     }
 
@@ -127,16 +128,16 @@ class MultilineLabelTest {
     void calculatePreferredSize_2() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel();
-            Assertions.assertEquals(new Dimension(499, 88), MultilineLabel.calculatePreferredSize(new Insets(10, 20, 30, 40),
-                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, MultilineLabel.DEFAULT_WIDTH_LIMIT));
-            Assertions.assertEquals(new Dimension(489, 48), MultilineLabel.calculatePreferredSize(new Insets(0, 1, 0, 0),
-                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, MultilineLabel.DEFAULT_WIDTH_LIMIT));
-            Assertions.assertEquals(new Dimension(489, 48), MultilineLabel.calculatePreferredSize(new Insets(0, 0, 0, 1),
-                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, MultilineLabel.DEFAULT_WIDTH_LIMIT));
-            Assertions.assertEquals(new Dimension(488, 53), MultilineLabel.calculatePreferredSize(new Insets(5, 0, 0, 0),
-                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, MultilineLabel.DEFAULT_WIDTH_LIMIT));
-            Assertions.assertEquals(new Dimension(488, 56), MultilineLabel.calculatePreferredSize(new Insets(5, 0, 3, 0),
-                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, MultilineLabel.DEFAULT_WIDTH_LIMIT));
+            Assertions.assertEquals(new Dimension(499, 88), MultilineLabel.calculatePreferredSize(label, new Insets(10, 20, 30, 40),
+                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, MultilineLabel.DEFAULT_WIDTH_LIMIT, 1.0f));
+            Assertions.assertEquals(new Dimension(489, 48), MultilineLabel.calculatePreferredSize(label, new Insets(0, 1, 0, 0),
+                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, MultilineLabel.DEFAULT_WIDTH_LIMIT, 1.0f));
+            Assertions.assertEquals(new Dimension(489, 48), MultilineLabel.calculatePreferredSize(label, new Insets(0, 0, 0, 1),
+                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, MultilineLabel.DEFAULT_WIDTH_LIMIT, 1.0f));
+            Assertions.assertEquals(new Dimension(488, 53), MultilineLabel.calculatePreferredSize(label, new Insets(5, 0, 0, 0),
+                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, MultilineLabel.DEFAULT_WIDTH_LIMIT, 1.0f));
+            Assertions.assertEquals(new Dimension(488, 56), MultilineLabel.calculatePreferredSize(label, new Insets(5, 0, 3, 0),
+                    label.getFontMetrics(label.getFont()), LOREM_IPSUM, MultilineLabel.DEFAULT_WIDTH_LIMIT, 1.0f));
         });
     }
 
@@ -164,14 +165,16 @@ class MultilineLabelTest {
     void calculatePreferredSize_3() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel();
-            Assertions.assertEquals(new Dimension(27, 32), MultilineLabel.calculatePreferredSize(new Insets(0, 0, 0, 0),
-                    label.getFontMetrics(label.getFont()), "line1\nline2", MultilineLabel.DEFAULT_WIDTH_LIMIT));
-            Assertions.assertEquals(new Dimension(27, 48), MultilineLabel.calculatePreferredSize(new Insets(0, 0, 0, 0),
-                    label.getFontMetrics(label.getFont()), "line1\nline2\nline3", MultilineLabel.DEFAULT_WIDTH_LIMIT));
-            Assertions.assertEquals(new Dimension(27, 64), MultilineLabel.calculatePreferredSize(new Insets(0, 0, 0, 0),
-                    label.getFontMetrics(label.getFont()), "line1\nline2\nline3\nline4", MultilineLabel.DEFAULT_WIDTH_LIMIT));
-            Assertions.assertEquals(new Dimension(33, 68), MultilineLabel.calculatePreferredSize(new Insets(1, 2, 3, 4),
-                    label.getFontMetrics(label.getFont()), "line1\nline2\nline3\nline4", MultilineLabel.DEFAULT_WIDTH_LIMIT));
+            Assertions.assertEquals(new Dimension(27, 16), MultilineLabel.calculatePreferredSize(label, new Insets(0, 0, 0, 0),
+                    label.getFontMetrics(label.getFont()), "line1", MultilineLabel.DEFAULT_WIDTH_LIMIT, 1.0f));
+            Assertions.assertEquals(new Dimension(27, 32), MultilineLabel.calculatePreferredSize(label, new Insets(0, 0, 0, 0),
+                    label.getFontMetrics(label.getFont()), "line1\nline2", MultilineLabel.DEFAULT_WIDTH_LIMIT, 1.0f));
+            Assertions.assertEquals(new Dimension(27, 48), MultilineLabel.calculatePreferredSize(label, new Insets(0, 0, 0, 0),
+                    label.getFontMetrics(label.getFont()), "line1\nline2\nline3", MultilineLabel.DEFAULT_WIDTH_LIMIT, 1.0f));
+            Assertions.assertEquals(new Dimension(27, 64), MultilineLabel.calculatePreferredSize(label, new Insets(0, 0, 0, 0),
+                    label.getFontMetrics(label.getFont()), "line1\nline2\nline3\nline4", MultilineLabel.DEFAULT_WIDTH_LIMIT, 1.0f));
+            Assertions.assertEquals(new Dimension(33, 68), MultilineLabel.calculatePreferredSize(label, new Insets(1, 2, 3, 4),
+                    label.getFontMetrics(label.getFont()), "line1\nline2\nline3\nline4", MultilineLabel.DEFAULT_WIDTH_LIMIT, 1.0f));
         });
     }
 
@@ -234,8 +237,8 @@ class MultilineLabelTest {
             frame.getContentPane().add(label);
             frame.pack();
             MultilineLabel.paintText(label, label.getGraphics(), "text", new Insets(0, 0, 0, 0), 1_000, true,
-                    Color.BLACK);
-            // TODO: check painted text
+                    Color.BLACK, 1.0f);
+            // TODO: check painted text with test-graphics
             frame.dispose();
         });
     }

@@ -47,6 +47,7 @@ public class Demo {
     private final JTextField heightTextField;
     private final JTextField borderSizeTextField;
     private final JTextField fontSizeTextField;
+    private final JTextField lineSpacingTextField;
     private final JCheckBox enabledCheckBox;
     private final JPanel labelPanel;
 
@@ -72,6 +73,8 @@ public class Demo {
         borderSizeTextField.setColumns(5);
         fontSizeTextField = new JTextField("12.0");
         fontSizeTextField.setColumns(5);
+        lineSpacingTextField = new JTextField("1.0");
+        lineSpacingTextField.setColumns(5);
         enabledCheckBox = new JCheckBox("Enabled");
         enabledCheckBox.setSelected(true);
 
@@ -90,6 +93,8 @@ public class Demo {
         controlsPanel.add(borderSizeTextField);
         controlsPanel.add(new JLabel("Font:"));
         controlsPanel.add(fontSizeTextField);
+        controlsPanel.add(new JLabel("Line Spacing::"));
+        controlsPanel.add(lineSpacingTextField);
         controlsPanel.add(enabledCheckBox);
         controlsPanel.add(setButton);
         controlsPanel.add(pasteButton);
@@ -142,6 +147,8 @@ public class Demo {
 
         float f = Float.parseFloat(fontSizeTextField.getText());
         label.setFont(label.getFont().deriveFont(f));
+
+        label.setLineSpacing(Float.parseFloat(lineSpacingTextField.getText()));
 
         label.setEnabled(enabledCheckBox.isSelected());
 

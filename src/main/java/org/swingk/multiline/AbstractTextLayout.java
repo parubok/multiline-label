@@ -16,8 +16,9 @@ public abstract class AbstractTextLayout implements TextLayout {
         this.label = Objects.requireNonNull(label);
     }
 
-    protected static int getTextPreferredHeight(int lineCount, FontMetrics fm) {
-        return (fm.getAscent() + fm.getDescent()) * lineCount + fm.getLeading() * (lineCount - 1);
+    protected static int getTextPreferredHeight(int lineCount, FontMetrics fm, float lineSpacing) {
+        final int yIncrement = MultilineUtils.getHeightIncrement(fm, lineSpacing);
+        return fm.getAscent() + yIncrement  * (lineCount - 1) + fm.getDescent();
     }
 
     protected static void drawString(JComponent c, Graphics g, String str, int x, int y) {

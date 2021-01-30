@@ -17,11 +17,13 @@ import static org.swingk.multiline.MultilineUtils.toDimension;
  */
 final class WidthTextLayout extends AbstractTextLayout {
 
-    static void paintText(JComponent c, Graphics g, String text, Insets insets, int wLimit, boolean enabled, Color background) {
-        paintText2(c, g, toRenderedText(text), insets, wLimit, enabled, background);
+    static void paintText(JComponent c, Graphics g, String text, Insets insets, int wLimit, boolean enabled,
+                          Color background, float lineSpacing) {
+        paintText2(c, g, toRenderedText(text), insets, wLimit, enabled, background, lineSpacing);
     }
 
-    private static void paintText2(JComponent c, Graphics g, String text, Insets insets, int wLimit, boolean enabled, Color background) {
+    private static void paintText2(JComponent c, Graphics g, String text, Insets insets, int wLimit, boolean enabled,
+                                   Color background, float lineSpacing) {
         if (text.isEmpty()) {
             return;
         }
@@ -32,6 +34,7 @@ final class WidthTextLayout extends AbstractTextLayout {
         final var fm = g.getFontMetrics();
         final int x = insets.left;
         int y = insets.top + fm.getAscent();
+        final int yIncrement = MultilineUtils.getHeightIncrement(fm, lineSpacing);
         NextLine nextLine;
         int index = 0;
         do {
@@ -42,16 +45,18 @@ final class WidthTextLayout extends AbstractTextLayout {
             } else {
                 drawStringInDisabledStyle(c, lineStr, g, background, x, y);
             }
-            y += fm.getHeight();
+            y += yIncrement;
             index = nextLine.nextLineStartIndex;
         } while (!nextLine.lastLine);
     }
 
-    static Dimension calcPreferredSize(JComponent c, Insets insets, FontMetrics fm, String text, int wLimit) {
-        return calcPreferredSize2(c, insets, fm, toRenderedText(text), wLimit);
+    static Dimension calcPreferredSize(JComponent c, Insets insets, FontMetrics fm, String text, int wLimit,
+                                       float lineSpacing) {
+        return calcPreferredSize2(c, insets, fm, toRenderedText(text), wLimit, lineSpacing);
     }
 
-    private static Dimension calcPreferredSize2(JComponent c, Insets insets, FontMetrics fm, String text, int wLimit) {
+    private static Dimension calcPreferredSize2(JComponent c, Insets insets, FontMetrics fm, String text, int wLimit,
+                                                float lineSpacing) {
         assert insets != null;
         assert fm != null;
         assert text != null;
@@ -74,7 +79,7 @@ final class WidthTextLayout extends AbstractTextLayout {
                 startIndex = nextLine.nextLineStartIndex;
             } while (!nextLine.lastLine);
             textPrefWidth = maxLineWidth;
-            textPrefHeight = getTextPreferredHeight(lineCount, fm);
+            textPrefHeight = getTextPreferredHeight(lineCount, fm, lineSpacing);
         } else {
             textPrefWidth = textPrefHeight = 0;
         }
@@ -215,11 +220,12 @@ final class WidthTextLayout extends AbstractTextLayout {
         }
         final var fm = label.getFontMetrics(label.getFont());
         final var insets = label.getInsets();
-        return calcPreferredSize2(label, insets, fm, textToRender, wLimit);
+        return calcPreferredSize2(label, insets, fm, textToRender, wLimit, label.getLineSpacing());
     }
 
     @Override
     public void paintText(Graphics g) {
-        paintText2(label, g, textToRender, label.getInsets(), label.getWidth(), label.isEnabled(), label.getBackground());
+        paintText2(label, g, textToRender, label.getInsets(), label.getWidth(), label.isEnabled(),
+                label.getBackground(), label.getLineSpacing());
     }
 }
