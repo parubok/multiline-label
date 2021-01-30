@@ -3,9 +3,11 @@ package org.swingk.multiline;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
 
@@ -221,6 +223,20 @@ class MultilineLabelTest {
 
             label.setPreferredSize(null);
             Assertions.assertEquals(new Dimension(488, 48), label.getPreferredSize());
+        });
+    }
+
+    @Test
+    void paintTextSingleLine() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            JFrame frame = new JFrame("test");
+            var label = new MultilineLabel();
+            frame.getContentPane().add(label);
+            frame.pack();
+            MultilineLabel.paintText(label, label.getGraphics(), "text", new Insets(0, 0, 0, 0), 1_000, true,
+                    Color.BLACK);
+            // TODO: check painted text
+            frame.dispose();
         });
     }
 }
