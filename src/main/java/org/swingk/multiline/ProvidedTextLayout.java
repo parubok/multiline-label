@@ -15,6 +15,7 @@ import static org.swingk.multiline.MultilineUtils.toDimension;
 
 /**
  * Text layout where line breaks are provided in the text by line separators.
+ * @implNote {@link String#lines()} is used to separate text into lines.
  */
 final class ProvidedTextLayout extends AbstractTextLayout {
 
