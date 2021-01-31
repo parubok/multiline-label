@@ -250,9 +250,9 @@ public class MultilineLabel extends JComponent implements Scrollable {
         if (lineSpacing <= 0.0f) {
             throw new IllegalArgumentException("Line spacing must be positive.");
         }
-        float oldValue = this.lineSpacing;
+        float oldValue = getLineSpacing();
         this.lineSpacing = lineSpacing;
-        firePropertyChange("lineSpacing", Float.valueOf(oldValue), Float.valueOf(this.lineSpacing));
+        firePropertyChange("lineSpacing", Float.valueOf(oldValue), Float.valueOf(getLineSpacing()));
         revalidate();
         repaint();
     }
