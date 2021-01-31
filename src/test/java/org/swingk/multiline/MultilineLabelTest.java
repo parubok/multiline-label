@@ -179,6 +179,24 @@ class MultilineLabelTest {
     }
 
     @Test
+    void calculatePreferredSize_lineSpacing() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            var label = new MultilineLabel();
+            final float lineSpacing = 2.0f;
+            Assertions.assertEquals(new Dimension(27, 16), MultilineLabel.calculatePreferredSize(label, new Insets(0, 0, 0, 0),
+                    label.getFontMetrics(label.getFont()), "line1", MultilineLabel.DEFAULT_WIDTH_LIMIT, lineSpacing));
+            Assertions.assertEquals(new Dimension(27, 48), MultilineLabel.calculatePreferredSize(label, new Insets(0, 0, 0, 0),
+                    label.getFontMetrics(label.getFont()), "line1\nline2", MultilineLabel.DEFAULT_WIDTH_LIMIT, lineSpacing));
+            Assertions.assertEquals(new Dimension(27, 80), MultilineLabel.calculatePreferredSize(label, new Insets(0, 0, 0, 0),
+                    label.getFontMetrics(label.getFont()), "line1\nline2\nline3", MultilineLabel.DEFAULT_WIDTH_LIMIT, lineSpacing));
+            Assertions.assertEquals(new Dimension(27, 112), MultilineLabel.calculatePreferredSize(label, new Insets(0, 0, 0, 0),
+                    label.getFontMetrics(label.getFont()), "line1\nline2\nline3\nline4", MultilineLabel.DEFAULT_WIDTH_LIMIT, lineSpacing));
+            Assertions.assertEquals(new Dimension(33, 116), MultilineLabel.calculatePreferredSize(label, new Insets(1, 2, 3, 4),
+                    label.getFontMetrics(label.getFont()), "line1\nline2\nline3\nline4", MultilineLabel.DEFAULT_WIDTH_LIMIT, lineSpacing));
+        });
+    }
+
+    @Test
     void getPreferredSize_5() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel("line1\n\n\nline2");
