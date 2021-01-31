@@ -93,7 +93,7 @@ public class Demo {
         controlsPanel.add(borderSizeTextField);
         controlsPanel.add(new JLabel("Font:"));
         controlsPanel.add(fontSizeTextField);
-        controlsPanel.add(new JLabel("Line Spacing::"));
+        controlsPanel.add(new JLabel("Line Spacing:"));
         controlsPanel.add(lineSpacingTextField);
         controlsPanel.add(enabledCheckBox);
         controlsPanel.add(setButton);
@@ -129,7 +129,7 @@ public class Demo {
     }
 
     private void updateLabel() {
-        MultilineLabel label = new MultilineLabel(labelText);
+        var label = new DemoMultilineLabel(labelText);
         label.setPreferredWidthLimit(Integer.parseInt(preferredWidthLimitTextField.getText()));
 
         if (prefSizeCheckBox.isSelected()) {
