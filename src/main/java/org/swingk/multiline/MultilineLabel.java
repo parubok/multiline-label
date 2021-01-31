@@ -242,7 +242,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
 
     /**
      * @param lineSpacing Value of X means line spacing (distance between two adjacent baselines) will be the font
-     * height as returned by {@link FontMetrics#getHeight()} multiplied by X.
+     * height as returned by {@link FontMetrics#getHeight()} multiplied by X. Has no effect for a single line text.
      * <p>
      * Fires {@link java.beans.PropertyChangeEvent} for {@code "lineSpacing"} property.
      */
@@ -263,6 +263,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
                 + ",prefWidthLimit=" + prefWidthLimit
                 + ",useCurrentWidthForPreferredSize=" + useCurrentWidthForPreferredSize
                 + ",textLayout=" + textLayout
+                + ",lineSpacing=" + lineSpacing
                 + ",text=" + text;
     }
 }
