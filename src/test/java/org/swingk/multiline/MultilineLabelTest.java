@@ -10,6 +10,9 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
+import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 class MultilineLabelTest {
 
@@ -44,6 +47,22 @@ class MultilineLabelTest {
             Assertions.assertEquals(0.5f, label.getLineSpacing());
             Assertions.assertThrows(IllegalArgumentException.class, () -> label.setLineSpacing(0.0f));
             Assertions.assertThrows(IllegalArgumentException.class, () -> label.setLineSpacing(-0.1f));
+        });
+    }
+
+    @Test
+    void lineSpacingPropChangeEvent() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            MultilineLabel label = new MultilineLabel();
+            label.setLineSpacing(2.0f);
+            List<PropertyChangeEvent> events = new ArrayList<>();
+            label.addPropertyChangeListener("lineSpacing", events::add);
+            label.setLineSpacing(10.0f);
+            Assertions.assertEquals(1, events.size());
+            Assertions.assertEquals(2.0f, events.get(0).getOldValue());
+            Assertions.assertEquals(10.0f, events.get(0).getNewValue());
+            Assertions.assertEquals("lineSpacing", events.get(0).getPropertyName());
+            Assertions.assertEquals(label, events.get(0).getSource());
         });
     }
 
