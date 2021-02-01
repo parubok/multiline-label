@@ -5,7 +5,7 @@
 
   <groupId>org.swingk.multiline</groupId>
   <artifactId>multiline-label</artifactId>
-  <version>1.14</version>
+  <version>1.15-SNAPSHOT</version>
 
   <name>multiline-label</name>
   <url>https://github.com/parubok/multiline-label</url>
@@ -27,7 +27,7 @@
     <connection>scm:git:git@github.com:parubok/multiline-label</connection>
     <url>scm:git:git@github.com:parubok/multiline-label</url>
     <developerConnection>scm:git:git@github.com:parubok/multiline-label</developerConnection>
-    <tag>v1.14</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <distributionManagement>
