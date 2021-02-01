@@ -174,10 +174,9 @@ public class MultilineLabel extends JComponent implements Scrollable {
     }
 
     /**
-     * Note: This property is ignored if the text contains line separators.
-     *
-     * @param prefWidthLimit A limit on a preferred width value to use for preferred size calculation.
+     * @param prefWidthLimit A limit (in pixels) on a preferred width value to use for preferred size calculation.
      * Default: {@link #DEFAULT_WIDTH_LIMIT}.
+     * @implSpec This property is ignored if the label text contains line separators.
      * @see #getPreferredSize()
      */
     public void setPreferredWidthLimit(int prefWidthLimit) {
