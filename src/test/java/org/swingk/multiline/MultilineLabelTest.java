@@ -206,9 +206,29 @@ class MultilineLabelTest {
     }
 
     @Test
-    void getPreferredSize_lineSpacing() throws Exception {
+    void getPreferredSize_lineSpacing_providedLayout() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel("line1\nline2");
+
+            label.setLineSpacing(0.5f);
+            Assertions.assertEquals(new Dimension(27, 24), label.getPreferredSize());
+
+            label.setLineSpacing(1.0f);
+            Assertions.assertEquals(new Dimension(27, 32), label.getPreferredSize());
+
+            label.setLineSpacing(2.0f);
+            Assertions.assertEquals(new Dimension(27, 48), label.getPreferredSize());
+
+            label.setLineSpacing(2.5f);
+            Assertions.assertEquals(new Dimension(27, 56), label.getPreferredSize());
+        });
+    }
+
+    @Test
+    void getPreferredSize_lineSpacing_widthLayout() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            var label = new MultilineLabel("line1 line2");
+            label.setPreferredWidthLimit(10); // to ensure 2 lines
 
             label.setLineSpacing(0.5f);
             Assertions.assertEquals(new Dimension(27, 24), label.getPreferredSize());
