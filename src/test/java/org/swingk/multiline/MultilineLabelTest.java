@@ -36,6 +36,18 @@ class MultilineLabelTest {
     }
 
     @Test
+    void lineSpacingProp() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            MultilineLabel label = new MultilineLabel();
+            Assertions.assertEquals(1.0f, label.getLineSpacing());
+            label.setLineSpacing(0.5f);
+            Assertions.assertEquals(0.5f, label.getLineSpacing());
+            Assertions.assertThrows(IllegalArgumentException.class, () -> label.setLineSpacing(0.0f));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> label.setLineSpacing(-0.1f));
+        });
+    }
+
+    @Test
     void isWidthBasedLayout() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             MultilineLabel label = new MultilineLabel("text1");
