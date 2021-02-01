@@ -13,7 +13,7 @@ This project has no dependencies (except JUnit 5, for testing).
 Requires Java 11 or later.
 
  * TODO: Consolidate demos
- * TODO: Configurable line height
+ * TODO: Font selector in demo
  * TODO: Improve UT coverage
  * TODO: JavaDoc
  * TODO: README with examples and screenshots
