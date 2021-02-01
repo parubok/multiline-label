@@ -13,7 +13,7 @@ import java.awt.Insets;
 
 class MultilineLabelTest {
 
-    public static final String LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed " +
+    static final String LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed " +
             "bibendum, lacus vel convallis consectetur, erat dui pharetra lectus, ac venenatis nulla nisi eget erat. " +
             "Donec ornare volutpat augue, a venenatis magna rutrum non.";
 
@@ -23,6 +23,7 @@ class MultilineLabelTest {
             MultilineLabel label = new MultilineLabel();
             Assertions.assertTrue(label.isOpaque());
             Assertions.assertEquals("", label.getText());
+            Assertions.assertEquals(1.0f, label.getLineSpacing());
             Assertions.assertEquals(MultilineLabel.DEFAULT_WIDTH_LIMIT, label.getPreferredWidthLimit());
             Assertions.assertEquals(new Dimension(0, 0), label.getPreferredSize());
             Assertions.assertEquals(new Dimension(0, 0), MultilineLabel.calculatePreferredSize(label,
@@ -201,6 +202,25 @@ class MultilineLabelTest {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel("line1\n\n\nline2");
             Assertions.assertEquals(new Dimension(27, 64), label.getPreferredSize());
+        });
+    }
+
+    @Test
+    void getPreferredSize_lineSpacing() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            var label = new MultilineLabel("line1\nline2");
+
+            label.setLineSpacing(0.5f);
+            Assertions.assertEquals(new Dimension(27, 24), label.getPreferredSize());
+
+            label.setLineSpacing(1.0f);
+            Assertions.assertEquals(new Dimension(27, 32), label.getPreferredSize());
+
+            label.setLineSpacing(2.0f);
+            Assertions.assertEquals(new Dimension(27, 48), label.getPreferredSize());
+
+            label.setLineSpacing(2.5f);
+            Assertions.assertEquals(new Dimension(27, 56), label.getPreferredSize());
         });
     }
 
