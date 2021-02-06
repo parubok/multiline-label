@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 
 import javax.swing.SwingUtilities;
 import java.awt.Font;
-import java.awt.FontMetrics;
 
 class WidthTextLayoutTest {
 
@@ -104,9 +103,9 @@ class WidthTextLayoutTest {
     @Test
     void getNextLine_5() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
-            String text = "t";
-            MultilineLabel label = new MultilineLabel();
-            FontMetrics fm = label.getFontMetrics(font);
+            var text = "t";
+            var label = new MultilineLabel();
+            var fm = label.getFontMetrics(font);
             var nextLine = WidthTextLayout.getNextLine(label, text, 0, fm, 1);
             Assertions.assertTrue(nextLine.lastLine);
             Assertions.assertEquals(0, nextLine.lineStartIndex);
@@ -118,9 +117,9 @@ class WidthTextLayoutTest {
     @Test
     void getNextLine_6() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
-            String text = "t abcdvfsl2808kdfkfkdjk94893483dkjdkfjkfjkdjfkdfjdkjdkd";
-            MultilineLabel label = new MultilineLabel();
-            FontMetrics fm = label.getFontMetrics(font);
+            var text = "t abcdvfsl2808kdfkfkdjk94893483dkjdkfjkfjkdjfkdfjdkjdkd";
+            var label = new MultilineLabel();
+            var fm = label.getFontMetrics(font);
             var nextLine1 = WidthTextLayout.getNextLine(label, text, 0, fm, 20);
             Assertions.assertFalse(nextLine1.lastLine);
             Assertions.assertEquals(0, nextLine1.lineStartIndex);
@@ -137,9 +136,9 @@ class WidthTextLayoutTest {
     @Test
     void getNextLine_7() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
-            String text = "a abcdvfsl2808kdfkfkdjk94893483dkjdkfjkfjkdjfkdfjdkjdkd abcdvfsl2808kdfkfkdjk94893483dkjdkfjkfjkdjfkdfjdkjdkd";
-            MultilineLabel label = new MultilineLabel();
-            FontMetrics fm = label.getFontMetrics(font);
+            var text = "a abcdvfsl2808kdfkfkdjk94893483dkjdkfjkfjkdjfkdfjdkjdkd abcdvfsl2808kdfkfkdjk94893483dkjdkfjkfjkdjfkdfjdkjdkd";
+            var label = new MultilineLabel();
+            var fm = label.getFontMetrics(font);
             final int limit = 30;
             var nextLine1 = WidthTextLayout.getNextLine(label, text, 0, fm, limit);
             Assertions.assertFalse(nextLine1.lastLine);

@@ -25,6 +25,7 @@ import static org.swingk.multiline.MultilineUtils.toDimension;
  * </p>
  */
 public class MultilineLabel extends JComponent implements Scrollable {
+
     /**
      * Default label width limit in pixels.
      */
@@ -36,6 +37,8 @@ public class MultilineLabel extends JComponent implements Scrollable {
      * @param text Text to calculate preferred size for. Not null.
      * @param wLimit Positive width limit in pixels (incl. insets). Applicable only if the text doesn't
      * contain line separators.
+     * @param lineSpacing Distance between two adjacent baselines will be the font height (as returned
+     * by {@link FontMetrics#getHeight()}) multiplied by this value.
      * @return Preferred size of text bounds.
      */
     public static Dimension calculatePreferredSize(JComponent c, Insets insets, FontMetrics fm, String text,
@@ -56,6 +59,8 @@ public class MultilineLabel extends JComponent implements Scrollable {
      * contain line separators as defined in {@link String#lines()} method.
      * @param enabled If false - paint disabled text.
      * @param background Background color of the target component. Used to paint disabled text. Not null.
+     * @param lineSpacing Distance between two adjacent baselines will be the font height (as returned
+     * by {@link FontMetrics#getHeight()}) multiplied by this value.
      */
     public static void paintText(JComponent c, Graphics g, String text, Insets insets, int wLimit, boolean enabled,
                                  Color background, float lineSpacing) {
@@ -232,16 +237,16 @@ public class MultilineLabel extends JComponent implements Scrollable {
     }
 
     /**
-     * @return Value of X means line spacing (distance between two adjacent baselines) will be the font
-     * height as returned by {@link FontMetrics#getHeight()} multiplied by X.
+     * @return Distance between two adjacent baselines is the font height (as returned
+     * by {@link FontMetrics#getHeight()}) multiplied by this value.
      */
     public float getLineSpacing() {
         return lineSpacing;
     }
 
     /**
-     * @param lineSpacing Value of X means line spacing (distance between two adjacent baselines) will be the font
-     * height as returned by {@link FontMetrics#getHeight()} multiplied by X. Has no effect for a single line text.
+     * @param lineSpacing Distance between two adjacent baselines will be the font height (as returned
+     * by {@link FontMetrics#getHeight()}) multiplied by this value.
      * <p>
      * Fires {@link java.beans.PropertyChangeEvent} for {@code "lineSpacing"} property.
      */
