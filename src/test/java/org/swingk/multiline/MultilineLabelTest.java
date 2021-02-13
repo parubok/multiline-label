@@ -26,7 +26,7 @@ class MultilineLabelTest {
             MultilineLabel label = new MultilineLabel();
             Assertions.assertTrue(label.isOpaque());
             Assertions.assertEquals("", label.getText());
-            Assertions.assertEquals(1.0f, label.getLineSpacing());
+            Assertions.assertEquals(MultilineLabel.DEFAULT_LINE_SPACING, label.getLineSpacing());
             Assertions.assertEquals(MultilineLabel.DEFAULT_WIDTH_LIMIT, label.getPreferredWidthLimit());
             Assertions.assertEquals(new Dimension(0, 0), label.getPreferredSize());
             Assertions.assertEquals(new Dimension(0, 0), MultilineLabel.calculatePreferredSize(label,
@@ -42,6 +42,7 @@ class MultilineLabelTest {
     void lineSpacingProp() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             MultilineLabel label = new MultilineLabel();
+            label.setLineSpacing(1.0f);
             Assertions.assertEquals(1.0f, label.getLineSpacing());
             label.setLineSpacing(0.5f);
             Assertions.assertEquals(0.5f, label.getLineSpacing());
@@ -91,6 +92,7 @@ class MultilineLabelTest {
     void getPreferredSize_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel(LOREM_IPSUM);
+            label.setLineSpacing(1.0f);
             Assertions.assertEquals(new Dimension(488, 48), label.getPreferredSize());
 
             label.setPreferredWidthLimit(1000);
@@ -141,6 +143,7 @@ class MultilineLabelTest {
     void getPreferredSize_3() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel(LOREM_IPSUM);
+            label.setLineSpacing(1.0f);
             label.setBorder(new EmptyBorder(10, 20, 30, 40));
             Assertions.assertEquals(new Dimension(499, 88), label.getPreferredSize());
             label.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -177,6 +180,7 @@ class MultilineLabelTest {
     void getPreferredSize_4() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel("line1\nline2");
+            label.setLineSpacing(1.0f);
             Assertions.assertEquals(new Dimension(27, 32), label.getPreferredSize());
 
             label.setText("line1\nline2\nline3");
@@ -232,6 +236,7 @@ class MultilineLabelTest {
     void getPreferredSize_5() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel("line1\n\n\nline2");
+            label.setLineSpacing(1.0f);
             Assertions.assertEquals(new Dimension(27, 64), label.getPreferredSize());
         });
     }
@@ -279,6 +284,7 @@ class MultilineLabelTest {
     void setCurrentWidthIgnoredForPreferredSizeCalculation_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel(LOREM_IPSUM);
+            label.setLineSpacing(1.0f);
             Assertions.assertTrue(label.isUseCurrentWidthForPreferredSize());
             Assertions.assertEquals(new Dimension(488, 48), label.getPreferredSize());
 
@@ -309,6 +315,7 @@ class MultilineLabelTest {
     void setPreferredSize_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel(LOREM_IPSUM);
+            label.setLineSpacing(1.0f);
             var d = new Dimension(13, 15);
             label.setPreferredSize(d);
             Assertions.assertEquals(d, label.getPreferredSize());
