@@ -22,12 +22,10 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.IOException;
 
-/**
- * TODO: static methods (separate demo)
- * TODO: display metrics
- */
 public class Demo {
 
     static final String TEXT = "Reference types are the class types, the interface types, and the array " +
@@ -57,6 +55,8 @@ public class Demo {
     private final JTextField lineSpacingTextField;
     private final JCheckBox enabledCheckBox;
     private final JPanel labelPanel;
+    private MultilineLabel label;
+    private final JLabel infoLabel;
 
     private Demo() {
         JPanel contentPanel = new JPanel(new BorderLayout());
@@ -116,6 +116,11 @@ public class Demo {
         westPanel.add(controlsPanel, BorderLayout.NORTH);
         contentPanel.add(westPanel, BorderLayout.WEST);
 
+        infoLabel = new JLabel();
+        infoLabel.setForeground(Color.GRAY);
+        infoLabel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
+        contentPanel.add(infoLabel, BorderLayout.SOUTH);
+
         frame = new JFrame("Demo: multiline-label");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(contentPanel);
@@ -124,6 +129,10 @@ public class Demo {
         frame.setVisible(true);
 
         updateLabel();
+    }
+
+    private void updateInfoLabel() {
+        infoLabel.setText("Bounds: " + label.getBounds());
     }
 
     private static GridBagConstraints gb(int gridX, int gridY) {
@@ -152,8 +161,19 @@ public class Demo {
     }
 
     private void updateLabel() {
-        var label = new MultilineLabel(labelText);
+        label = new MultilineLabel(labelText);
         label.setPreferredWidthLimit(Integer.parseInt(preferredWidthLimitTextField.getText()));
+        label.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                updateInfoLabel();
+            }
+
+            @Override
+            public void componentMoved(ComponentEvent e) {
+                updateInfoLabel();
+            }
+        });
 
         if (prefSizeCheckBox.isSelected()) {
             int w = Integer.parseInt(widthTextField.getText());
@@ -179,5 +199,7 @@ public class Demo {
         labelPanel.add(label);
         labelPanel.revalidate();
         labelPanel.repaint();
+
+        updateInfoLabel();
     }
 }
