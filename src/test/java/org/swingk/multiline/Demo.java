@@ -150,7 +150,7 @@ public class Demo {
     }
 
     private void updateLabel() {
-        var label = new DemoMultilineLabel(labelText);
+        var label = new MultilineLabel(labelText);
         label.setPreferredWidthLimit(Integer.parseInt(preferredWidthLimitTextField.getText()));
 
         if (prefSizeCheckBox.isSelected()) {
