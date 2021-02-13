@@ -357,18 +357,4 @@ class MultilineLabelTest {
             Assertions.assertEquals(new Dimension(488, 48), label.getPreferredSize());
         });
     }
-
-    @Test
-    void paintTextSingleLine() throws Exception {
-        SwingUtilities.invokeAndWait(() -> {
-            JFrame frame = new JFrame("test");
-            var label = new MultilineLabel();
-            frame.getContentPane().add(label);
-            frame.pack();
-            MultilineLabel.paintText(label, label.getGraphics(), "text", new Insets(0, 0, 0, 0), 1_000, true,
-                    Color.BLACK, 1.0f);
-            // TODO: check painted text with test-graphics
-            frame.dispose();
-        });
-    }
 }
