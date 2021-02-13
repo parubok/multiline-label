@@ -1,4 +1,6 @@
-package org.swingk.multiline;
+package org.swingk.multiline.demo;
+
+import org.swingk.multiline.MultilineLabel;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
