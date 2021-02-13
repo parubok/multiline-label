@@ -5,8 +5,19 @@
 
 Java Swing component to display a plain, left-to-right text (single line or multiline).  Allows to specify preferred wrapping width for cases when there is not enough room to display the text as a single line. Text with `"\n"`, `"\r\n"` or `"\r"` is displayed as multiline according to the line separators.
 
-Motivation: Though Swing provides a number of options to display multiline text (e.g. `JLabel` with HTML, read-only `JTextArea`, etc.), none of them IMHO is very convenient and straightforward.
+Motivation: Though standard Swing provides a number of options to display multiline text (e.g. `JLabel` with HTML, read-only `JTextArea`, etc.), none of them IMHO is very convenient and straightforward.
 The goal of this component is to provide a multiline label with predictable and easily configurable behavior.
+
+Example 1 (count how many times `JTable` cell value "London" appears in the selected cells of column 3):
+```java
+import org.swingk.multiline.MultilineLabel;
+
+var label = new MultilineLabel();
+label.setText(myText); // set text - possibly requiring multiline presentation
+label.setPreferredWidthLimit(330); // the label will try to have a preferred width of 330 pixels
+label.setLineSpacing(1.2f); // relative spacing between adjacent text lines         
+panel.add(label);
+```
 
 A demo application is provided. See `org.swingk.multiline.demo.Demo`.
 
