@@ -1,11 +1,11 @@
 package org.swingk.multiline;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -13,6 +13,9 @@ import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
@@ -41,6 +44,8 @@ public class Demo {
 
     private String labelText = TEXT;
 
+    private final JFrame frame;
+
     private final JTextField preferredWidthLimitTextField;
     private final JCheckBox prefSizeCheckBox;
     private final JTextField widthTextField;
@@ -58,10 +63,6 @@ public class Demo {
         labelPanel = new JPanel();
         contentPanel.add(labelPanel, BorderLayout.CENTER);
 
-        JPanel controlsPanel = new JPanel();
-        controlsPanel.setLayout(new BoxLayout(controlsPanel, BoxLayout.Y_AXIS));
-        controlsPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
-
         preferredWidthLimitTextField = new JTextField(Integer.toString(MultilineLabel.DEFAULT_WIDTH_LIMIT));
         prefSizeCheckBox = new JCheckBox("Preferred Size:");
         prefSizeCheckBox.setSelected(false);
@@ -73,37 +74,47 @@ public class Demo {
         borderSizeTextField.setColumns(5);
         fontSizeTextField = new JTextField("12.0");
         fontSizeTextField.setColumns(5);
-        lineSpacingTextField = new JTextField("1.0");
+        lineSpacingTextField = new JTextField(Float.toString(MultilineLabel.DEFAULT_LINE_SPACING));
         lineSpacingTextField.setColumns(5);
         enabledCheckBox = new JCheckBox("Enabled");
         enabledCheckBox.setSelected(true);
 
+        JPanel controlsPanel = new JPanel();
+        controlsPanel.setLayout(new GridBagLayout());
+        controlsPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
+
+        int gridY = 0;
+        int bottomInset = 10;
+
+        controlsPanel.add(new JLabel("Preferred Width Limit (pixels):"), gb(0, gridY++));
+        preferredWidthLimitTextField.setColumns(10);
+        controlsPanel.add(preferredWidthLimitTextField, gb(0, gridY++, 0, bottomInset));
+        controlsPanel.add(prefSizeCheckBox, gb(0, gridY++));
+        controlsPanel.add(new JLabel("Width:"), gb(0, gridY++, 20, 0));
+        controlsPanel.add(widthTextField, gb(0, gridY++, 20, 0));
+        controlsPanel.add(new JLabel("Height:"), gb(0, gridY++, 20, 0));
+        controlsPanel.add(heightTextField, gb(0, gridY++, 20, bottomInset));
+        controlsPanel.add(new JLabel("Border (pixels):"), gb(0, gridY++));
+        controlsPanel.add(borderSizeTextField, gb(0, gridY++, 0, bottomInset));
+        controlsPanel.add(new JLabel("Font Size:"), gb(0, gridY++));
+        controlsPanel.add(fontSizeTextField, gb(0, gridY++, 0, bottomInset));
+        controlsPanel.add(new JLabel("Line Spacing:"), gb(0, gridY++));
+        controlsPanel.add(lineSpacingTextField, gb(0, gridY++, 0, bottomInset));
+        controlsPanel.add(enabledCheckBox, gb(0, gridY++, 0, bottomInset));
+
         JButton setButton = new JButton("Set");
         setButton.addActionListener(e -> updateLabel());
+        controlsPanel.add(setButton, gb(0, gridY++, 0, bottomInset));
+
         JButton pasteButton = new JButton("Paste");
         pasteButton.addActionListener(e -> pasteText());
-        controlsPanel.add(new JLabel("Preferred Width Limit:"));
-        controlsPanel.add(preferredWidthLimitTextField);
-        controlsPanel.add(prefSizeCheckBox);
-        controlsPanel.add(new JLabel("Width:"));
-        controlsPanel.add(widthTextField);
-        controlsPanel.add(new JLabel("Height:"));
-        controlsPanel.add(heightTextField);
-        controlsPanel.add(new JLabel("Border:"));
-        controlsPanel.add(borderSizeTextField);
-        controlsPanel.add(new JLabel("Font:"));
-        controlsPanel.add(fontSizeTextField);
-        controlsPanel.add(new JLabel("Line Spacing:"));
-        controlsPanel.add(lineSpacingTextField);
-        controlsPanel.add(enabledCheckBox);
-        controlsPanel.add(setButton);
-        controlsPanel.add(pasteButton);
+        controlsPanel.add(pasteButton, gb(0, gridY++));
 
         JPanel westPanel = new JPanel(new BorderLayout());
         westPanel.add(controlsPanel, BorderLayout.NORTH);
         contentPanel.add(westPanel, BorderLayout.WEST);
 
-        JFrame frame = new JFrame("Demo: multiline-label");
+        frame = new JFrame("Demo: multiline-label");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(contentPanel);
         frame.setSize(1000, 500);
@@ -111,6 +122,15 @@ public class Demo {
         frame.setVisible(true);
 
         updateLabel();
+    }
+
+    private static GridBagConstraints gb(int gridX, int gridY) {
+        return gb(gridX, gridY, 0, 0);
+    }
+
+    private static GridBagConstraints gb(int gridX, int gridY, int leftInset, int bottomInset) {
+        return new GridBagConstraints(gridX, gridY, 1, 1, 0.0, 0.0, GridBagConstraints.LINE_START,
+                GridBagConstraints.NONE, new Insets(0, leftInset, bottomInset, 0), 0, 0);
     }
 
     private void pasteText() {
@@ -125,6 +145,7 @@ public class Demo {
             }
         } catch (IOException | UnsupportedFlavorException ex) {
             ex.printStackTrace();
+            JOptionPane.showMessageDialog(frame, ex.getMessage());
         }
     }
 
@@ -142,7 +163,7 @@ public class Demo {
 
         int b = Integer.parseInt(borderSizeTextField.getText());
         if (b > 0) {
-            label.setBorder(BorderFactory.createLineBorder(Color.BLACK, b));
+            label.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, b));
         }
 
         float f = Float.parseFloat(fontSizeTextField.getText());

@@ -27,9 +27,11 @@ import static org.swingk.multiline.MultilineUtils.toDimension;
 public class MultilineLabel extends JComponent implements Scrollable {
 
     /**
-     * Default label width limit in pixels.
+     * Default preferred width limit in pixels.
      */
     public static final int DEFAULT_WIDTH_LIMIT = 500;
+
+    public static final float DEFAULT_LINE_SPACING = 1.1f;
 
     /**
      * @param insets Insets to include in the calculation. Not null.
@@ -79,7 +81,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
     private TextLayout textLayout; // not null after constructor
     private int prefWidthLimit = DEFAULT_WIDTH_LIMIT;
     private boolean useCurrentWidthForPreferredSize = true;
-    private float lineSpacing = 1.0f;
+    private float lineSpacing = DEFAULT_LINE_SPACING;
 
     public MultilineLabel() {
         this("");
