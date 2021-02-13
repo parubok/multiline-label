@@ -8,7 +8,7 @@ Java Swing component to display a plain, left-to-right text (single line or mult
 Motivation: Though standard Swing provides a number of options to display multiline text (e.g. `JLabel` with HTML, read-only `JTextArea`, etc.), none of them IMHO is very convenient and straightforward.
 The goal of this component is to provide a multiline label with predictable and easily configurable behavior.
 
-Example 1 (count how many times `JTable` cell value "London" appears in the selected cells of column 3):
+Example:
 ```java
 import org.swingk.multiline.MultilineLabel;
 
