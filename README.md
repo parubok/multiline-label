@@ -14,7 +14,7 @@ import org.swingk.multiline.MultilineLabel;
 
 var label = new MultilineLabel();
 label.setText(myText); // set text - possibly requiring multiline presentation
-label.setPreferredWidthLimit(330); // the label will try to have a preferred width of 330 pixels
+label.setPreferredWidthLimit(330); // the label's preferred width won't exceed 330 pixels
 label.setLineSpacing(1.2f); // relative spacing between adjacent text lines         
 panel.add(label);
 ```
