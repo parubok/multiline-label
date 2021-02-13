@@ -3,11 +3,9 @@ package org.swingk.multiline;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.beans.PropertyChangeEvent;
