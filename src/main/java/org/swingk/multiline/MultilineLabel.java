@@ -17,7 +17,7 @@ import java.util.Objects;
 import static org.swingk.multiline.MultilineUtils.toDimension;
 
 /**
- * Component to display plain text (possibly on multiple lines).
+ * Component to display a plain text (possibly on multiple lines).
  * <p>
  * Operates in 2 modes:
  * <ol>
@@ -86,10 +86,18 @@ public class MultilineLabel extends JComponent implements Scrollable {
     private boolean useCurrentWidthForPreferredSize = true;
     private float lineSpacing = DEFAULT_LINE_SPACING;
 
+    /**
+     * Constructor.
+     */
     public MultilineLabel() {
         this("");
     }
 
+    /**
+     * Constructor.
+     *
+     * @param text The text to be displayed by the label. Not null.
+     */
     public MultilineLabel(String text) {
         super();
         setBorder(BorderFactory.createEmptyBorder());
