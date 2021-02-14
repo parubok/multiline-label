@@ -10,6 +10,8 @@ The goal of this component is to provide a multiline label with predictable and 
 
 The label implements `javax.swing.Scrollable` interface to support scrolling. 
 
+Supports text coping via `copy` method.
+
 Example:
 ```java
 import org.swingk.multiline.MultilineLabel;

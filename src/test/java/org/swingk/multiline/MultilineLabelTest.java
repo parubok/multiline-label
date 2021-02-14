@@ -8,6 +8,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import java.awt.Dimension;
 import java.awt.Insets;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -353,6 +356,26 @@ class MultilineLabelTest {
 
             label.setPreferredSize(null);
             Assertions.assertEquals(new Dimension(488, 48), label.getPreferredSize());
+        });
+    }
+
+    @Test
+    void copy() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            var clipboard = new Clipboard("test");
+            var label = new MultilineLabel(LOREM_IPSUM) {
+                @Override
+                protected Clipboard getClipboard() {
+                    return clipboard;
+                }
+            };
+            label.copy();
+            Transferable t = clipboard.getContents(null);
+            try {
+                Assertions.assertEquals(LOREM_IPSUM, t.getTransferData(DataFlavor.stringFlavor));
+            } catch (Exception e) {
+                Assertions.fail(e);
+            }
         });
     }
 }

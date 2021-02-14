@@ -9,6 +9,9 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.util.Objects;
 
 import static org.swingk.multiline.MultilineUtils.toDimension;
@@ -93,6 +96,17 @@ public class MultilineLabel extends JComponent implements Scrollable {
         setOpaque(true);
         updateUI();
         setText(text);
+    }
+
+    protected Clipboard getClipboard() {
+        return Toolkit.getDefaultToolkit().getSystemClipboard();
+    }
+
+    /**
+     * Transfers the text of this label to the system clipboard.
+     */
+    public void copy() {
+        getClipboard().setContents(new StringSelection(getText()), null);
     }
 
     @Override
