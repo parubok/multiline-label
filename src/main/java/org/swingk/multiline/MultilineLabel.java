@@ -87,7 +87,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
     private float lineSpacing = DEFAULT_LINE_SPACING;
 
     /**
-     * Constructor.
+     * Default constructor.
      */
     public MultilineLabel() {
         this("");
@@ -103,7 +103,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
         setBorder(BorderFactory.createEmptyBorder());
         setOpaque(true);
         updateUI();
-        setText(text);
+        setTextAndTextLayout(text);
     }
 
     protected Clipboard getClipboard() {
@@ -167,11 +167,15 @@ public class MultilineLabel extends JComponent implements Scrollable {
      */
     public void setText(String text) {
         String oldValue = this.text;
-        this.text = Objects.requireNonNull(text);
-        this.textLayout = createTextLayout();
+        setTextAndTextLayout(text);
         firePropertyChange("text", oldValue, this.text);
         revalidate();
         repaint();
+    }
+
+    private void setTextAndTextLayout(String text) {
+        this.text = Objects.requireNonNull(text);
+        this.textLayout = createTextLayout();
     }
 
     /**
