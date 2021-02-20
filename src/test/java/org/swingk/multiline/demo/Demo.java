@@ -108,7 +108,7 @@ public class Demo {
         setButton.addActionListener(e -> updateLabel());
         controlsPanel.add(setButton, gb(0, gridY++, 0, bottomInset));
 
-        JButton pasteButton = new JButton("Paste");
+        JButton pasteButton = new JButton("Paste Text & Set");
         pasteButton.addActionListener(e -> pasteText());
         controlsPanel.add(pasteButton, gb(0, gridY++));
 
