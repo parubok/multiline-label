@@ -3,8 +3,10 @@ package org.swingk.multiline.demo;
 import org.swingk.multiline.MultilineLabel;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -15,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -25,8 +28,11 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
+import java.util.List;
 
 public class Demo {
+
+    private static final String DEFAULT_FONT_FAMILY = "<default>";
 
     static final String TEXT = "Reference types are the class types, the interface types, and the array " +
             "types. The reference types are implemented by dynamically created objects that are either instances of " +
@@ -51,6 +57,7 @@ public class Demo {
     private final JTextField widthTextField;
     private final JTextField heightTextField;
     private final JTextField borderSizeTextField;
+    private final JComboBox<String> fontFamilyComboBox;
     private final JTextField fontSizeTextField;
     private final JTextField lineSpacingTextField;
     private final JCheckBox enabledCheckBox;
@@ -74,6 +81,13 @@ public class Demo {
         heightTextField.setColumns(5);
         borderSizeTextField = new JTextField("1");
         borderSizeTextField.setColumns(5);
+
+        DefaultComboBoxModel<String> fontFamilyComboBoxModel = new DefaultComboBoxModel<>();
+        fontFamilyComboBoxModel.addAll(List.of(DEFAULT_FONT_FAMILY, Font.DIALOG, Font.DIALOG_INPUT, Font.MONOSPACED,
+                Font.SERIF, Font.SANS_SERIF));
+        fontFamilyComboBoxModel.setSelectedItem(DEFAULT_FONT_FAMILY);
+        fontFamilyComboBox = new JComboBox<>(fontFamilyComboBoxModel);
+
         fontSizeTextField = new JTextField("12.0");
         fontSizeTextField.setColumns(5);
         lineSpacingTextField = new JTextField(Float.toString(MultilineLabel.DEFAULT_LINE_SPACING));
@@ -98,6 +112,8 @@ public class Demo {
         controlsPanel.add(heightTextField, gb(0, gridY++, 20, bottomInset));
         controlsPanel.add(new JLabel("Border (pixels):"), gb(0, gridY++));
         controlsPanel.add(borderSizeTextField, gb(0, gridY++, 0, bottomInset));
+        controlsPanel.add(new JLabel("Font Family (logical):"), gb(0, gridY++, 0, 3));
+        controlsPanel.add(fontFamilyComboBox, gb(0, gridY++, 0, bottomInset));
         controlsPanel.add(new JLabel("Font Size:"), gb(0, gridY++));
         controlsPanel.add(fontSizeTextField, gb(0, gridY++, 0, bottomInset));
         controlsPanel.add(new JLabel("Line Spacing:"), gb(0, gridY++));
@@ -124,7 +140,7 @@ public class Demo {
         frame = new JFrame("Demo: multiline-label");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(contentPanel);
-        frame.setSize(1000, 500);
+        frame.setSize(1200, 600);
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
 
@@ -189,7 +205,11 @@ public class Demo {
         }
 
         float f = Float.parseFloat(fontSizeTextField.getText());
-        label.setFont(label.getFont().deriveFont(f));
+        String fontFamily = (String) fontFamilyComboBox.getSelectedItem();
+        var newLabelFont = new MultilineLabel().getFont();
+        Font font = fontFamily.equals(DEFAULT_FONT_FAMILY) ?
+                newLabelFont : new Font(fontFamily, newLabelFont.getStyle(), newLabelFont.getSize());
+        label.setFont(font.deriveFont(f));
 
         label.setLineSpacing(Float.parseFloat(lineSpacingTextField.getText()));
 
