@@ -65,13 +65,6 @@
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
         <version>3.0.2</version>
-        <configuration>
-          <archive>
-            <manifestEntries>
-              <Automatic-Module-Name>swingk.multiline</Automatic-Module-Name>
-            </manifestEntries>
-          </archive>
-        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-install-plugin</artifactId>
@@ -102,7 +95,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>3.1.1</version>
+        <version>3.1.2</version>
+        <configuration>
+          <excludes>**/module-info.java</excludes>
+        </configuration>
         <executions>
           <execution>
             <id>validate</id>

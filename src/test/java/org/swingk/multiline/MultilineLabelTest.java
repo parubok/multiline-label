@@ -15,14 +15,14 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-class MultilineLabelTest {
+public class MultilineLabelTest {
 
-    static final String LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed " +
+    public static final String LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed " +
             "bibendum, lacus vel convallis consectetur, erat dui pharetra lectus, ac venenatis nulla nisi eget erat. " +
             "Donec ornare volutpat augue, a venenatis magna rutrum non.";
 
     @Test
-    void basic_test_1() throws Exception {
+    public void basic_test_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             MultilineLabel label = new MultilineLabel();
             Assertions.assertTrue(label.isOpaque());
@@ -40,7 +40,7 @@ class MultilineLabelTest {
     }
 
     @Test
-    void lineSpacingProp() throws Exception {
+    public void lineSpacingProp() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             MultilineLabel label = new MultilineLabel();
             label.setLineSpacing(1.0f);
@@ -53,7 +53,7 @@ class MultilineLabelTest {
     }
 
     @Test
-    void lineSpacingPropChangeEvent() throws Exception {
+    public void lineSpacingPropChangeEvent() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             MultilineLabel label = new MultilineLabel();
             label.setLineSpacing(2.0f);
@@ -69,7 +69,7 @@ class MultilineLabelTest {
     }
 
     @Test
-    void isWidthBasedLayout() throws Exception {
+    public void isWidthBasedLayout() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             MultilineLabel label = new MultilineLabel("text1");
             Assertions.assertTrue(label.isWidthBasedLayout());
@@ -79,7 +79,7 @@ class MultilineLabelTest {
     }
 
     @Test
-    void setGetText() throws Exception {
+    public void setGetText() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel();
             label.setText(LOREM_IPSUM);
@@ -94,7 +94,7 @@ class MultilineLabelTest {
     }
 
     @Test
-    void getPreferredSize_1() throws Exception {
+    public void getPreferredSize_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel(LOREM_IPSUM);
             label.setLineSpacing(1.0f);
@@ -118,7 +118,7 @@ class MultilineLabelTest {
     }
 
     @Test
-    void getPreferredSize_disabled() throws Exception {
+    public void getPreferredSize_disabled() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel(LOREM_IPSUM);
             label.setLineSpacing(1.0f);
@@ -128,7 +128,7 @@ class MultilineLabelTest {
     }
 
     @Test
-    void getPreferredSize_singleLetter() throws Exception {
+    public void getPreferredSize_singleLetter() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             Assertions.assertEquals(new Dimension(10, 16), new MultilineLabel("w").getPreferredSize());
             Assertions.assertEquals(new Dimension(10, 16), new MultilineLabel(" w ").getPreferredSize());
@@ -136,7 +136,7 @@ class MultilineLabelTest {
     }
 
     @Test
-    void calculatePreferredSize_1() throws Exception {
+    public void calculatePreferredSize_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel(LOREM_IPSUM);
             Assertions.assertEquals(new Dimension(488, 48), MultilineLabel.calculatePreferredSize(label, new Insets(0, 0, 0, 0),
@@ -154,7 +154,7 @@ class MultilineLabelTest {
     }
 
     @Test
-    void getPreferredSize_emptyText_border_diffLineSpacing() throws Exception {
+    public void getPreferredSize_emptyText_border_diffLineSpacing() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             for (int i = 0; i < 10; i++) {
                 var label = new MultilineLabel();
@@ -166,7 +166,7 @@ class MultilineLabelTest {
     }
 
     @Test
-    void getPreferredSize_emptyText_noBorder() throws Exception {
+    public void getPreferredSize_emptyText_noBorder() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             Assertions.assertEquals(new Dimension(0, 0), new MultilineLabel(" ").getPreferredSize());
             Assertions.assertEquals(new Dimension(0, 0), new MultilineLabel("").getPreferredSize());
@@ -174,7 +174,7 @@ class MultilineLabelTest {
     }
 
     @Test
-    void getPreferredSize_diffBorders() throws Exception {
+    public void getPreferredSize_diffBorders() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel(LOREM_IPSUM);
             label.setLineSpacing(1.0f);
@@ -194,7 +194,7 @@ class MultilineLabelTest {
     }
 
     @Test
-    void calculatePreferredSize_2() throws Exception {
+    public void calculatePreferredSize_2() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel();
             Assertions.assertEquals(new Dimension(499, 88), MultilineLabel.calculatePreferredSize(label, new Insets(10, 20, 30, 40),
@@ -211,7 +211,7 @@ class MultilineLabelTest {
     }
 
     @Test
-    void getPreferredSize_4() throws Exception {
+    public void getPreferredSize_4() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel("line1\nline2");
             label.setLineSpacing(1.0f);
@@ -232,7 +232,7 @@ class MultilineLabelTest {
     }
 
     @Test
-    void getPreferredSize_5() throws Exception {
+    public void getPreferredSize_5() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel("line1\n\n\nline2");
             label.setLineSpacing(1.0f);
@@ -241,7 +241,7 @@ class MultilineLabelTest {
     }
 
     @Test
-    void calculatePreferredSize_3() throws Exception {
+    public void calculatePreferredSize_3() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel();
             Assertions.assertEquals(new Dimension(27, 16), MultilineLabel.calculatePreferredSize(label, new Insets(0, 0, 0, 0),
@@ -258,7 +258,7 @@ class MultilineLabelTest {
     }
 
     @Test
-    void calculatePreferredSize_lineSpacing() throws Exception {
+    public void calculatePreferredSize_lineSpacing() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel();
             final float lineSpacing = 2.0f;
@@ -276,7 +276,7 @@ class MultilineLabelTest {
     }
 
     @Test
-    void getPreferredSize_lineSpacing_providedLayout() throws Exception {
+    public void getPreferredSize_lineSpacing_providedLayout() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel("line1\nline2");
 
@@ -295,7 +295,7 @@ class MultilineLabelTest {
     }
 
     @Test
-    void getPreferredSize_lineSpacing_widthLayout() throws Exception {
+    public void getPreferredSize_lineSpacing_widthLayout() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel("line1 line2");
             label.setPreferredWidthLimit(10); // to ensure 2 lines
@@ -315,7 +315,7 @@ class MultilineLabelTest {
     }
 
     @Test
-    void setCurrentWidthIgnoredForPreferredSizeCalculation_1() throws Exception {
+    public void setCurrentWidthIgnoredForPreferredSizeCalculation_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel(LOREM_IPSUM);
             label.setLineSpacing(1.0f);
@@ -336,7 +336,7 @@ class MultilineLabelTest {
     }
 
     @Test
-    void getTextLayout() throws Exception {
+    public void getTextLayout() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel(LOREM_IPSUM);
             Assertions.assertTrue(label.getTextLayout() instanceof WidthTextLayout);
@@ -346,7 +346,7 @@ class MultilineLabelTest {
     }
 
     @Test
-    void setPreferredSize_1() throws Exception {
+    public void setPreferredSize_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel(LOREM_IPSUM);
             label.setLineSpacing(1.0f);
@@ -360,7 +360,7 @@ class MultilineLabelTest {
     }
 
     @Test
-    void copy() throws Exception {
+    public void copy() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var clipboard = new Clipboard("test");
             var label = new MultilineLabel(LOREM_IPSUM) {

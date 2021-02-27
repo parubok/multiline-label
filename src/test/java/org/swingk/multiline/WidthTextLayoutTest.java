@@ -6,12 +6,12 @@ import org.junit.jupiter.api.Test;
 import javax.swing.SwingUtilities;
 import java.awt.Font;
 
-class WidthTextLayoutTest {
+public class WidthTextLayoutTest {
 
     static final Font font = new Font("Dialog", Font.PLAIN, 11);
 
     @Test
-    void toRenderedText_1() throws Exception {
+    public void toRenderedText_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             Assertions.assertEquals("", WidthTextLayout.toRenderedText(""));
             Assertions.assertEquals("", WidthTextLayout.toRenderedText(" "));
@@ -28,7 +28,7 @@ class WidthTextLayoutTest {
     }
 
     @Test
-    void toRenderedText_2() throws Exception {
+    public void toRenderedText_2() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             Assertions.assertEquals("a b", WidthTextLayout.toRenderedText("a\nb"));
             Assertions.assertEquals("a b", WidthTextLayout.toRenderedText("a \n b"));
@@ -40,7 +40,7 @@ class WidthTextLayoutTest {
     }
 
     @Test
-    void getNextLine_1() throws Exception {
+    public void getNextLine_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var text = "text";
             var label = new MultilineLabel();
@@ -54,7 +54,7 @@ class WidthTextLayoutTest {
     }
 
     @Test
-    void getNextLine_2() throws Exception {
+    public void getNextLine_2() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var text = "text1 text2";
             var label = new MultilineLabel();
@@ -68,7 +68,7 @@ class WidthTextLayoutTest {
     }
 
     @Test
-    void getNextLine_3() throws Exception {
+    public void getNextLine_3() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var text = "text";
             var label = new MultilineLabel();
@@ -82,7 +82,7 @@ class WidthTextLayoutTest {
     }
 
     @Test
-    void getNextLine_4() throws Exception {
+    public void getNextLine_4() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var text = "text1 text2";
             var label = new MultilineLabel();
@@ -101,7 +101,7 @@ class WidthTextLayoutTest {
     }
 
     @Test
-    void getNextLine_5() throws Exception {
+    public void getNextLine_5() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var text = "t";
             var label = new MultilineLabel();
@@ -115,7 +115,7 @@ class WidthTextLayoutTest {
     }
 
     @Test
-    void getNextLine_6() throws Exception {
+    public void getNextLine_6() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var text = "t abcdvfsl2808kdfkfkdjk94893483dkjdkfjkfjkdjfkdfjdkjdkd";
             var label = new MultilineLabel();
@@ -134,7 +134,7 @@ class WidthTextLayoutTest {
     }
 
     @Test
-    void getNextLine_7() throws Exception {
+    public void getNextLine_7() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var text = "a abcdvfsl2808kdfkfkdjk94893483dkjdkfjkfjkdjfkdfjdkjdkd abcdvfsl2808kdfkfkdjk94893483dkjdkfjkfjkdjfkdfjdkjdkd";
             var label = new MultilineLabel();
@@ -159,7 +159,7 @@ class WidthTextLayoutTest {
     }
 
     @Test
-    void getNextLine_8() throws Exception {
+    public void getNextLine_8() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var text = "a abcdvfsl2808kdfkfkdjk94893483dkjdkfjkfjkdjfkdfjdkjdkd b";
             var label = new MultilineLabel();
