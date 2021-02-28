@@ -29,6 +29,6 @@ A demo application is provided. See `org.swingk.multiline.demo.Demo`.
 
 This library is packaged as a Java 9 module `org.swingk.multiline` (with a single dependency on a system module `java.desktop`). 
 
-This project has no dependencies (except JUnit 5, for testing).
+This project has no external dependencies (except JUnit 5, for testing).
 
 Requires Java 11 or later.
