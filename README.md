@@ -27,6 +27,8 @@ panel.add(label); // add label to its parent container
 
 A demo application is provided. See `org.swingk.multiline.demo.Demo`.
 
+This library is packaged as Java 9 module `swingk.multiline` (with a single dependency on `java.desktop` module). 
+
 This project has no dependencies (except JUnit 5, for testing).
 
 Requires Java 11 or later.
