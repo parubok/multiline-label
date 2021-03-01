@@ -336,6 +336,26 @@ public class MultilineLabelTest {
     }
 
     @Test
+    public void preferredScrollableViewportSizeLineCount() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            var label = new MultilineLabel(LOREM_IPSUM);
+            Assertions.assertEquals(new Dimension(488, 52), label.getPreferredScrollableViewportSize());
+            label.setPreferredScrollableViewportSizeLineCount(1);
+            Assertions.assertEquals(new Dimension(488, 16), label.getPreferredScrollableViewportSize());
+            label.setPreferredScrollableViewportSizeLineCount(2);
+            Assertions.assertEquals(new Dimension(488, 34), label.getPreferredScrollableViewportSize());
+            label.setPreferredScrollableViewportSizeLineCount(1_000);
+            Assertions.assertEquals(new Dimension(488, 52), label.getPreferredScrollableViewportSize());
+
+            label.setText("");
+            Assertions.assertEquals(new Dimension(0, 0), label.getPreferredScrollableViewportSize());
+
+            Assertions.assertThrows(IllegalArgumentException.class,
+                    () -> label.setPreferredScrollableViewportSizeLineCount(0));
+        });
+    }
+
+    @Test
     public void getTextLayout() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel(LOREM_IPSUM);
