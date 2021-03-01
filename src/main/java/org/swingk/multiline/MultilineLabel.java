@@ -36,6 +36,8 @@ public class MultilineLabel extends JComponent implements Scrollable {
 
     public static final float DEFAULT_LINE_SPACING = 1.1f;
 
+    public static final int DEFAULT_PREFERRED_SCROLLABLE_VIEWPORT_SIZE_LINE_COUNT = 20;
+
     /**
      * @param insets Insets to include in the calculation. Not null.
      * @param fm {@link FontMetrics} to calculate text size. Not null.
@@ -85,6 +87,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
     private int prefWidthLimit = DEFAULT_WIDTH_LIMIT;
     private boolean useCurrentWidthForPreferredSize = true;
     private float lineSpacing = DEFAULT_LINE_SPACING;
+    private int preferredScrollableViewportSizeLineCount = DEFAULT_PREFERRED_SCROLLABLE_VIEWPORT_SIZE_LINE_COUNT;
 
     /**
      * Default constructor.
@@ -239,7 +242,32 @@ public class MultilineLabel extends JComponent implements Scrollable {
 
     @Override
     public Dimension getPreferredScrollableViewportSize() {
-        return getPreferredSize();
+        var prefSize = getPreferredSize();
+        var fm = getFontMetrics(getFont());
+        int lineCount = getPreferredScrollableViewportSizeLineCount();
+        int lineHeight = AbstractTextLayout.getTextPreferredHeight(lineCount, fm, getLineSpacing());
+        var insets = getInsets();
+        return new Dimension(prefSize.width, Math.min(prefSize.height, lineHeight + insets.top + insets.bottom));
+    }
+
+    /**
+     * @return Preferred number of lines to calculate height of {@link Dimension} returned by
+     * {@link #getPreferredScrollableViewportSize()}.
+     */
+    public int getPreferredScrollableViewportSizeLineCount() {
+        return preferredScrollableViewportSizeLineCount;
+    }
+
+    /**
+     * @param preferredScrollableViewportSizeLineCount Preferred number of lines to calculate height of
+     * {@link Dimension} returned by {@link #getPreferredScrollableViewportSize()}.
+     * @see #DEFAULT_PREFERRED_SCROLLABLE_VIEWPORT_SIZE_LINE_COUNT
+     */
+    public void setPreferredScrollableViewportSizeLineCount(int preferredScrollableViewportSizeLineCount) {
+        if (preferredScrollableViewportSizeLineCount < 1) {
+            throw new IllegalArgumentException();
+        }
+        this.preferredScrollableViewportSizeLineCount = preferredScrollableViewportSizeLineCount;
     }
 
     @Override
@@ -254,14 +282,12 @@ public class MultilineLabel extends JComponent implements Scrollable {
 
     @Override
     public boolean getScrollableTracksViewportWidth() {
-        // no horizontal scroll bar
-        return true;
+        return true; // no horizontal scroll bar
     }
 
     @Override
     public boolean getScrollableTracksViewportHeight() {
-        // vertical scroll bar is OK
-        return false;
+        return false; // vertical scroll bar is OK
     }
 
     /**
