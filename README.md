@@ -14,7 +14,7 @@ Example:
 ```java
 import org.swingk.multiline.MultilineLabel;
 import javax.swing.border.EmptyBorder;
-        
+
 var label = new MultilineLabel();
 label.setText(myText); // set text - possibly requiring multiline presentation
 label.setPreferredWidthLimit(330); // the label's preferred width won't exceed 330 pixels
