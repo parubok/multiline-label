@@ -257,7 +257,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
     }
 
     /**
-     * @param preferredViewportLineCount Preferred number of lines to calculate height of
+     * @param preferredViewportLineCount Preferred number of lines to calculate the height of
      * {@link Dimension} returned by {@link #getPreferredScrollableViewportSize()}.
      * @see #DEFAULT_PREFERRED_VIEWPORT_LINE_COUNT
      */
