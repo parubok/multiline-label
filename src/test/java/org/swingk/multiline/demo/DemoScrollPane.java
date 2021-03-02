@@ -15,17 +15,18 @@ public class DemoScrollPane {
     }
 
     private static void buildUI() {
-        JPanel contentPanel = new JPanel(new BorderLayout());
+        var contentPanel = new JPanel(new BorderLayout());
 
-        MultilineLabel label = new MultilineLabel(Demo.TEXT);
+        var label = new MultilineLabel(Demo.TEXT);
+        label.setPreferredScrollableViewportSizeLineCount(3);
 
-        JScrollPane sp = new JScrollPane();
+        var sp = new JScrollPane();
         sp.setViewportView(label);
         sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         contentPanel.add(sp, BorderLayout.CENTER);
 
-        JFrame frame = new JFrame("Demo");
+        var frame = new JFrame("Demo");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(contentPanel);
         frame.pack();
