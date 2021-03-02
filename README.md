@@ -8,7 +8,7 @@ Java Swing component to display a plain, left-to-right text (single line or mult
 Motivation: Though standard Swing provides a number of options to display multiline text (e.g. `JLabel` with HTML, read-only `JTextArea`, etc.), none of them IMHO is very convenient and straightforward.
 The goal of this component is to provide a multiline label with predictable and easily configurable behavior.
 
-The label implements `javax.swing.Scrollable` interface to support scrolling. By default, up to 20 lines will be displayed without vertical scroll bar. See `MultilineLabel.setPreferredScrollableViewportSizeLineCount`.
+The label implements `javax.swing.Scrollable` interface to support scrolling. By default, up to 20 lines will be displayed without vertical scroll bar. See `MultilineLabel.setPreferredViewportLineCount`.
 
 Example:
 ```java
