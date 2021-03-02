@@ -36,7 +36,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
 
     public static final float DEFAULT_LINE_SPACING = 1.1f;
 
-    public static final int DEFAULT_PREFERRED_SCROLLABLE_VIEWPORT_SIZE_LINE_COUNT = 20;
+    public static final int DEFAULT_PREFERRED_VIEWPORT_LINE_COUNT = 20;
 
     /**
      * @param insets Insets to include in the calculation. Not null.
@@ -87,7 +87,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
     private int prefWidthLimit = DEFAULT_WIDTH_LIMIT;
     private boolean useCurrentWidthForPreferredSize = true;
     private float lineSpacing = DEFAULT_LINE_SPACING;
-    private int preferredScrollableViewportSizeLineCount = DEFAULT_PREFERRED_SCROLLABLE_VIEWPORT_SIZE_LINE_COUNT;
+    private int preferredViewportLineCount = DEFAULT_PREFERRED_VIEWPORT_LINE_COUNT;
 
     /**
      * Default constructor.
@@ -242,7 +242,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
     public Dimension getPreferredScrollableViewportSize() {
         var prefSize = getPreferredSize();
         var fm = getFontMetrics(getFont());
-        int lineCount = getPreferredScrollableViewportSizeLineCount();
+        int lineCount = getPreferredViewportLineCount();
         int lineHeight = AbstractTextLayout.getTextPreferredHeight(lineCount, fm, getLineSpacing());
         var insets = getInsets();
         return new Dimension(prefSize.width, Math.min(prefSize.height, lineHeight + insets.top + insets.bottom));
@@ -252,20 +252,20 @@ public class MultilineLabel extends JComponent implements Scrollable {
      * @return Preferred number of lines to calculate height of {@link Dimension} returned by
      * {@link #getPreferredScrollableViewportSize()}.
      */
-    public int getPreferredScrollableViewportSizeLineCount() {
-        return preferredScrollableViewportSizeLineCount;
+    public int getPreferredViewportLineCount() {
+        return preferredViewportLineCount;
     }
 
     /**
-     * @param preferredScrollableViewportSizeLineCount Preferred number of lines to calculate height of
+     * @param preferredViewportLineCount Preferred number of lines to calculate height of
      * {@link Dimension} returned by {@link #getPreferredScrollableViewportSize()}.
-     * @see #DEFAULT_PREFERRED_SCROLLABLE_VIEWPORT_SIZE_LINE_COUNT
+     * @see #DEFAULT_PREFERRED_VIEWPORT_LINE_COUNT
      */
-    public void setPreferredScrollableViewportSizeLineCount(int preferredScrollableViewportSizeLineCount) {
-        if (preferredScrollableViewportSizeLineCount < 1) {
+    public void setPreferredViewportLineCount(int preferredViewportLineCount) {
+        if (preferredViewportLineCount < 1) {
             throw new IllegalArgumentException();
         }
-        this.preferredScrollableViewportSizeLineCount = preferredScrollableViewportSizeLineCount;
+        this.preferredViewportLineCount = preferredViewportLineCount;
         revalidate();
         repaint();
     }

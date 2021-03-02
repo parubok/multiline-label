@@ -18,7 +18,7 @@ public class DemoScrollPane {
         var contentPanel = new JPanel(new BorderLayout());
 
         var label = new MultilineLabel(Demo.TEXT);
-        label.setPreferredScrollableViewportSizeLineCount(3);
+        label.setPreferredViewportLineCount(3);
 
         var sp = new JScrollPane();
         sp.setViewportView(label);
