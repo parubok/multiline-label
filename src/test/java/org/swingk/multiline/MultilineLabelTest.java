@@ -11,9 +11,6 @@ import java.awt.Insets;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.beans.PropertyChangeEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MultilineLabelTest {
 
@@ -49,22 +46,6 @@ public class MultilineLabelTest {
             Assertions.assertEquals(0.5f, label.getLineSpacing());
             Assertions.assertThrows(IllegalArgumentException.class, () -> label.setLineSpacing(0.0f));
             Assertions.assertThrows(IllegalArgumentException.class, () -> label.setLineSpacing(-0.1f));
-        });
-    }
-
-    @Test
-    public void lineSpacingPropChangeEvent() throws Exception {
-        SwingUtilities.invokeAndWait(() -> {
-            MultilineLabel label = new MultilineLabel();
-            label.setLineSpacing(2.0f);
-            List<PropertyChangeEvent> events = new ArrayList<>();
-            label.addPropertyChangeListener("lineSpacing", events::add);
-            label.setLineSpacing(10.0f);
-            Assertions.assertEquals(1, events.size());
-            Assertions.assertEquals(2.0f, events.get(0).getOldValue());
-            Assertions.assertEquals(10.0f, events.get(0).getNewValue());
-            Assertions.assertEquals("lineSpacing", events.get(0).getPropertyName());
-            Assertions.assertEquals(label, events.get(0).getSource());
         });
     }
 
@@ -352,6 +333,24 @@ public class MultilineLabelTest {
 
             Assertions.assertThrows(IllegalArgumentException.class,
                     () -> label.setPreferredScrollableViewportSizeLineCount(0));
+        });
+    }
+
+    @Test
+    public void preferredScrollableViewportSizeLineCountWithBorder() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            var label = new MultilineLabel(LOREM_IPSUM);
+            label.setBorder(new EmptyBorder(1, 2, 3, 4));
+            Assertions.assertEquals(new Dimension(494, 56), label.getPreferredScrollableViewportSize());
+            label.setPreferredScrollableViewportSizeLineCount(1);
+            Assertions.assertEquals(new Dimension(494, 20), label.getPreferredScrollableViewportSize());
+            label.setPreferredScrollableViewportSizeLineCount(2);
+            Assertions.assertEquals(new Dimension(494, 38), label.getPreferredScrollableViewportSize());
+            label.setPreferredScrollableViewportSizeLineCount(1_000);
+            Assertions.assertEquals(new Dimension(494, 56), label.getPreferredScrollableViewportSize());
+
+            label.setText("");
+            Assertions.assertEquals(new Dimension(6, 4), label.getPreferredScrollableViewportSize());
         });
     }
 
