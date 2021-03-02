@@ -169,9 +169,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
      * Fires change event for property "text".
      */
     public void setText(String text) {
-        String oldValue = this.text;
         setTextAndTextLayout(text);
-        firePropertyChange("text", oldValue, this.text);
         revalidate();
         repaint();
     }
@@ -268,6 +266,8 @@ public class MultilineLabel extends JComponent implements Scrollable {
             throw new IllegalArgumentException();
         }
         this.preferredScrollableViewportSizeLineCount = preferredScrollableViewportSizeLineCount;
+        revalidate();
+        repaint();
     }
 
     @Override
@@ -308,9 +308,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
         if (lineSpacing <= 0.0f) {
             throw new IllegalArgumentException("Line spacing must be positive.");
         }
-        float oldValue = getLineSpacing();
         this.lineSpacing = lineSpacing;
-        firePropertyChange("lineSpacing", Float.valueOf(oldValue), Float.valueOf(getLineSpacing()));
         revalidate();
         repaint();
     }
