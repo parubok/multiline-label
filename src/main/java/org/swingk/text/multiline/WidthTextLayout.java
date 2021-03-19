@@ -1,4 +1,4 @@
-package org.swingk.multiline;
+package org.swingk.text.multiline;
 
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
@@ -9,7 +9,6 @@ import java.awt.Graphics;
 import java.awt.Insets;
 
 import static javax.swing.plaf.basic.BasicGraphicsUtils.getStringWidth;
-import static org.swingk.multiline.MultilineUtils.toDimension;
 
 /**
  * Dynamically calculates line breaks based on value of {@link MultilineLabel#getPreferredScrollableViewportSize()}
@@ -83,7 +82,7 @@ final class WidthTextLayout extends AbstractTextLayout {
         } else {
             textPrefWidth = textPrefHeight = 0;
         }
-        return toDimension(textPrefWidth, textPrefHeight, insets);
+        return MultilineUtils.toDimension(textPrefWidth, textPrefHeight, insets);
     }
 
     /**

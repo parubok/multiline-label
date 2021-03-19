@@ -1,4 +1,4 @@
-package org.swingk.multiline;
+package org.swingk.text.multiline;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

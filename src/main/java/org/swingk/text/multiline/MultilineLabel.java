@@ -1,4 +1,4 @@
-package org.swingk.multiline;
+package org.swingk.text.multiline;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -13,8 +13,6 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.util.Objects;
-
-import static org.swingk.multiline.MultilineUtils.toDimension;
 
 /**
  * Component to display a plain text (possibly on multiple lines).
@@ -144,7 +142,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
         if (isMinimumSizeSet()) {
             return super.getMinimumSize();
         }
-        return toDimension(0, 0, getInsets());
+        return MultilineUtils.toDimension(0, 0, getInsets());
     }
 
     @Override

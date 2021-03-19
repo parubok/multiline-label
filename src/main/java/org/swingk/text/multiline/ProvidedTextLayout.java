@@ -1,4 +1,4 @@
-package org.swingk.multiline;
+package org.swingk.text.multiline;
 
 import javax.swing.JComponent;
 import java.awt.Color;
@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static javax.swing.plaf.basic.BasicGraphicsUtils.getStringWidth;
-import static org.swingk.multiline.MultilineUtils.toDimension;
 
 /**
  * Text layout where line breaks are provided in the text by line separators.
@@ -97,7 +96,7 @@ final class ProvidedTextLayout extends AbstractTextLayout {
         } else {
             textPrefWidth = textPrefHeight = 0;
         }
-        return toDimension(textPrefWidth, textPrefHeight, insets);
+        return MultilineUtils.toDimension(textPrefWidth, textPrefHeight, insets);
     }
 
     @Override

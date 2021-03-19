@@ -1,4 +1,4 @@
-package org.swingk.multiline;
+package org.swingk.text.multiline;
 
 import java.awt.Dimension;
 import java.awt.FontMetrics;

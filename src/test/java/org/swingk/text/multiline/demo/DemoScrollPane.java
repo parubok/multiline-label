@@ -1,6 +1,6 @@
-package org.swingk.multiline.demo;
+package org.swingk.text.multiline.demo;
 
-import org.swingk.multiline.MultilineLabel;
+import org.swingk.text.multiline.MultilineLabel;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;

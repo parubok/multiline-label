@@ -1,4 +1,4 @@
-package org.swingk.multiline;
+package org.swingk.text.multiline;
 
 import javax.swing.JComponent;
 import java.awt.Dimension;

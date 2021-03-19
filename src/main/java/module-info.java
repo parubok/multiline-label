@@ -1,4 +1,4 @@
-module org.swingk.multiline {
-    exports org.swingk.multiline;
+module org.swingk.text.multiline {
+    exports org.swingk.text.multiline;
     requires java.desktop;
 }
