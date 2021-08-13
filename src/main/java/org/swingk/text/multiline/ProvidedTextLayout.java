@@ -25,7 +25,9 @@ final class ProvidedTextLayout extends AbstractTextLayout {
         this.lines = breakToLines(label.getText());
     }
 
-    List<String> getLines() { return lines; }
+    List<String> getLines() {
+        return lines;
+    }
 
     private static Stream<String> lineStream(String text) {
         return text.strip().lines();
