@@ -12,8 +12,9 @@ The label implements `javax.swing.Scrollable` interface to support scrolling. By
 
 Example:
 ```java
-import io.github.parubok.text.multiline.MultilineLabel;
 import javax.swing.border.EmptyBorder;
+
+import io.github.parubok.text.multiline.MultilineLabel;
 
 var label = new MultilineLabel();
 label.setText(myText); // set text - possibly requiring multiline presentation
