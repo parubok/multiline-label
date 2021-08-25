@@ -1,4 +1,4 @@
-package org.swingk.text.multiline;
+package io.github.parubok.text.multiline;
 
 import java.awt.Dimension;
 import java.awt.FontMetrics;

@@ -1,6 +1,6 @@
-package org.swingk.text.multiline.demo;
+package io.github.parubok.text.multiline.demo;
 
-import org.swingk.text.multiline.MultilineLabel;
+import io.github.parubok.text.multiline.MultilineLabel;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;

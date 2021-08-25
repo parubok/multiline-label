@@ -1,4 +1,4 @@
-module org.swingk.text.multiline {
-    exports org.swingk.text.multiline;
+module io.github.parubok.text.multiline {
+    exports io.github.parubok.text.multiline;
     requires java.desktop;
 }

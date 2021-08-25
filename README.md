@@ -12,7 +12,7 @@ The label implements `javax.swing.Scrollable` interface to support scrolling. By
 
 Example:
 ```java
-import org.swingk.text.multiline.MultilineLabel;
+import io.github.parubok.text.multiline.MultilineLabel;
 import javax.swing.border.EmptyBorder;
 
 var label = new MultilineLabel();
@@ -23,9 +23,9 @@ label.setBorder(new EmptyBorder(10, 5, 10, 5));
 panel.add(label); // add label to its parent container
 ```
 
-A demo application is provided. See `org.swingk.text.multiline.demo.Demo`.
+A demo application is provided. See `io.github.parubok.text.multiline.demo.Demo`.
 
-This library is packaged as a Java 9 module `org.swingk.text.multiline` (with a single dependency on a system module `java.desktop`). 
+This library is packaged as a Java 9 module `io.github.parubok.text.multiline` (with a single dependency on a system module `java.desktop`). 
 
 This project has no external dependencies (except JUnit 5, for testing).
 

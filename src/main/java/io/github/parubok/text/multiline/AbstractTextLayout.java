@@ -1,4 +1,4 @@
-package org.swingk.text.multiline;
+package io.github.parubok.text.multiline;
 
 import javax.swing.JComponent;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
