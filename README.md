@@ -31,3 +31,7 @@ This library is packaged as a Java 9 module `io.github.parubok.text.multiline` (
 This project has no external dependencies (except JUnit 5, for testing).
 
 Requires Java 11 or later.
+
+### License
+
+This project is licensed under [Apache License, version 2.0](https://www.apache.org/licenses/LICENSE-2.0)
