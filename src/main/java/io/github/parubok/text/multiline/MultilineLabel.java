@@ -23,7 +23,6 @@ import java.util.Objects;
  *     into multiple lines according to available space.</li>
  *     <li>When the label text contains line separators, it is broken into lines according to them.</li>
  * </ol>
- * </p>
  */
 public class MultilineLabel extends JComponent implements Scrollable {
 
