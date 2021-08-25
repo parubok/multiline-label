@@ -8,7 +8,16 @@
   <version>1.17-SNAPSHOT</version>
 
   <name>multiline-label</name>
+  <description>Java Swing component to display multiline text</description>
   <url>https://github.com/parubok/multiline-label</url>
+
+  <developers>
+    <developer>
+      <id>parubok</id>
+      <name>Eli Rosenblum</name>
+      <email>eliahu.rosenblum@gmail.com</email>
+    </developer>
+  </developers>
 
   <licenses>
     <license>
