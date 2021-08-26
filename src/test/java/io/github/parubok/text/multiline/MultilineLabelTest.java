@@ -55,7 +55,7 @@ public class MultilineLabelTest {
             MultilineLabel label = new MultilineLabel("text1");
             Assertions.assertTrue(label.isWidthBasedLayout());
             label.setText("line1\r\nline2");
-            Assertions.assertFalse(label.isWidthBasedLayout());
+            Assertions.assertTrue(label.isWidthBasedLayout());
         });
     }
 
@@ -205,10 +205,10 @@ public class MultilineLabelTest {
             Assertions.assertEquals(new Dimension(27, 64), label.getPreferredSize());
 
             label.setText("  line1 \n line2\nline3\r\nline4   ");
-            Assertions.assertEquals(new Dimension(27, 64), label.getPreferredSize());
+            Assertions.assertEquals(new Dimension(30, 64), label.getPreferredSize());
 
             label.setBorder(new EmptyBorder(1, 2, 3, 4));
-            Assertions.assertEquals(new Dimension(33, 68), label.getPreferredSize());
+            Assertions.assertEquals(new Dimension(36, 68), label.getPreferredSize());
         });
     }
 
@@ -351,16 +351,6 @@ public class MultilineLabelTest {
 
             label.setText("");
             Assertions.assertEquals(new Dimension(6, 4), label.getPreferredScrollableViewportSize());
-        });
-    }
-
-    @Test
-    public void getTextLayout() throws Exception {
-        SwingUtilities.invokeAndWait(() -> {
-            var label = new MultilineLabel(LOREM_IPSUM);
-            Assertions.assertTrue(label.getTextLayout() instanceof WidthTextLayout);
-            label.setText("line1\nline2");
-            Assertions.assertTrue(label.getTextLayout() instanceof ProvidedTextLayout);
         });
     }
 

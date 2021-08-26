@@ -30,12 +30,12 @@ public class WidthTextLayoutTest {
     @Test
     public void toRenderedText_2() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
-            Assertions.assertEquals("a b", WidthTextLayout.toRenderedText("a\nb"));
-            Assertions.assertEquals("a b", WidthTextLayout.toRenderedText("a \n b"));
-            Assertions.assertEquals("a b", WidthTextLayout.toRenderedText("\na \n b\n"));
-            Assertions.assertEquals("a b", WidthTextLayout.toRenderedText(" \n a \n b \n"));
-            Assertions.assertEquals("a b", WidthTextLayout.toRenderedText(" \n a\n\nb \n"));
-            Assertions.assertEquals("a b", WidthTextLayout.toRenderedText("a  \n  b"));
+            Assertions.assertEquals("a\nb", WidthTextLayout.toRenderedText("a\nb"));
+            Assertions.assertEquals("a \n b", WidthTextLayout.toRenderedText("a  \n b"));
+            Assertions.assertEquals("a \n b", WidthTextLayout.toRenderedText("\na \n b\n"));
+            Assertions.assertEquals("a \n b", WidthTextLayout.toRenderedText(" \n a \n b \n"));
+            Assertions.assertEquals("a\n\nb", WidthTextLayout.toRenderedText(" \n a\n\nb \n"));
+            Assertions.assertEquals("a \n b", WidthTextLayout.toRenderedText("a  \n  b"));
         });
     }
 

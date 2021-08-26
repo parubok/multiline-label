@@ -47,9 +47,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
      */
     public static Dimension calculatePreferredSize(JComponent c, Insets insets, FontMetrics fm, String text,
                                                    int wLimit, float lineSpacing) {
-        return ProvidedTextLayout.hasLines(text) ?
-                ProvidedTextLayout.calcPreferredSize(c, text, fm, insets, lineSpacing) :
-                WidthTextLayout.calcPreferredSize(c, insets, fm, text, wLimit, lineSpacing);
+        return WidthTextLayout.calcPreferredSize(c, insets, fm, text, wLimit, lineSpacing);
     }
 
     /**
@@ -72,13 +70,10 @@ public class MultilineLabel extends JComponent implements Scrollable {
         assert text != null;
         assert insets != null;
         assert background != null;
-        if (ProvidedTextLayout.hasLines(text)) {
-            ProvidedTextLayout.paintText(c, g, text, insets, enabled, background, lineSpacing);
-        } else {
-            WidthTextLayout.paintText(c, g, text, insets, wLimit, enabled, background, lineSpacing);
-        }
+        WidthTextLayout.paintText(c, g, text, insets, wLimit, enabled, background, lineSpacing);
     }
 
+    private final boolean ignorePrefWidthLimit;
     private String text = "";
     private TextLayout textLayout; // not null after constructor
     private int prefWidthLimit = DEFAULT_WIDTH_LIMIT;
@@ -99,7 +94,18 @@ public class MultilineLabel extends JComponent implements Scrollable {
      * @param text The text to be displayed by the label. Not null.
      */
     public MultilineLabel(String text) {
+        this(text, false);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param text The text to be displayed by the label. Not null.
+     * @param ignorePrefWidthLimit If {@code true}, the label won't break the text into lines according to the limit.
+     */
+    public MultilineLabel(String text, boolean ignorePrefWidthLimit) {
         super();
+        this.ignorePrefWidthLimit = ignorePrefWidthLimit;
         setBorder(BorderFactory.createEmptyBorder());
         setOpaque(true);
         updateUI();
@@ -187,7 +193,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
     }
 
     protected TextLayout createTextLayout() {
-        return ProvidedTextLayout.hasLines(getText()) ? new ProvidedTextLayout(this) : new WidthTextLayout(this);
+        return ignorePrefWidthLimit ? new ProvidedTextLayout(this) : new WidthTextLayout(this);
     }
 
     protected TextLayout getTextLayout() {

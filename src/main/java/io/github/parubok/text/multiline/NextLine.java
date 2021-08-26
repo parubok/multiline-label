@@ -1,6 +1,7 @@
 package io.github.parubok.text.multiline;
 
 final class NextLine {
+
     /**
      * True if this is the last line of the text (end of text).
      */

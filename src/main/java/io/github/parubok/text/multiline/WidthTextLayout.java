@@ -7,14 +7,20 @@ import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Insets;
+import java.util.List;
 
 import static javax.swing.plaf.basic.BasicGraphicsUtils.getStringWidth;
 
 /**
  * Dynamically calculates line breaks based on value of {@link MultilineLabel#getPreferredScrollableViewportSize()}
- * or the current label width. Ignores line breaks in text by replacing them with spaces.
+ * or the current label width or line separators in the text.
  */
 final class WidthTextLayout extends AbstractTextLayout {
+
+    private static final char SPACE = ' ';
+
+    // order is important - System.lineSeparator() may be "\r\n"
+    private static final List<String> LINE_SEPARATORS = List.of(System.lineSeparator(), "\n", "\r");
 
     static void paintText(JComponent c, Graphics g, String text, Insets insets, int wLimit, boolean enabled,
                           Color background, float lineSpacing) {
@@ -86,6 +92,7 @@ final class WidthTextLayout extends AbstractTextLayout {
     }
 
     /**
+     * @param c Component to paint the text on it. May be null.
      * @param text Text to display in {@link MultilineLabel}.
      * @param startIndex Index of 1st character in the new line.
      * @param fm Current {@link FontMetrics}.
@@ -99,9 +106,30 @@ final class WidthTextLayout extends AbstractTextLayout {
         assert fm != null;
         assert widthLimit > 0;
 
+        // if there is a line separator before the width limit - return text before the separator
+        int sepIndex = -1; // line separator index
+        String lineSeparator = null;
+        lineSeparatorLoop:
+        for (int i = startIndex; i < text.length(); i++) {
+            for (String sep : LINE_SEPARATORS) {
+                if (text.startsWith(sep, i)) {
+                    lineSeparator = sep;
+                    sepIndex = i;
+                    break lineSeparatorLoop;
+                }
+            }
+        }
+        if (sepIndex > -1) {
+            String sub = text.substring(startIndex, sepIndex);
+            if (sub.indexOf(SPACE) == -1 || getStringWidth(c, fm, sub) <= widthLimit) {
+                boolean lastLine = (sepIndex + lineSeparator.length() == text.length());
+                return new NextLine(lastLine, startIndex, sepIndex - 1, sepIndex + lineSeparator.length());
+            }
+        }
+
         int spaceIndex = startIndex;
         while (true) {
-            int nextSpaceIndex = text.indexOf(' ', spaceIndex + 1);
+            int nextSpaceIndex = text.indexOf(SPACE, spaceIndex + 1);
             if (nextSpaceIndex == -1) { // there is no next space after spaceIndex
                 if (spaceIndex > startIndex && getStringWidth(c, fm, text.substring(startIndex)) > widthLimit) {
                     // next line will be single word last line
@@ -127,7 +155,7 @@ final class WidthTextLayout extends AbstractTextLayout {
     }
 
     static String toRenderedText(String text) {
-        var sb = new StringBuilder(text.replace('\n', ' ').trim());
+        var sb = new StringBuilder(text.strip());
         int doubleSpaceIndex;
         while ((doubleSpaceIndex = sb.indexOf("  ")) > -1) {
             sb.delete(doubleSpaceIndex + 1, doubleSpaceIndex + 2); // delete second space

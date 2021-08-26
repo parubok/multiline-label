@@ -37,10 +37,6 @@ final class ProvidedTextLayout extends AbstractTextLayout {
         return lineStream(text).map(String::strip).collect(Collectors.toUnmodifiableList());
     }
 
-    static boolean hasLines(String text) {
-        return lineStream(text).skip(1).findFirst().isPresent();
-    }
-
     /**
      * @param c Component. If not null, its AA settings will be used for the painting.
      * @param g Not null.
