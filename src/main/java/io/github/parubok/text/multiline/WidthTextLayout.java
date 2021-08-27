@@ -13,7 +13,9 @@ import static javax.swing.plaf.basic.BasicGraphicsUtils.getStringWidth;
 
 /**
  * Dynamically calculates line breaks based on value of {@link MultilineLabel#getPreferredScrollableViewportSize()}
- * or the current label width or line separators in the text.
+ * or the current label width (honoring line separators already existing in the text).
+ * <p>
+ * This is the default layout for {@link MultilineLabel}.
  */
 final class WidthTextLayout extends AbstractTextLayout {
 
@@ -122,8 +124,7 @@ final class WidthTextLayout extends AbstractTextLayout {
         if (sepIndex > -1) {
             String sub = text.substring(startIndex, sepIndex);
             if (sub.indexOf(SPACE) == -1 || getStringWidth(c, fm, sub) <= widthLimit) {
-                boolean lastLine = (sepIndex + lineSeparator.length() == text.length());
-                return new NextLine(lastLine, startIndex, sepIndex - 1, sepIndex + lineSeparator.length());
+                return new NextLine(false, startIndex, sepIndex - 1, sepIndex + lineSeparator.length());
             }
         }
 
