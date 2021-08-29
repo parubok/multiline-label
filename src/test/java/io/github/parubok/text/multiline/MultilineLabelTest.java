@@ -204,7 +204,7 @@ public class MultilineLabelTest {
             label.setText("line1\nline2\nline3\nline4");
             Assertions.assertEquals(new Dimension(27, 64), label.getPreferredSize());
 
-            label.setText("  line1 \n line2\nline3\r\nline4   ");
+            label.setText("  line1 \n line2\nline3\nline4   ");
             Assertions.assertEquals(new Dimension(30, 64), label.getPreferredSize());
 
             label.setBorder(new EmptyBorder(1, 2, 3, 4));
