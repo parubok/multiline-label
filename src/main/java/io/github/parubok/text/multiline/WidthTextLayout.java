@@ -109,22 +109,15 @@ final class WidthTextLayout extends AbstractTextLayout {
         assert widthLimit > 0;
 
         // if there is a line separator before the width limit - return text before the separator
-        int sepIndex = -1; // line separator index
-        String lineSeparator = null;
-        lineSeparatorLoop:
-        for (int i = startIndex; i < text.length(); i++) {
-            for (String sep : LINE_SEPARATORS) {
-                if (text.startsWith(sep, i)) {
-                    lineSeparator = sep;
-                    sepIndex = i;
-                    break lineSeparatorLoop;
+        for (String sep : LINE_SEPARATORS) {
+            int sepIndex = text.indexOf(sep, startIndex);
+            if (sepIndex > -1) {
+                String sub = text.substring(startIndex, sepIndex);
+                if (sub.indexOf(SPACE) == -1 || getStringWidth(c, fm, sub) <= widthLimit) {
+                    return new NextLine(false, startIndex, sepIndex - 1, sepIndex + sep.length());
+                } else {
+                    break;
                 }
-            }
-        }
-        if (sepIndex > -1) {
-            String sub = text.substring(startIndex, sepIndex);
-            if (sub.indexOf(SPACE) == -1 || getStringWidth(c, fm, sub) <= widthLimit) {
-                return new NextLine(false, startIndex, sepIndex - 1, sepIndex + lineSeparator.length());
             }
         }
 
