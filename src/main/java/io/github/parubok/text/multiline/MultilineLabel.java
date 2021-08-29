@@ -168,8 +168,10 @@ public class MultilineLabel extends JComponent implements Scrollable {
 
     /**
      * @param text Text of this label. Not null. The actually displayed text may differ from this value - multiple
-     * adjacent spaces may collapsed into one space, text may trimmed, EOL may be inserted, etc.
-     * Fires change event for property "text".
+     * adjacent spaces may be collapsed into one space, text may be trimmed, EOL may be inserted, etc.
+     * <p>
+     * <b>Note:</b> The text should contain a single type of line separator: {@code "\n"}, {@code "\r"} or
+     * {@code "\r\n"} (or no separator at all).
      */
     public void setText(String text) {
         setTextAndTextLayout(text);
@@ -304,8 +306,6 @@ public class MultilineLabel extends JComponent implements Scrollable {
     /**
      * @param lineSpacing Distance between two adjacent baselines will be the font height (as returned
      * by {@link FontMetrics#getHeight()}) multiplied by this value.
-     * <p>
-     * Fires {@link java.beans.PropertyChangeEvent} for {@code "lineSpacing"} property.
      */
     public void setLineSpacing(float lineSpacing) {
         if (lineSpacing <= 0.0f) {
