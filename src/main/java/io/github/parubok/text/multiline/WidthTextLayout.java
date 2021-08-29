@@ -109,6 +109,7 @@ final class WidthTextLayout extends AbstractTextLayout {
         assert widthLimit > 0;
 
         // if there is a line separator before the width limit - return text before the separator
+        // (we assume that all line separators are identical)
         for (String sep : LINE_SEPARATORS) {
             int sepIndex = text.indexOf(sep, startIndex);
             if (sepIndex > -1) {
