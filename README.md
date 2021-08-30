@@ -35,3 +35,27 @@ Requires Java 11 or later.
 ### License
 
 This project is licensed under [Apache License, version 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+
+### Installation
+
+Releases are available in [Maven Central](https://repo1.maven.org/maven2/io/github/parubok/multiline-label/)
+
+#### Maven
+
+Add this snippet to the pom.xml `dependencies` section:
+
+```xml
+<dependency>
+    <groupId>io.github.parubok</groupId>
+    <artifactId>multiline-label</artifactId>
+    <version>1.17</version>
+</dependency>
+```
+
+#### Gradle
+
+Add this snippet to the build.gradle `dependencies` section:
+
+```groovy
+implementation 'io.github.parubok:multiline-label:1.17'
+```
