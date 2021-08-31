@@ -21,8 +21,8 @@ final class WidthTextLayout extends AbstractTextLayout {
 
     private static final char SPACE = ' ';
 
-    // order is important - System.lineSeparator() may be "\r\n"
-    private static final List<String> LINE_SEPARATORS = List.of(System.lineSeparator(), "\n", "\r");
+    // order is important
+    private static final List<String> LINE_SEPARATORS = List.of("\r\n", "\n", "\r");
 
     static void paintText(JComponent c, Graphics g, String text, Insets insets, int wLimit, boolean enabled,
                           Color background, float lineSpacing) {
@@ -109,7 +109,7 @@ final class WidthTextLayout extends AbstractTextLayout {
         assert widthLimit > 0;
 
         // if there is a line separator before the width limit - return text before the separator
-        // (we assume that all line separators are identical)
+        // (we assume that, for a string, all line separators are identical)
         for (String sep : LINE_SEPARATORS) {
             int sepIndex = text.indexOf(sep, startIndex);
             if (sepIndex > -1) {
