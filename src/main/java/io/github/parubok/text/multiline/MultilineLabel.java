@@ -15,14 +15,10 @@ import java.awt.datatransfer.StringSelection;
 import java.util.Objects;
 
 /**
- * Component to display a plain text (possibly on multiple lines).
- * <p>
- * Operates in 2 modes:
- * <ol>
- *     <li>When the label text doesn't contain line separators, then the label dynamically decides how to break it
- *     into multiple lines according to available space.</li>
- *     <li>When the label text contains line separators, it is broken into lines according to them.</li>
- * </ol>
+ * Swing component to display a plain text (possibly on multiple lines).
+ * Allows to specify the preferred width limit.
+ *
+ * @see javax.swing.JLabel
  */
 public class MultilineLabel extends JComponent implements Scrollable {
 
