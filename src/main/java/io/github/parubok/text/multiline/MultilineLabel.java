@@ -16,7 +16,8 @@ import java.util.Objects;
 
 /**
  * Swing component to display a plain text (possibly on multiple lines).
- * Allows to specify the preferred width limit.
+ * Allows to specify the preferred width limit in pixels.
+ * Implements {@link Scrollable} interface and allows to set the preferred line count for the viewport.
  *
  * @see javax.swing.JLabel
  */
