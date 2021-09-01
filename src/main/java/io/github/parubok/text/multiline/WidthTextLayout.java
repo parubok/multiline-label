@@ -14,7 +14,7 @@ import static javax.swing.plaf.basic.BasicGraphicsUtils.getStringWidth;
 /**
  * Dynamically calculates line breaks based on the current label width.
  * <p>
- * This is the default layout for {@link MultilineLabel}.
+ * This is the default text layout for {@link MultilineLabel}.
  */
 final class WidthTextLayout extends AbstractTextLayout {
 
