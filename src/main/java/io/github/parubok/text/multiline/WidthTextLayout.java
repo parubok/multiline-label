@@ -12,8 +12,7 @@ import java.util.List;
 import static javax.swing.plaf.basic.BasicGraphicsUtils.getStringWidth;
 
 /**
- * Dynamically calculates line breaks based on value of {@link MultilineLabel#getPreferredScrollableViewportSize()}
- * or the current label width (honoring line separators already existing in the text).
+ * Dynamically calculates line breaks based on the current label width.
  * <p>
  * This is the default layout for {@link MultilineLabel}.
  */
@@ -94,11 +93,11 @@ final class WidthTextLayout extends AbstractTextLayout {
     }
 
     /**
-     * @param c Component to paint the text on it. May be null.
+     * @param c Component to paint the text on it. Not necessarily {@link MultilineLabel}. May be null.
      * @param text Text to display in {@link MultilineLabel}.
      * @param startIndex Index of 1st character in the new line.
      * @param fm Current {@link FontMetrics}.
-     * @param widthLimit Limit on the width of the line.
+     * @param widthLimit Limit on the width of the line (in pixels).
      * @return Object with details of the next line.
      */
     static NextLine getNextLine(JComponent c, String text, int startIndex, FontMetrics fm, int widthLimit) {
