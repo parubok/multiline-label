@@ -33,6 +33,14 @@ public class MultilineLabel extends JComponent implements Scrollable {
     public static final int DEFAULT_PREFERRED_VIEWPORT_LINE_COUNT = 20;
 
     /**
+     * Default value for {@code maxLines} property.
+     *
+     * @see #setMaxLines(int)
+     * @see #getMaxLines()
+     */
+    public static final int DEFAULT_MAX_LINES = Integer.MAX_VALUE;
+
+    /**
      * @param insets Insets to include in the calculation. Not null.
      * @param fm {@link FontMetrics} to calculate text size. Not null.
      * @param text Text to calculate preferred size for. Not null.
@@ -77,6 +85,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
     private boolean useCurrentWidthForPreferredSize = true;
     private float lineSpacing = DEFAULT_LINE_SPACING;
     private int preferredViewportLineCount = DEFAULT_PREFERRED_VIEWPORT_LINE_COUNT;
+    private int maxLines = DEFAULT_MAX_LINES;
 
     /**
      * Default constructor.
@@ -166,8 +175,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
     /**
      * @param text Text of this label. Not null. The actually displayed text may differ from this value - multiple
      * adjacent spaces may be collapsed into one space, text may be trimmed, EOL may be inserted, etc.
-     * <p>
-     * <b>Note:</b> The text should contain a single type of line separator: {@code "\n"}, {@code "\r"} or
+     * The text should contain a single type of line separator: {@code "\n"}, {@code "\r"} or
      * {@code "\r\n"} (or no separator at all).
      */
     public void setText(String text) {
@@ -290,6 +298,29 @@ public class MultilineLabel extends JComponent implements Scrollable {
     @Override
     public boolean getScrollableTracksViewportHeight() {
         return false; // vertical scroll bar is OK
+    }
+
+    /**
+     * @return Maximum number of lines to display on this label.
+     * @see #setMaxLines(int)
+     */
+    public int getMaxLines() {
+        return maxLines;
+    }
+
+    /**
+     * @param maxLines Maximum number of lines to display on this label. The remaining text will be displayed
+     * as {@code "..."}.
+     * @see #DEFAULT_MAX_LINES
+     * @see #getMaxLines()
+     */
+    public void setMaxLines(int maxLines) {
+        if (maxLines < 1) {
+            throw new IllegalArgumentException("Value must be positive.");
+        }
+        this.maxLines = maxLines;
+        revalidate();
+        repaint();
     }
 
     /**

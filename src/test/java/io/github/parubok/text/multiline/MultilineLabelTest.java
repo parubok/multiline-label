@@ -222,6 +222,38 @@ public class MultilineLabelTest {
     }
 
     @Test
+    public void getPreferredSize_maxLines() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            var label = new MultilineLabel("line\nline\nline\nlast line");
+            label.setLineSpacing(1.0f);
+            Assertions.assertEquals(new Dimension(44, 64), label.getPreferredSize());
+
+            label.setMaxLines(1);
+            Assertions.assertEquals(new Dimension(9, 16), label.getPreferredSize());
+
+            label.setMaxLines(2);
+            Assertions.assertEquals(new Dimension(20, 32), label.getPreferredSize());
+
+            label.setMaxLines(3);
+            Assertions.assertEquals(new Dimension(20, 48), label.getPreferredSize());
+
+            label.setMaxLines(4);
+            Assertions.assertEquals(new Dimension(44, 64), label.getPreferredSize());
+
+            label.setMaxLines(5);
+            Assertions.assertEquals(new Dimension(44, 64), label.getPreferredSize());
+        });
+    }
+
+    @Test
+    public void maxLines_0() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            var label = new MultilineLabel("");
+            Assertions.assertThrows(IllegalArgumentException.class, () -> label.setMaxLines(0));
+        });
+    }
+
+    @Test
     public void calculatePreferredSize_3() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel();

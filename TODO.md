@@ -1,4 +1,3 @@
-* TODO: setMaxLines, "..." to display very long messages
 * TODO: Do not collapse double spaces
 * TODO: Consolidate demos
 * TODO: Improve README

@@ -25,11 +25,12 @@ final class WidthTextLayout extends AbstractTextLayout {
 
     static void paintText(JComponent c, Graphics g, String text, Insets insets, int wLimit, boolean enabled,
                           Color background, float lineSpacing) {
-        paintText2(c, g, toRenderedText(text), insets, wLimit, enabled, background, lineSpacing);
+        paintText2(c, g, toRenderedText(text), insets, wLimit, enabled, background, lineSpacing,
+                maxLinesForComponent(c));
     }
 
     private static void paintText2(JComponent c, Graphics g, String text, Insets insets, int wLimit, boolean enabled,
-                                   Color background, float lineSpacing) {
+                                   Color background, float lineSpacing, int maxLines) {
         if (text.isEmpty()) {
             return;
         }
@@ -43,9 +44,10 @@ final class WidthTextLayout extends AbstractTextLayout {
         final int yIncrement = MultilineUtils.getHeightIncrement(fm, lineSpacing);
         NextLine nextLine;
         int index = 0;
+        int lineCount = 0;
         do {
             nextLine = getNextLine(c, text, index, fm, wLimitText);
-            String lineStr = text.substring(nextLine.lineStartIndex, nextLine.lineEndIndex + 1);
+            String lineStr = nextLine.stringToPaint(text, ++lineCount, maxLines);
             if (enabled) {
                 drawString(c, g, lineStr, x, y);
             } else {
@@ -53,16 +55,23 @@ final class WidthTextLayout extends AbstractTextLayout {
             }
             y += yIncrement;
             index = nextLine.nextLineStartIndex;
-        } while (!nextLine.lastLine);
+        } while (nextLine.hasMoreLines(lineCount, maxLines));
     }
 
     static Dimension calcPreferredSize(JComponent c, Insets insets, FontMetrics fm, String text, int wLimit,
                                        float lineSpacing) {
-        return calcPreferredSize2(c, insets, fm, toRenderedText(text), wLimit, lineSpacing);
+        return calcPreferredSize2(c, insets, fm, toRenderedText(text), wLimit, lineSpacing, maxLinesForComponent(c));
+    }
+
+    private static int maxLinesForComponent(JComponent c) {
+        if (c instanceof MultilineLabel) {
+            return ((MultilineLabel) c).getMaxLines();
+        }
+        return MultilineLabel.DEFAULT_MAX_LINES;
     }
 
     private static Dimension calcPreferredSize2(JComponent c, Insets insets, FontMetrics fm, String text, int wLimit,
-                                                float lineSpacing) {
+                                                float lineSpacing, int maxLines) {
         assert insets != null;
         assert fm != null;
         assert text != null;
@@ -78,12 +87,11 @@ final class WidthTextLayout extends AbstractTextLayout {
             int maxLineWidth = 0; // pixels
             do {
                 nextLine = getNextLine(c, text, startIndex, fm, textWidthLimit);
-                String nextLineStr = text.substring(nextLine.lineStartIndex, nextLine.lineEndIndex + 1);
+                String nextLineStr = nextLine.stringToPaint(text, ++lineCount, maxLines);
                 int nextLineWidth = Math.round(getStringWidth(c, fm, nextLineStr));
                 maxLineWidth = Math.max(maxLineWidth, nextLineWidth);
-                lineCount++;
                 startIndex = nextLine.nextLineStartIndex;
-            } while (!nextLine.lastLine);
+            } while (nextLine.hasMoreLines(lineCount, maxLines));
             textPrefWidth = maxLineWidth;
             textPrefHeight = getTextPreferredHeight(lineCount, fm, lineSpacing);
         } else {
@@ -187,6 +195,9 @@ final class WidthTextLayout extends AbstractTextLayout {
         }
     }
 
+    /**
+     * @param expectedLabelWidth Expected label width. Ignored if less than 1.
+     */
     private Dimension calcPreferredSize(int expectedLabelWidth) {
         final int wLimit;
         if (expectedLabelWidth > 0) {
@@ -199,12 +210,12 @@ final class WidthTextLayout extends AbstractTextLayout {
         }
         final var fm = label.getFontMetrics(label.getFont());
         final var insets = label.getInsets();
-        return calcPreferredSize2(label, insets, fm, textToRender, wLimit, label.getLineSpacing());
+        return calcPreferredSize2(label, insets, fm, textToRender, wLimit, label.getLineSpacing(), label.getMaxLines());
     }
 
     @Override
     public void paintText(Graphics g) {
         paintText2(label, g, textToRender, label.getInsets(), label.getWidth(), label.isEnabled(),
-                label.getBackground(), label.getLineSpacing());
+                label.getBackground(), label.getLineSpacing(), label.getMaxLines());
     }
 }

@@ -60,6 +60,7 @@ public class Demo {
     private final JComboBox<String> fontFamilyComboBox;
     private final JTextField fontSizeTextField;
     private final JTextField lineSpacingTextField;
+    private final JTextField maxLinesTextField;
     private final JCheckBox enabledCheckBox;
     private final JPanel labelPanel;
     private MultilineLabel label;
@@ -92,6 +93,10 @@ public class Demo {
         fontSizeTextField.setColumns(5);
         lineSpacingTextField = new JTextField(Float.toString(MultilineLabel.DEFAULT_LINE_SPACING));
         lineSpacingTextField.setColumns(5);
+
+        maxLinesTextField = new JTextField("1000");
+        maxLinesTextField.setColumns(5);
+
         enabledCheckBox = new JCheckBox("Enabled");
         enabledCheckBox.setSelected(true);
 
@@ -118,6 +123,8 @@ public class Demo {
         controlsPanel.add(fontSizeTextField, gb(0, gridY++, 0, bottomInset));
         controlsPanel.add(new JLabel("Line Spacing:"), gb(0, gridY++));
         controlsPanel.add(lineSpacingTextField, gb(0, gridY++, 0, bottomInset));
+        controlsPanel.add(new JLabel("Max lines:"), gb(0, gridY++));
+        controlsPanel.add(maxLinesTextField, gb(0, gridY++, 0, bottomInset));
         controlsPanel.add(enabledCheckBox, gb(0, gridY++, 0, bottomInset));
 
         JButton setButton = new JButton("Set");
@@ -214,6 +221,8 @@ public class Demo {
         label.setLineSpacing(Float.parseFloat(lineSpacingTextField.getText()));
 
         label.setEnabled(enabledCheckBox.isSelected());
+
+        label.setMaxLines(Integer.parseInt(maxLinesTextField.getText()));
 
         labelPanel.removeAll();
         labelPanel.add(label);
