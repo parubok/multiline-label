@@ -38,7 +38,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
      * @see #setMaxLines(int)
      * @see #getMaxLines()
      */
-    public static final int DEFAULT_MAX_LINES = Integer.MAX_VALUE;
+    public static final int DEFAULT_MAX_LINES = 100_000;
 
     /**
      * @param insets Insets to include in the calculation. Not null.
@@ -351,6 +351,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
                 + ",useCurrentWidthForPreferredSize=" + useCurrentWidthForPreferredSize
                 + ",textLayout=" + textLayout
                 + ",lineSpacing=" + lineSpacing
+                + ",maxLines=" + maxLines
                 + ",textLength=" + text.length();
     }
 }
