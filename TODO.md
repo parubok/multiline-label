@@ -1,5 +1,4 @@
 * TODO: Do not collapse double spaces
-* TODO: Consolidate demos
 * TODO: Improve README
 * TODO: Specify width limit in characters (currently only in pixels)
 * TODO: Use javax.swing.text.Utilities.getBreakLocation ?

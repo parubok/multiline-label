@@ -7,10 +7,12 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
@@ -53,6 +55,7 @@ public class Demo {
     private final JFrame frame;
 
     private final JTextField preferredWidthLimitTextField;
+    private final JTextField preferredViewportLineCountTextField;
     private final JCheckBox prefSizeCheckBox;
     private final JTextField widthTextField;
     private final JTextField heightTextField;
@@ -74,6 +77,9 @@ public class Demo {
         contentPanel.add(labelPanel, BorderLayout.CENTER);
 
         preferredWidthLimitTextField = new JTextField(Integer.toString(MultilineLabel.DEFAULT_WIDTH_LIMIT));
+
+        preferredViewportLineCountTextField = new JTextField(Integer.toString(MultilineLabel.DEFAULT_PREFERRED_VIEWPORT_LINE_COUNT));
+
         prefSizeCheckBox = new JCheckBox("Preferred Size:");
         prefSizeCheckBox.setSelected(false);
         widthTextField = new JTextField("400");
@@ -110,6 +116,9 @@ public class Demo {
         controlsPanel.add(new JLabel("Preferred Width Limit (pixels):"), gb(0, gridY++));
         preferredWidthLimitTextField.setColumns(10);
         controlsPanel.add(preferredWidthLimitTextField, gb(0, gridY++, 0, bottomInset));
+        controlsPanel.add(new JLabel("Preferred Viewport Line Count:"), gb(0, gridY++));
+        preferredViewportLineCountTextField.setColumns(10);
+        controlsPanel.add(preferredViewportLineCountTextField, gb(0, gridY++, 0, bottomInset));
         controlsPanel.add(prefSizeCheckBox, gb(0, gridY++));
         controlsPanel.add(new JLabel("Width:"), gb(0, gridY++, 20, 0));
         controlsPanel.add(widthTextField, gb(0, gridY++, 20, 0));
@@ -127,13 +136,17 @@ public class Demo {
         controlsPanel.add(maxLinesTextField, gb(0, gridY++, 0, bottomInset));
         controlsPanel.add(enabledCheckBox, gb(0, gridY++, 0, bottomInset));
 
-        JButton setButton = new JButton("Set");
+        var setButton = new JButton("Set");
         setButton.addActionListener(e -> updateLabel());
         controlsPanel.add(setButton, gb(0, gridY++, 0, bottomInset));
 
-        JButton pasteButton = new JButton("Paste Text & Set");
+        var pasteButton = new JButton("Paste Text");
         pasteButton.addActionListener(e -> pasteText());
-        controlsPanel.add(pasteButton, gb(0, gridY++));
+        controlsPanel.add(pasteButton, gb(0, gridY++, 0, bottomInset));
+
+        var scrollPaneButton = new JButton("Scroll Pane");
+        scrollPaneButton.addActionListener(e -> showLabelInScrollPane());
+        controlsPanel.add(scrollPaneButton, gb(0, gridY++));
 
         JPanel westPanel = new JPanel(new BorderLayout());
         westPanel.add(controlsPanel, BorderLayout.NORTH);
@@ -147,7 +160,7 @@ public class Demo {
         frame = new JFrame("Demo: multiline-label");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(contentPanel);
-        frame.setSize(1200, 600);
+        frame.setSize(1200, 700);
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
 
@@ -167,6 +180,19 @@ public class Demo {
                 GridBagConstraints.NONE, new Insets(0, leftInset, bottomInset, 0), 0, 0);
     }
 
+    private void showLabelInScrollPane() {
+        var dialog = new JDialog(frame, "Scroll Pane");
+        var contentPanel = new JPanel(new BorderLayout());
+        contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+        var scrollPane = new JScrollPane();
+        scrollPane.setViewportView(createLabel());
+        contentPanel.add(scrollPane, BorderLayout.CENTER);
+        dialog.setContentPane(contentPanel);
+        dialog.setModal(true);
+        dialog.pack();
+        dialog.setVisible(true);
+    }
+
     private void pasteText() {
         try {
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -184,8 +210,7 @@ public class Demo {
     }
 
     private void updateLabel() {
-        label = new MultilineLabel(labelText);
-        label.setPreferredWidthLimit(Integer.parseInt(preferredWidthLimitTextField.getText()));
+        label = createLabel();
         label.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -198,37 +223,38 @@ public class Demo {
             }
         });
 
-        if (prefSizeCheckBox.isSelected()) {
-            int w = Integer.parseInt(widthTextField.getText());
-            int h = Integer.parseInt(heightTextField.getText());
-            label.setPreferredSize(new Dimension(w, h));
-        } else {
-            label.setPreferredSize(null);
-        }
-
-        int b = Integer.parseInt(borderSizeTextField.getText());
-        if (b > 0) {
-            label.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, b));
-        }
-
-        float f = Float.parseFloat(fontSizeTextField.getText());
-        String fontFamily = (String) fontFamilyComboBox.getSelectedItem();
-        var newLabelFont = new MultilineLabel().getFont();
-        Font font = fontFamily.equals(DEFAULT_FONT_FAMILY) ?
-                newLabelFont : new Font(fontFamily, newLabelFont.getStyle(), newLabelFont.getSize());
-        label.setFont(font.deriveFont(f));
-
-        label.setLineSpacing(Float.parseFloat(lineSpacingTextField.getText()));
-
-        label.setEnabled(enabledCheckBox.isSelected());
-
-        label.setMaxLines(Integer.parseInt(maxLinesTextField.getText()));
-
         labelPanel.removeAll();
         labelPanel.add(label);
         labelPanel.revalidate();
         labelPanel.repaint();
 
         updateInfoLabel();
+    }
+
+    private MultilineLabel createLabel() {
+        var newLabel = new MultilineLabel(labelText);
+        newLabel.setPreferredWidthLimit(Integer.parseInt(preferredWidthLimitTextField.getText()));
+        newLabel.setPreferredViewportLineCount(Integer.parseInt(preferredViewportLineCountTextField.getText()));
+        if (prefSizeCheckBox.isSelected()) {
+            int w = Integer.parseInt(widthTextField.getText());
+            int h = Integer.parseInt(heightTextField.getText());
+            newLabel.setPreferredSize(new Dimension(w, h));
+        } else {
+            newLabel.setPreferredSize(null);
+        }
+        int b = Integer.parseInt(borderSizeTextField.getText());
+        if (b > 0) {
+            newLabel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, b));
+        }
+        float f = Float.parseFloat(fontSizeTextField.getText());
+        String fontFamily = (String) fontFamilyComboBox.getSelectedItem();
+        var newLabelFont = new MultilineLabel().getFont();
+        Font font = fontFamily.equals(DEFAULT_FONT_FAMILY) ?
+                newLabelFont : new Font(fontFamily, newLabelFont.getStyle(), newLabelFont.getSize());
+        newLabel.setFont(font.deriveFont(f));
+        newLabel.setLineSpacing(Float.parseFloat(lineSpacingTextField.getText()));
+        newLabel.setEnabled(enabledCheckBox.isSelected());
+        newLabel.setMaxLines(Integer.parseInt(maxLinesTextField.getText()));
+        return newLabel;
     }
 }
