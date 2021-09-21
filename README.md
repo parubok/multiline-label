@@ -57,7 +57,7 @@ Add this snippet to the pom.xml `dependencies` section:
 <dependency>
     <groupId>io.github.parubok</groupId>
     <artifactId>multiline-label</artifactId>
-    <version>1.17</version>
+    <version>1.18</version>
 </dependency>
 ```
 
@@ -66,5 +66,5 @@ Add this snippet to the pom.xml `dependencies` section:
 Add this snippet to the build.gradle `dependencies` section:
 
 ```groovy
-implementation 'io.github.parubok:multiline-label:1.17'
+implementation 'io.github.parubok:multiline-label:1.18'
 ```
