@@ -13,8 +13,8 @@ The goal of this component is to provide a multiline label with predictable and 
 The label implements `javax.swing.Scrollable` interface to support scrolling. By default, up to 20 lines will be 
 displayed without vertical scroll bar. See `MultilineLabel.setPreferredViewportLineCount`.
 
-The `MultilineLabel` class provides a number of static methods to support text painting on components other than the `MultilineLabel`.
-For example, `MultilineLabel.calculatePreferredSize` method.
+The `MultilineLabel` class provides a number of static methods to support multiline text painting on components other 
+than the `MultilineLabel`. For example, `MultilineLabel.calculatePreferredSize` method.
 
 Example:
 ```java
