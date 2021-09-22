@@ -25,11 +25,23 @@ public class MultilineLabel extends JComponent implements Scrollable {
 
     /**
      * Default preferred width limit in pixels.
+     *
+     * @see #setPreferredWidthLimit(int)
+     * @see #getPreferredWidthLimit()
      */
     public static final int DEFAULT_WIDTH_LIMIT = 500;
 
+    /**
+     * Default line spacing coefficient.
+     *
+     * @see #setLineSpacing(float)
+     * @see #getLineSpacing()
+     */
     public static final float DEFAULT_LINE_SPACING = 1.1f;
 
+    /**
+     * @see #setPreferredViewportLineCount
+     */
     public static final int DEFAULT_PREFERRED_VIEWPORT_LINE_COUNT = 20;
 
     /**
@@ -166,7 +178,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
 
     /**
      * @return Text of this label. The actually displayed text may differ from this value - multiple adjacent spaces
-     * may collapsed into one space, text may trimmed, EOL may be inserted, etc.
+     * may be collapsed into one space, text may be trimmed, EOL may be inserted, etc.
      */
     public String getText() {
         return text;
@@ -309,8 +321,8 @@ public class MultilineLabel extends JComponent implements Scrollable {
     }
 
     /**
-     * @param maxLines Maximum number of lines to display on this label. The remaining text will be displayed
-     * as {@code "..."}.
+     * @param maxLines Maximum number of lines to display on this label. If there is not enough height to display all
+     * lines, the remaining lines will be displayed as {@code "..."}.
      * @see #DEFAULT_MAX_LINES
      * @see #getMaxLines()
      */
