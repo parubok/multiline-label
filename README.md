@@ -1,5 +1,6 @@
 ![Java CI with Maven](https://github.com/parubok/multiline-label/workflows/Java%20CI%20with%20Maven/badge.svg?branch=master)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/parubok/multiline-label/blob/master/LICENSE)
+[![Latest Version](https://img.shields.io/maven-central/v/io.github.parubok/multiline-label)](https://search.maven.org/search?q=a:multiline-label)
 
 # multiline-label
 
