@@ -8,8 +8,10 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.util.List;
+import java.util.Set;
 
 import static javax.swing.plaf.basic.BasicGraphicsUtils.getStringWidth;
+import static java.lang.Character.isWhitespace;
 
 /**
  * Dynamically calculates line breaks based on the current label width.
@@ -18,19 +20,17 @@ import static javax.swing.plaf.basic.BasicGraphicsUtils.getStringWidth;
  */
 final class WidthTextLayout extends AbstractTextLayout {
 
-    private static final char SPACE = ' ';
-
     // order is important
     private static final List<String> LINE_SEPARATORS = List.of("\r\n", "\n", "\r");
 
     static void paintText(JComponent c, Graphics g, String text, Insets insets, int wLimit, boolean enabled,
-                          Color background, float lineSpacing) {
+                          Color background, float lineSpacing, Set<Character> separators) {
         paintText2(c, g, toRenderedText(text), insets, wLimit, enabled, background, lineSpacing,
-                maxLinesForComponent(c));
+                maxLinesForComponent(c), separators);
     }
 
     private static void paintText2(JComponent c, Graphics g, String text, Insets insets, int wLimit, boolean enabled,
-                                   Color background, float lineSpacing, int maxLines) {
+                                   Color background, float lineSpacing, int maxLines, Set<Character> separators) {
         if (text.isEmpty()) {
             return;
         }
@@ -46,7 +46,7 @@ final class WidthTextLayout extends AbstractTextLayout {
         int index = 0;
         int lineCount = 0;
         do {
-            nextLine = getNextLine(c, text, index, fm, wLimitText);
+            nextLine = getNextLine(c, text, index, fm, wLimitText, separators);
             String lineStr = nextLine.stringToPaint(text, ++lineCount, maxLines);
             if (enabled) {
                 drawString(c, g, lineStr, x, y);
@@ -59,8 +59,9 @@ final class WidthTextLayout extends AbstractTextLayout {
     }
 
     static Dimension calcPreferredSize(JComponent c, Insets insets, FontMetrics fm, String text, int wLimit,
-                                       float lineSpacing) {
-        return calcPreferredSize2(c, insets, fm, toRenderedText(text), wLimit, lineSpacing, maxLinesForComponent(c));
+                                       float lineSpacing, Set<Character> separators) {
+        return calcPreferredSize2(c, insets, fm, toRenderedText(text), wLimit, lineSpacing, maxLinesForComponent(c),
+                separators);
     }
 
     private static int maxLinesForComponent(JComponent c) {
@@ -71,7 +72,7 @@ final class WidthTextLayout extends AbstractTextLayout {
     }
 
     private static Dimension calcPreferredSize2(JComponent c, Insets insets, FontMetrics fm, String text, int wLimit,
-                                                float lineSpacing, int maxLines) {
+                                                float lineSpacing, int maxLines, Set<Character> separators) {
         assert insets != null;
         assert fm != null;
         assert text != null;
@@ -86,7 +87,7 @@ final class WidthTextLayout extends AbstractTextLayout {
             int lineCount = 0;
             int maxLineWidth = 0; // pixels
             do {
-                nextLine = getNextLine(c, text, startIndex, fm, textWidthLimit);
+                nextLine = getNextLine(c, text, startIndex, fm, textWidthLimit, separators);
                 String nextLineStr = nextLine.stringToPaint(text, ++lineCount, maxLines);
                 int nextLineWidth = Math.round(getStringWidth(c, fm, nextLineStr));
                 maxLineWidth = Math.max(maxLineWidth, nextLineWidth);
@@ -100,6 +101,14 @@ final class WidthTextLayout extends AbstractTextLayout {
         return MultilineUtils.toDimension(textPrefWidth, textPrefHeight, insets);
     }
 
+    static int getSeparatorIndex(String text, int fromIndex, Set<Character> separators) {
+        return separators.stream()
+                .mapToInt(s -> text.indexOf(Character.toString(s), fromIndex))
+                .filter(index -> index > -1)
+                .min()
+                .orElse(-1);
+    }
+
     /**
      * @param c Component to paint the text on it. Not necessarily {@link MultilineLabel}. May be null.
      * @param text Text to display in {@link MultilineLabel}.
@@ -108,49 +117,55 @@ final class WidthTextLayout extends AbstractTextLayout {
      * @param widthLimit Limit on the width of the line (in pixels).
      * @return Object with details of the next line.
      */
-    static NextLine getNextLine(JComponent c, String text, int startIndex, FontMetrics fm, int widthLimit) {
+    static NextLine getNextLine(JComponent c, String text, int startIndex, FontMetrics fm, int widthLimit,
+                                Set<Character> separators) {
         assert text != null;
         assert text.length() > 0;
         assert startIndex > -1;
         assert fm != null;
         assert widthLimit > 0;
 
-        // if there is a line separator before the width limit - return text before the separator
+        // if there is a line separator before the width limit - return line before the separator
         // (we assume that, for a string, all line separators are identical)
-        for (String sep : LINE_SEPARATORS) {
-            int sepIndex = text.indexOf(sep, startIndex);
-            if (sepIndex > -1) {
-                String sub = text.substring(startIndex, sepIndex);
-                if (sub.indexOf(SPACE) == -1 || getStringWidth(c, fm, sub) <= widthLimit) {
-                    return new NextLine(false, startIndex, sepIndex - 1, sepIndex + sep.length());
+        for (String lineSep : LINE_SEPARATORS) {
+            int lineSepIndex = text.indexOf(lineSep, startIndex);
+            if (lineSepIndex > -1) {
+                String sub = text.substring(startIndex, lineSepIndex);
+                if (getSeparatorIndex(sub, 0, separators) == -1 || getStringWidth(c, fm, sub) <= widthLimit) {
+                    return new NextLine(false, startIndex, lineSepIndex - 1, lineSepIndex + lineSep.length());
                 } else {
                     break;
                 }
             }
         }
 
-        int spaceIndex = startIndex;
+        // TODO: the code below ignores line separators - it is a bug
+        // if separator is a whitespace - exclude it from the text, o/w keep it as part of the line
+        int sepIndex = startIndex;
         while (true) {
-            int nextSpaceIndex = text.indexOf(SPACE, spaceIndex + 1);
-            if (nextSpaceIndex == -1) { // there is no next space after spaceIndex
-                if (spaceIndex > startIndex && getStringWidth(c, fm, text.substring(startIndex)) > widthLimit) {
+            int nextSepIndex = getSeparatorIndex(text, sepIndex + 1, separators);
+            if (nextSepIndex == -1) { // there is no next separator after sepIndex
+                if (sepIndex > startIndex && getStringWidth(c, fm, text.substring(startIndex)) > widthLimit) {
                     // next line will be single word last line
-                    return new NextLine(false, startIndex, spaceIndex - 1, spaceIndex + 1);
+                    return new NextLine(false, startIndex, sepIndex - (isWhitespace(text.charAt(sepIndex)) ? 1 : 0), sepIndex + 1);
                 } else {
                     // last line
                     return new NextLine(true, startIndex, text.length() - 1, -1);
                 }
-            } else { // there is next space after spaceIndex
-                if (getStringWidth(c, fm, text.substring(startIndex, nextSpaceIndex)) > widthLimit) {
-                    if (spaceIndex > startIndex) {
+            } else { // there is next separator after sepIndex
+                if (getStringWidth(c, fm, text.substring(startIndex, nextSepIndex + (isWhitespace(text.charAt(nextSepIndex)) ? 0 : 1))) > widthLimit) {
+                    int sIndex;
+                    if (sepIndex > startIndex) {
                         // regular next line
-                        return new NextLine(false, startIndex, spaceIndex - 1, spaceIndex + 1);
+                        sIndex = sepIndex;
                     } else {
-                        // single word line
-                        return new NextLine(false, startIndex, nextSpaceIndex - 1, nextSpaceIndex + 1);
+                        // single word line (dishonors width limit)
+                        assert sepIndex == startIndex;
+                        sIndex = nextSepIndex;
                     }
+                    return new NextLine(false, startIndex, sIndex - (isWhitespace(text.charAt(sIndex)) ? 1 : 0), sIndex + 1);
                 } else {
-                    spaceIndex = nextSpaceIndex; // continue with current line
+                    sepIndex = nextSepIndex; // continue with current line
                 }
             }
         }
@@ -210,12 +225,13 @@ final class WidthTextLayout extends AbstractTextLayout {
         }
         final var fm = label.getFontMetrics(label.getFont());
         final var insets = label.getInsets();
-        return calcPreferredSize2(label, insets, fm, textToRender, wLimit, label.getLineSpacing(), label.getMaxLines());
+        return calcPreferredSize2(label, insets, fm, textToRender, wLimit, label.getLineSpacing(), label.getMaxLines(),
+                label.getSeparators());
     }
 
     @Override
     public void paintText(Graphics g) {
         paintText2(label, g, textToRender, label.getInsets(), label.getWidth(), label.isEnabled(),
-                label.getBackground(), label.getLineSpacing(), label.getMaxLines());
+                label.getBackground(), label.getLineSpacing(), label.getMaxLines(), label.getSeparators());
     }
 }

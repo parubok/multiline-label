@@ -30,7 +30,9 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Demo {
 
@@ -64,13 +66,14 @@ public class Demo {
     private final JTextField fontSizeTextField;
     private final JTextField lineSpacingTextField;
     private final JTextField maxLinesTextField;
+    private final JTextField separatorsTextField;
     private final JCheckBox enabledCheckBox;
     private final JPanel labelPanel;
     private MultilineLabel label;
     private final JLabel infoLabel;
 
     private Demo() {
-        JPanel contentPanel = new JPanel(new BorderLayout());
+        var contentPanel = new JPanel(new BorderLayout());
         contentPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         labelPanel = new JPanel();
@@ -103,6 +106,11 @@ public class Demo {
         maxLinesTextField = new JTextField("1000");
         maxLinesTextField.setColumns(5);
 
+        var separatorsSB = new StringBuilder();
+        MultilineLabel.DEFAULT_SEPARATORS.stream().sorted().forEach(separatorsSB::append);
+        separatorsTextField = new JTextField(separatorsSB.toString());
+        separatorsTextField.setColumns(10);
+
         enabledCheckBox = new JCheckBox("Enabled");
         enabledCheckBox.setSelected(true);
 
@@ -134,6 +142,8 @@ public class Demo {
         controlsPanel.add(lineSpacingTextField, gb(0, gridY++, 0, bottomInset));
         controlsPanel.add(new JLabel("Max lines:"), gb(0, gridY++));
         controlsPanel.add(maxLinesTextField, gb(0, gridY++, 0, bottomInset));
+        controlsPanel.add(new JLabel("Separators (may include space):"), gb(0, gridY++));
+        controlsPanel.add(separatorsTextField, gb(0, gridY++, 0, bottomInset));
         controlsPanel.add(enabledCheckBox, gb(0, gridY++, 0, bottomInset));
 
         var setButton = new JButton("Set");
@@ -255,6 +265,14 @@ public class Demo {
         newLabel.setLineSpacing(Float.parseFloat(lineSpacingTextField.getText()));
         newLabel.setEnabled(enabledCheckBox.isSelected());
         newLabel.setMaxLines(Integer.parseInt(maxLinesTextField.getText()));
+
+        String sep = separatorsTextField.getText();
+        Set<Character> separators = new HashSet<>();
+        for (int i = 0; i < sep.length(); i++) {
+            separators.add(sep.charAt(i));
+        }
+        newLabel.setSeparators(separators);
+
         return newLabel;
     }
 }

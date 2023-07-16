@@ -45,7 +45,7 @@ public class WidthTextLayoutTest {
             var text = "text";
             var label = new MultilineLabel();
             var fm = label.getFontMetrics(font);
-            var nextLine = WidthTextLayout.getNextLine(label, text, 0, fm, 10_000);
+            var nextLine = WidthTextLayout.getNextLine(label, text, 0, fm, 10_000, MultilineLabel.DEFAULT_SEPARATORS);
             Assertions.assertTrue(nextLine.lastLine);
             Assertions.assertEquals(0, nextLine.lineStartIndex);
             Assertions.assertEquals(3, nextLine.lineEndIndex);
@@ -59,7 +59,7 @@ public class WidthTextLayoutTest {
             var text = "text1 text2";
             var label = new MultilineLabel();
             var fm = label.getFontMetrics(font);
-            var nextLine = WidthTextLayout.getNextLine(label, text, 0, fm, 10_000);
+            var nextLine = WidthTextLayout.getNextLine(label, text, 0, fm, 10_000, MultilineLabel.DEFAULT_SEPARATORS);
             Assertions.assertTrue(nextLine.lastLine);
             Assertions.assertEquals(0, nextLine.lineStartIndex);
             Assertions.assertEquals(10, nextLine.lineEndIndex);
@@ -73,7 +73,7 @@ public class WidthTextLayoutTest {
             var text = "text";
             var label = new MultilineLabel();
             var fm = label.getFontMetrics(font);
-            var nextLine = WidthTextLayout.getNextLine(label, text, 0, fm, 1);
+            var nextLine = WidthTextLayout.getNextLine(label, text, 0, fm, 1, MultilineLabel.DEFAULT_SEPARATORS);
             Assertions.assertTrue(nextLine.lastLine);
             Assertions.assertEquals(0, nextLine.lineStartIndex);
             Assertions.assertEquals(3, nextLine.lineEndIndex);
@@ -87,12 +87,13 @@ public class WidthTextLayoutTest {
             var text = "text1 text2";
             var label = new MultilineLabel();
             var fm = label.getFontMetrics(font);
-            var nextLine1 = WidthTextLayout.getNextLine(label, text, 0, fm, 1);
+            var nextLine1 = WidthTextLayout.getNextLine(label, text, 0, fm, 1, MultilineLabel.DEFAULT_SEPARATORS);
             Assertions.assertFalse(nextLine1.lastLine);
             Assertions.assertEquals(0, nextLine1.lineStartIndex);
             Assertions.assertEquals(4, nextLine1.lineEndIndex);
             Assertions.assertEquals(6, nextLine1.nextLineStartIndex);
-            var nextLine2 = WidthTextLayout.getNextLine(label, text, nextLine1.nextLineStartIndex, fm, 1);
+            var nextLine2 = WidthTextLayout.getNextLine(label, text, nextLine1.nextLineStartIndex, fm, 1,
+                    MultilineLabel.DEFAULT_SEPARATORS);
             Assertions.assertTrue(nextLine2.lastLine);
             Assertions.assertEquals(6, nextLine2.lineStartIndex);
             Assertions.assertEquals(10, nextLine2.lineEndIndex);
@@ -106,7 +107,7 @@ public class WidthTextLayoutTest {
             var text = "t";
             var label = new MultilineLabel();
             var fm = label.getFontMetrics(font);
-            var nextLine = WidthTextLayout.getNextLine(label, text, 0, fm, 1);
+            var nextLine = WidthTextLayout.getNextLine(label, text, 0, fm, 1, MultilineLabel.DEFAULT_SEPARATORS);
             Assertions.assertTrue(nextLine.lastLine);
             Assertions.assertEquals(0, nextLine.lineStartIndex);
             Assertions.assertEquals(0, nextLine.lineEndIndex);
@@ -120,12 +121,13 @@ public class WidthTextLayoutTest {
             var text = "t abcdvfsl2808kdfkfkdjk94893483dkjdkfjkfjkdjfkdfjdkjdkd";
             var label = new MultilineLabel();
             var fm = label.getFontMetrics(font);
-            var nextLine1 = WidthTextLayout.getNextLine(label, text, 0, fm, 20);
+            var nextLine1 = WidthTextLayout.getNextLine(label, text, 0, fm, 20, MultilineLabel.DEFAULT_SEPARATORS);
             Assertions.assertFalse(nextLine1.lastLine);
             Assertions.assertEquals(0, nextLine1.lineStartIndex);
             Assertions.assertEquals(0, nextLine1.lineEndIndex);
             Assertions.assertEquals(2, nextLine1.nextLineStartIndex);
-            var nextLine2 = WidthTextLayout.getNextLine(label, text, nextLine1.nextLineStartIndex, fm, 1);
+            var nextLine2 = WidthTextLayout.getNextLine(label, text, nextLine1.nextLineStartIndex, fm, 1,
+                    MultilineLabel.DEFAULT_SEPARATORS);
             Assertions.assertTrue(nextLine2.lastLine);
             Assertions.assertEquals(2, nextLine2.lineStartIndex);
             Assertions.assertEquals(54, nextLine2.lineEndIndex);
@@ -140,17 +142,19 @@ public class WidthTextLayoutTest {
             var label = new MultilineLabel();
             var fm = label.getFontMetrics(font);
             final int limit = 30;
-            var nextLine1 = WidthTextLayout.getNextLine(label, text, 0, fm, limit);
+            var nextLine1 = WidthTextLayout.getNextLine(label, text, 0, fm, limit, MultilineLabel.DEFAULT_SEPARATORS);
             Assertions.assertFalse(nextLine1.lastLine);
             Assertions.assertEquals(0, nextLine1.lineStartIndex);
             Assertions.assertEquals(0, nextLine1.lineEndIndex);
             Assertions.assertEquals(2, nextLine1.nextLineStartIndex);
-            var nextLine2 = WidthTextLayout.getNextLine(label, text, nextLine1.nextLineStartIndex, fm, limit);
+            var nextLine2 = WidthTextLayout.getNextLine(label, text, nextLine1.nextLineStartIndex, fm, limit,
+                    MultilineLabel.DEFAULT_SEPARATORS);
             Assertions.assertFalse(nextLine2.lastLine);
             Assertions.assertEquals(2, nextLine2.lineStartIndex);
             Assertions.assertEquals(54, nextLine2.lineEndIndex);
             Assertions.assertEquals(56, nextLine2.nextLineStartIndex);
-            var nextLine3 = WidthTextLayout.getNextLine(label, text, nextLine2.nextLineStartIndex, fm, limit);
+            var nextLine3 = WidthTextLayout.getNextLine(label, text, nextLine2.nextLineStartIndex, fm, limit,
+                    MultilineLabel.DEFAULT_SEPARATORS);
             Assertions.assertTrue(nextLine3.lastLine);
             Assertions.assertEquals(56, nextLine3.lineStartIndex);
             Assertions.assertEquals(108, nextLine3.lineEndIndex);
@@ -165,17 +169,19 @@ public class WidthTextLayoutTest {
             var label = new MultilineLabel();
             var fm = label.getFontMetrics(font);
             final int limit = 30;
-            var nextLine1 = WidthTextLayout.getNextLine(label, text, 0, fm, limit);
+            var nextLine1 = WidthTextLayout.getNextLine(label, text, 0, fm, limit, MultilineLabel.DEFAULT_SEPARATORS);
             Assertions.assertFalse(nextLine1.lastLine);
             Assertions.assertEquals(0, nextLine1.lineStartIndex);
             Assertions.assertEquals(0, nextLine1.lineEndIndex);
             Assertions.assertEquals(2, nextLine1.nextLineStartIndex);
-            var nextLine2 = WidthTextLayout.getNextLine(label, text, nextLine1.nextLineStartIndex, fm, limit);
+            var nextLine2 = WidthTextLayout.getNextLine(label, text, nextLine1.nextLineStartIndex, fm, limit,
+                    MultilineLabel.DEFAULT_SEPARATORS);
             Assertions.assertFalse(nextLine2.lastLine);
             Assertions.assertEquals(2, nextLine2.lineStartIndex);
             Assertions.assertEquals(54, nextLine2.lineEndIndex);
             Assertions.assertEquals(56, nextLine2.nextLineStartIndex);
-            var nextLine3 = WidthTextLayout.getNextLine(label, text, nextLine2.nextLineStartIndex, fm, limit);
+            var nextLine3 = WidthTextLayout.getNextLine(label, text, nextLine2.nextLineStartIndex, fm, limit,
+                    MultilineLabel.DEFAULT_SEPARATORS);
             Assertions.assertTrue(nextLine3.lastLine);
             Assertions.assertEquals(56, nextLine3.lineStartIndex);
             Assertions.assertEquals(56, nextLine3.lineEndIndex);

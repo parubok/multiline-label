@@ -13,6 +13,7 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Swing component to display a plain text (possibly on multiple lines).
@@ -22,6 +23,14 @@ import java.util.Objects;
  * @see javax.swing.JLabel
  */
 public class MultilineLabel extends JComponent implements Scrollable {
+
+    public static final Object SEPARATORS_PROPERTY_KEY = new Object();
+    public static final Set<Character> DEFAULT_SEPARATORS = Set.of(' ');
+
+    public static Set<Character> getSeparators(JComponent c) {
+        var separators = (Set<Character>) c.getClientProperty(SEPARATORS_PROPERTY_KEY);
+        return Objects.requireNonNullElse(separators, DEFAULT_SEPARATORS);
+    }
 
     /**
      * Default preferred width limit in pixels.
@@ -64,7 +73,8 @@ public class MultilineLabel extends JComponent implements Scrollable {
      */
     public static Dimension calculatePreferredSize(JComponent c, Insets insets, FontMetrics fm, String text,
                                                    int wLimit, float lineSpacing) {
-        return WidthTextLayout.calcPreferredSize(c, insets, fm, text, wLimit, lineSpacing);
+        return WidthTextLayout.calcPreferredSize(c, insets, fm, text, wLimit, lineSpacing,
+                getSeparators(c));
     }
 
     /**
@@ -87,7 +97,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
         assert text != null;
         assert insets != null;
         assert background != null;
-        WidthTextLayout.paintText(c, g, text, insets, wLimit, enabled, background, lineSpacing);
+        WidthTextLayout.paintText(c, g, text, insets, wLimit, enabled, background, lineSpacing, getSeparators(c));
     }
 
     private final boolean ignorePrefWidthLimit;
@@ -126,8 +136,20 @@ public class MultilineLabel extends JComponent implements Scrollable {
         this.ignorePrefWidthLimit = ignorePrefWidthLimit;
         setBorder(BorderFactory.createEmptyBorder());
         setOpaque(true);
+        setSeparators(DEFAULT_SEPARATORS);
         updateUI();
         setTextAndTextLayout(text);
+    }
+
+    public Set<Character> getSeparators() {
+        return getSeparators(this);
+    }
+
+    public void setSeparators(Set<Character> separators) {
+        if (separators.isEmpty()) {
+            throw new IllegalArgumentException("Separators must be specified.");
+        }
+        putClientProperty(SEPARATORS_PROPERTY_KEY, separators);
     }
 
     protected Clipboard getClipboard() {
@@ -359,11 +381,12 @@ public class MultilineLabel extends JComponent implements Scrollable {
     @Override
     protected String paramString() {
         return super.paramString()
-                + ",prefWidthLimit=" + prefWidthLimit
-                + ",useCurrentWidthForPreferredSize=" + useCurrentWidthForPreferredSize
-                + ",textLayout=" + textLayout
-                + ",lineSpacing=" + lineSpacing
-                + ",maxLines=" + maxLines
-                + ",textLength=" + text.length();
+                + ",prefWidthLimit=" + getPreferredWidthLimit()
+                + ",useCurrentWidthForPreferredSize=" + isUseCurrentWidthForPreferredSize()
+                + ",textLayout=" + getTextLayout()
+                + ",lineSpacing=" + getLineSpacing()
+                + ",maxLines=" + getMaxLines()
+                + ",textLength=" + getText().length()
+                + ",separators=" + getSeparators();
     }
 }
