@@ -142,8 +142,7 @@ final class WidthTextLayout extends AbstractTextLayout {
             }
         }
 
-        // TODO: BUG: the code below ignores line separators
-        // if separator is a whitespace - exclude it from the text, o/w keep it as part of the line
+        // note: if separator is a whitespace - exclude it from the text, o/w keep it as part of the line
         int sepIndex = startIndex;
         while (true) {
             int nextSepIndex = getSeparatorIndex(text, sepIndex + 1, separators);
