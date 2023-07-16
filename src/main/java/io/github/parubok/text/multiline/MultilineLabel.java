@@ -165,7 +165,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
 
     @Override
     public void updateUI() {
-        setUI(new MultilineLabelUI());
+        setUI(new MultilineLabelUI()); // ignores current L&F
     }
 
     @Override

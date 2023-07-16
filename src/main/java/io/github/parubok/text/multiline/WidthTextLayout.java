@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Set;
 
 import static javax.swing.plaf.basic.BasicGraphicsUtils.getStringWidth;
-import static java.lang.Character.isWhitespace;
 
 /**
  * Dynamically calculates line breaks based on the current label width.
@@ -109,6 +108,10 @@ final class WidthTextLayout extends AbstractTextLayout {
                 .orElse(-1);
     }
 
+    private static boolean isWhitespace(String text, int index) {
+        return Character.isWhitespace(text.charAt(index));
+    }
+
     /**
      * @param c Component to paint the text on it. Not necessarily {@link MultilineLabel}. May be null.
      * @param text Text to display in {@link MultilineLabel}.
@@ -139,7 +142,7 @@ final class WidthTextLayout extends AbstractTextLayout {
             }
         }
 
-        // TODO: the code below ignores line separators - it is a bug
+        // TODO: BUG: the code below ignores line separators
         // if separator is a whitespace - exclude it from the text, o/w keep it as part of the line
         int sepIndex = startIndex;
         while (true) {
@@ -147,23 +150,24 @@ final class WidthTextLayout extends AbstractTextLayout {
             if (nextSepIndex == -1) { // there is no next separator after sepIndex
                 if (sepIndex > startIndex && getStringWidth(c, fm, text.substring(startIndex)) > widthLimit) {
                     // next line will be single word last line
-                    return new NextLine(false, startIndex, sepIndex - (isWhitespace(text.charAt(sepIndex)) ? 1 : 0), sepIndex + 1);
+                    return new NextLine(false, startIndex, sepIndex - (isWhitespace(text, sepIndex) ? 1 : 0), sepIndex + 1);
                 } else {
                     // last line
                     return new NextLine(true, startIndex, text.length() - 1, -1);
                 }
             } else { // there is next separator after sepIndex
-                if (getStringWidth(c, fm, text.substring(startIndex, nextSepIndex + (isWhitespace(text.charAt(nextSepIndex)) ? 0 : 1))) > widthLimit) {
+                String sub = text.substring(startIndex, nextSepIndex + (isWhitespace(text, nextSepIndex) ? 0 : 1));
+                if (getStringWidth(c, fm, sub) > widthLimit) {
                     int sIndex;
                     if (sepIndex > startIndex) {
                         // regular next line
                         sIndex = sepIndex;
                     } else {
-                        // single word line (dishonors width limit)
+                        // single word line (dishonors width limit!)
                         assert sepIndex == startIndex;
                         sIndex = nextSepIndex;
                     }
-                    return new NextLine(false, startIndex, sIndex - (isWhitespace(text.charAt(sIndex)) ? 1 : 0), sIndex + 1);
+                    return new NextLine(false, startIndex, sIndex - (isWhitespace(text, sIndex) ? 1 : 0), sIndex + 1);
                 } else {
                     sepIndex = nextSepIndex; // continue with current line
                 }
