@@ -11,6 +11,7 @@ import java.awt.Insets;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
+import java.util.Set;
 
 public class MultilineLabelTest {
 
@@ -417,6 +418,33 @@ public class MultilineLabelTest {
             } catch (Exception e) {
                 Assertions.fail(e);
             }
+        });
+    }
+
+    @Test
+    public void setSeparators() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            var label = new MultilineLabel("text123456789atext123456789");
+            label.setPreferredWidthLimit(20);
+
+            label.setSeparators(Set.of('a'));
+            Assertions.assertEquals(new Dimension(92, 34), label.getPreferredSize()); // 2 lines
+
+            label.setSeparators(Set.of('t'));
+            Assertions.assertEquals(new Dimension(74, 70), label.getPreferredSize()); // 4 lines
+
+            label.setSeparators(Set.of(' '));
+            Assertions.assertEquals(new Dimension(177, 16), label.getPreferredSize()); // 1 line
+
+            label.setSeparators(Set.of('a', 't', 'e', 'x', '1', '2', '3', '4', '5', '6', '7', '8', '9'));
+            label.setPreferredWidthLimit(1_000);
+            Assertions.assertEquals(new Dimension(177, 16), label.getPreferredSize()); // 1 line
+
+            label.setText("text123456789\nt");
+            Assertions.assertEquals(new Dimension(85, 34), label.getPreferredSize()); // 2 lines
+
+            label.setPreferredWidthLimit(20);
+            Assertions.assertEquals(new Dimension(18, 124), label.getPreferredSize()); // 7 lines
         });
     }
 }
