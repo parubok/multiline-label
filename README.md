@@ -6,7 +6,7 @@
 # multiline-label
 
 Java Swing component to display a plain, left-to-right text (single line or multiline).  Allows to specify preferred 
-wrapping width for cases when there is not enough room to display the text as a single line.
+wrapping width (in pixels) for cases when there is not enough room to display the text as a single line.
 
 Motivation: Though standard Swing provides a number of options to display multiline text (e.g. `JLabel` with HTML, 
 read-only `JTextArea`, etc.), none of them IMHO is very convenient and straightforward.
@@ -14,6 +14,9 @@ The goal of this component is to provide a multiline label with predictable and 
 
 The label implements `javax.swing.Scrollable` interface to support scrolling. By default, up to 20 lines will be 
 displayed without vertical scroll bar. See `MultilineLabel.setPreferredViewportLineCount`.
+
+The label allows to specify custom separator characters for cases where a space character as the only separator is not adequate.
+See `MultilineLabel.setSeparators`.
 
 The `MultilineLabel` class provides a number of static methods to support multiline text painting on components other 
 than the `MultilineLabel`. For example, `MultilineLabel.calculatePreferredSize` method.
