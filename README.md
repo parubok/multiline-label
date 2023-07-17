@@ -21,6 +21,7 @@ than the `MultilineLabel`. For example, `MultilineLabel.calculatePreferredSize` 
 Example:
 ```java
 import javax.swing.border.EmptyBorder;
+import java.util.Set;
 
 import io.github.parubok.text.multiline.MultilineLabel;
 
@@ -30,6 +31,7 @@ label.setPreferredWidthLimit(330); // the label's preferred width won't exceed 3
 label.setLineSpacing(1.2f); // relative spacing between adjacent text lines
 label.setMaxLines(30); // limit the label to 30 lines of text
 label.setBorder(new EmptyBorder(10, 5, 10, 5));
+label.setSeparators(Set.of(' ', '/', '|', '(', ')')); // allow separators other than space
 panel.add(label); // add label to its parent container
 ```
 
@@ -58,14 +60,6 @@ Add this snippet to the pom.xml `dependencies` section:
 <dependency>
     <groupId>io.github.parubok</groupId>
     <artifactId>multiline-label</artifactId>
-    <version>1.18</version>
+    <version>1.19</version>
 </dependency>
-```
-
-#### Gradle
-
-Add this snippet to the build.gradle `dependencies` section:
-
-```groovy
-implementation 'io.github.parubok:multiline-label:1.18'
 ```

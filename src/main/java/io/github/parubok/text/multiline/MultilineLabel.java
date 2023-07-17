@@ -25,6 +25,13 @@ import java.util.Set;
 public class MultilineLabel extends JComponent implements Scrollable {
 
     public static final Object SEPARATORS_PROPERTY_KEY = new Object();
+
+    /**
+     * By default, space character is the only separator.
+     *
+     * @see #setSeparators(Set)
+     * @see #getSeparators()
+     */
     public static final Set<Character> DEFAULT_SEPARATORS = Set.of(' ');
 
     public static Set<Character> getSeparators(JComponent c) {
@@ -141,10 +148,21 @@ public class MultilineLabel extends JComponent implements Scrollable {
         setTextAndTextLayout(text);
     }
 
+    /**
+     * @return Separator characters of this label.
+     * @see #setSeparators(Set)
+     */
     public Set<Character> getSeparators() {
         return getSeparators(this);
     }
 
+    /**
+     * @param separators Separator characters of this label.
+     * When there is not enough width, the label is allowed to break lines at the specified characters.
+     * By default, space is the only allowed separator.
+     *
+     * @see #DEFAULT_SEPARATORS
+     */
     public void setSeparators(Set<Character> separators) {
         if (separators.isEmpty()) {
             throw new IllegalArgumentException("Separators must be specified.");
