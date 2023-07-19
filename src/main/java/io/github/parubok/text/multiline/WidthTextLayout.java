@@ -133,8 +133,9 @@ final class WidthTextLayout extends AbstractTextLayout {
         for (String lineSep : LINE_SEPARATORS) {
             int lineSepIndex = text.indexOf(lineSep, startIndex);
             if (lineSepIndex > -1) {
-                String sub = text.substring(startIndex, lineSepIndex);
-                if (getSeparatorIndex(sub, 0, separators) == -1 || getStringWidth(c, fm, sub) <= widthLimit) {
+                boolean lineSepStart = lineSepIndex == startIndex; // special case
+                String sub = lineSepStart ? "" : text.substring(startIndex, lineSepIndex);
+                if (lineSepStart || getSeparatorIndex(sub, 0, separators) == -1 || getStringWidth(c, fm, sub) <= widthLimit) {
                     return new NextLine(false, startIndex, lineSepIndex - 1, lineSepIndex + lineSep.length());
                 } else {
                     break;

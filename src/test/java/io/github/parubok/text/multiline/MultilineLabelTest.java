@@ -448,6 +448,9 @@ public class MultilineLabelTest {
         });
     }
 
+    /**
+     * In theory, should produce 3 lines. Actually 2 lines because of the limitation of the current algo.
+     */
     @Test
     public void setSeparators_www() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
@@ -456,6 +459,23 @@ public class MultilineLabelTest {
             label.setSeparators(Set.of('w'));
             label.setText("www");
             Assertions.assertEquals(new Dimension(20, 34), label.getPreferredSize()); // 2 lines: "ww" and "w"
+        });
+    }
+
+    @Test
+    public void variousLineBreaksBetween2Lines() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            var label = new MultilineLabel();
+            var ps = new Dimension(27, 88);
+
+            label.setText("\n\n\nline1\n\n\n\nline2\n\n\n");
+            Assertions.assertEquals(ps, label.getPreferredSize()); // 5 lines
+
+            label.setText("\r\r\rline1\r\r\r\rline2\r\r\r");
+            Assertions.assertEquals(ps, label.getPreferredSize()); // 5 lines
+
+            label.setText("line1\r\n\r\n\r\n\r\nline2");
+            Assertions.assertEquals(ps, label.getPreferredSize()); // 5 lines
         });
     }
 }

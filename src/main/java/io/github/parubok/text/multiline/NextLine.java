@@ -26,7 +26,8 @@ final class NextLine {
              int lineStartIndex,
              int lineEndIndex,
              int nextLineStartIndex) {
-        assert lineEndIndex >= lineStartIndex;
+        // we have a special case when lineEndIndex == lineStartIndex - 1
+        // it results in an empty string to paint
         this.lastLine = lastLine;
         this.lineStartIndex = lineStartIndex;
         this.lineEndIndex = lineEndIndex;
