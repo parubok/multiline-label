@@ -447,4 +447,15 @@ public class MultilineLabelTest {
             Assertions.assertEquals(new Dimension(18, 124), label.getPreferredSize()); // 7 lines
         });
     }
+
+    @Test
+    public void setSeparators_www() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            var label = new MultilineLabel();
+            label.setPreferredWidthLimit(3);
+            label.setSeparators(Set.of('w'));
+            label.setText("www");
+            Assertions.assertEquals(new Dimension(20, 34), label.getPreferredSize()); // 2 lines: "ww" and "w"
+        });
+    }
 }

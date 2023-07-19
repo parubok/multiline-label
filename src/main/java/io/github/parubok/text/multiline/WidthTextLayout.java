@@ -163,6 +163,7 @@ final class WidthTextLayout extends AbstractTextLayout {
                         sIndex = sepIndex;
                     } else {
                         // single word line (dishonors width limit!)
+                        // (startIndex may also be separator but we ignore this special case)
                         assert sepIndex == startIndex;
                         sIndex = nextSepIndex;
                     }

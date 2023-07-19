@@ -26,6 +26,7 @@ final class NextLine {
              int lineStartIndex,
              int lineEndIndex,
              int nextLineStartIndex) {
+        assert lineEndIndex >= lineStartIndex;
         this.lastLine = lastLine;
         this.lineStartIndex = lineStartIndex;
         this.lineEndIndex = lineEndIndex;
