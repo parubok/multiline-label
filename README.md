@@ -39,6 +39,7 @@ panel.add(label); // add label to its parent container
 ```
 
 A demo application is provided. See `io.github.parubok.text.multiline.demo.Demo`.
+![alt tag](https://raw.github.com/parubok/multiline-label/master/wiki/images/demo.png)
 
 This library is packaged as a Java 9 module `io.github.parubok.text.multiline` (with a single dependency on a system module `java.desktop`). 
 
