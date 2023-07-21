@@ -15,8 +15,8 @@ The goal of this component is to provide a multiline label with predictable and 
 The label implements `javax.swing.Scrollable` interface to support scrolling. By default, up to 20 lines will be 
 displayed without vertical scroll bar. See `MultilineLabel.setPreferredViewportLineCount`.
 
-The label allows to specify custom separator characters for cases where a space character as the only separator is not adequate.
-See `MultilineLabel.setSeparators`.
+The label allows to specify custom separator characters (a space character by default). See `MultilineLabel.setSeparators`.
+The label always honors line breaks (e.g. `\n`) if they are present in the text.
 
 The `MultilineLabel` class provides a number of static methods to support multiline text painting on components other 
 than the `MultilineLabel`. For example, `MultilineLabel.calculatePreferredSize` method.
