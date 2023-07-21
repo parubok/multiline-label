@@ -159,7 +159,9 @@ public class MultilineLabel extends JComponent implements Scrollable {
     /**
      * @param separators Separator characters of this label (case-sensitive).
      * When there is not enough width, the label is allowed to automatically break lines at the specified characters.
-     * By default, space is the only allowed separator.
+     * By default, the only separator character is space.
+     * <p>
+     * The label always honors line breaks (e.g. {@code '\n'}) if they are present in the text.
      *
      * @see #DEFAULT_SEPARATORS
      */

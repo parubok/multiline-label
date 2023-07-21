@@ -12,11 +12,11 @@ Motivation: Though standard Swing provides a number of options to display multil
 read-only `JTextArea`, etc.), none of them IMHO is very convenient and straightforward.
 The goal of this component is to provide a multiline label with predictable and easily configurable behavior.
 
-The label implements `javax.swing.Scrollable` interface to support scrolling. By default, up to 20 lines will be 
-displayed without vertical scroll bar. See `MultilineLabel.setPreferredViewportLineCount`.
-
 The label allows to specify custom separator characters (a space character by default). See `MultilineLabel.setSeparators`.
 The label always honors line breaks (e.g. `\n`) if they are present in the text.
+
+The label implements `javax.swing.Scrollable` interface to support scrolling. By default, up to 20 lines will be 
+displayed without vertical scroll bar. See `MultilineLabel.setPreferredViewportLineCount`.
 
 The `MultilineLabel` class provides a number of static methods to support multiline text painting on components other 
 than the `MultilineLabel`. For example, `MultilineLabel.calculatePreferredSize` method.
