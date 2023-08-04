@@ -111,6 +111,7 @@ public class MultilineLabel extends JComponent implements Scrollable {
     private String text = "";
     private TextLayout textLayout; // not null after constructor
     private int prefWidthLimit = DEFAULT_WIDTH_LIMIT;
+    private int prefWidthLimitDeviation;
     private boolean useCurrentWidthForPreferredSize = true;
     private float lineSpacing = DEFAULT_LINE_SPACING;
     private int preferredViewportLineCount = DEFAULT_PREFERRED_VIEWPORT_LINE_COUNT;
@@ -272,16 +273,38 @@ public class MultilineLabel extends JComponent implements Scrollable {
     }
 
     /**
-     * @param prefWidthLimit A limit (in pixels) on a preferred width value to use for preferred size calculation.
-     * Default: {@link #DEFAULT_WIDTH_LIMIT}.
-     * @implSpec This property is ignored if the label text contains line separators.
-     * @see #getPreferredSize()
+     * Sets preferred width limit exactly, without allowing a deviation.
+     *
+     * @see #setPreferredWidthLimit(int, int)
      */
     public void setPreferredWidthLimit(int prefWidthLimit) {
-        if (prefWidthLimit < 1) {
+        setPreferredWidthLimit(prefWidthLimit, 0);
+    }
+
+    /**
+     * @return If greater than 0, the label will try to find a limit which produces multiline text
+     * with the least possible space without text. The new limit will be in the range
+     * [prefWidthLimit - deviation, prefWidthLimit + deviation].
+     */
+    public int getPrefWidthLimitDeviation() {
+        return prefWidthLimitDeviation;
+    }
+
+    /**
+     * @param prefWidthLimit A limit (in pixels) on a preferred width value to use for preferred size calculation.
+     * Default: {@link #DEFAULT_WIDTH_LIMIT}.
+     * @param deviation If greater than 0, the label will try to find a limit which produces multiline text
+     * with the least possible space without text. The new limit will be in the range
+     * [prefWidthLimit - allowedDeviation, prefWidthLimit + allowedDeviation].
+     *
+     * @see #getPreferredSize()
+     */
+    public void setPreferredWidthLimit(int prefWidthLimit, int deviation) {
+        if (prefWidthLimit < 1 || deviation < 0) {
             throw new IllegalArgumentException();
         }
         this.prefWidthLimit = prefWidthLimit;
+        this.prefWidthLimitDeviation = deviation;
         revalidate();
         repaint();
     }
