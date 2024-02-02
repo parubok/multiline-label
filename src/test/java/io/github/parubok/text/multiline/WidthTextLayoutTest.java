@@ -12,35 +12,6 @@ public class WidthTextLayoutTest {
     static final Font font = new Font("Dialog", Font.PLAIN, 11);
 
     @Test
-    public void toRenderedText_1() throws Exception {
-        SwingUtilities.invokeAndWait(() -> {
-            Assertions.assertEquals("", WidthTextLayout.toRenderedText(""));
-            Assertions.assertEquals("", WidthTextLayout.toRenderedText(" "));
-            Assertions.assertEquals("", WidthTextLayout.toRenderedText("  "));
-            Assertions.assertEquals("a b", WidthTextLayout.toRenderedText("a b"));
-            Assertions.assertEquals("a b", WidthTextLayout.toRenderedText("a  b"));
-            Assertions.assertEquals("a b", WidthTextLayout.toRenderedText("a   b"));
-            Assertions.assertEquals("a b", WidthTextLayout.toRenderedText("a    b"));
-            Assertions.assertEquals("a b c d", WidthTextLayout.toRenderedText(" a  b c  d "));
-            Assertions.assertEquals("abcd", WidthTextLayout.toRenderedText("abcd"));
-            Assertions.assertEquals("abcd 1", WidthTextLayout.toRenderedText("abcd 1"));
-            Assertions.assertEquals("abcd 12", WidthTextLayout.toRenderedText("abcd 12"));
-        });
-    }
-
-    @Test
-    public void toRenderedText_2() throws Exception {
-        SwingUtilities.invokeAndWait(() -> {
-            Assertions.assertEquals("a\nb", WidthTextLayout.toRenderedText("a\nb"));
-            Assertions.assertEquals("a \n b", WidthTextLayout.toRenderedText("a  \n b"));
-            Assertions.assertEquals("a \n b", WidthTextLayout.toRenderedText("\na \n b\n"));
-            Assertions.assertEquals("a \n b", WidthTextLayout.toRenderedText(" \n a \n b \n"));
-            Assertions.assertEquals("a\n\nb", WidthTextLayout.toRenderedText(" \n a\n\nb \n"));
-            Assertions.assertEquals("a \n b", WidthTextLayout.toRenderedText("a  \n  b"));
-        });
-    }
-
-    @Test
     public void getNextLine_1() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var text = "text";

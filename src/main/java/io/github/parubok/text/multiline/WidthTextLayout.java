@@ -24,7 +24,7 @@ final class WidthTextLayout extends AbstractTextLayout {
 
     static void paintText(JComponent c, Graphics g, String text, Insets insets, int wLimit, boolean enabled,
                           Color background, float lineSpacing, Set<Character> separators) {
-        paintText2(c, g, toRenderedText(text), insets, wLimit, enabled, background, lineSpacing,
+        paintText2(c, g, text, insets, wLimit, enabled, background, lineSpacing,
                 maxLinesForComponent(c), separators);
     }
 
@@ -59,7 +59,7 @@ final class WidthTextLayout extends AbstractTextLayout {
 
     static Dimension calcPreferredSize(JComponent c, Insets insets, FontMetrics fm, String text, int wLimit,
                                        float lineSpacing, Set<Character> separators) {
-        return calcPreferredSize2(c, insets, fm, toRenderedText(text), wLimit, lineSpacing, maxLinesForComponent(c),
+        return calcPreferredSize2(c, insets, fm, text, wLimit, lineSpacing, maxLinesForComponent(c),
                 separators);
     }
 
@@ -176,20 +176,11 @@ final class WidthTextLayout extends AbstractTextLayout {
         }
     }
 
-    static String toRenderedText(String text) {
-        var sb = new StringBuilder(text.strip());
-        int doubleSpaceIndex;
-        while ((doubleSpaceIndex = sb.indexOf("  ")) > -1) {
-            sb.delete(doubleSpaceIndex + 1, doubleSpaceIndex + 2); // delete second space
-        }
-        return sb.toString();
-    }
-
     private final String textToRender;
 
     WidthTextLayout(MultilineLabel label) {
         super(label);
-        this.textToRender = toRenderedText(label.getText());
+        this.textToRender = label.getText();
     }
 
     @Override

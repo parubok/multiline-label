@@ -113,7 +113,7 @@ public class MultilineLabelTest {
     public void getPreferredSize_singleLetter() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             Assertions.assertEquals(new Dimension(10, 16), new MultilineLabel("w").getPreferredSize());
-            Assertions.assertEquals(new Dimension(10, 16), new MultilineLabel(" w ").getPreferredSize());
+            Assertions.assertEquals(new Dimension(16, 16), new MultilineLabel(" w ").getPreferredSize());
         });
     }
 
@@ -150,7 +150,7 @@ public class MultilineLabelTest {
     @Test
     public void getPreferredSize_emptyText_noBorder() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
-            Assertions.assertEquals(new Dimension(0, 0), new MultilineLabel(" ").getPreferredSize());
+            Assertions.assertEquals(new Dimension(3, 16), new MultilineLabel(" ").getPreferredSize());
             Assertions.assertEquals(new Dimension(0, 0), new MultilineLabel("").getPreferredSize());
         });
     }
@@ -206,10 +206,10 @@ public class MultilineLabelTest {
             Assertions.assertEquals(new Dimension(27, 64), label.getPreferredSize());
 
             label.setText("  line1 \n line2\nline3\nline4   ");
-            Assertions.assertEquals(new Dimension(30, 64), label.getPreferredSize());
+            Assertions.assertEquals(new Dimension(36, 64), label.getPreferredSize());
 
             label.setBorder(new EmptyBorder(1, 2, 3, 4));
-            Assertions.assertEquals(new Dimension(36, 68), label.getPreferredSize());
+            Assertions.assertEquals(new Dimension(42, 68), label.getPreferredSize());
         });
     }
 
@@ -466,16 +466,15 @@ public class MultilineLabelTest {
     public void variousLineBreaksBetween2Lines() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             var label = new MultilineLabel();
-            var ps = new Dimension(27, 88);
 
             label.setText("\n\n\nline1\n\n\n\nline2\n\n\n");
-            Assertions.assertEquals(ps, label.getPreferredSize()); // 5 lines
+            Assertions.assertEquals(new Dimension(27, 196), label.getPreferredSize());
 
             label.setText("\r\r\rline1\r\r\r\rline2\r\r\r");
-            Assertions.assertEquals(ps, label.getPreferredSize()); // 5 lines
+            Assertions.assertEquals(new Dimension(27, 196), label.getPreferredSize());
 
             label.setText("line1\r\n\r\n\r\n\r\nline2");
-            Assertions.assertEquals(ps, label.getPreferredSize()); // 5 lines
+            Assertions.assertEquals(new Dimension(27, 88), label.getPreferredSize()); // 5 lines
         });
     }
 }
