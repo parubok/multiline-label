@@ -64,6 +64,6 @@ Add this snippet to the pom.xml `dependencies` section:
 <dependency>
     <groupId>io.github.parubok</groupId>
     <artifactId>multiline-label</artifactId>
-    <version>1.19</version>
+    <version>1.20</version>
 </dependency>
 ```
