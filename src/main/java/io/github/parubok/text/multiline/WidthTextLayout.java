@@ -123,7 +123,7 @@ final class WidthTextLayout extends AbstractTextLayout {
     static NextLine getNextLine(JComponent c, String text, int startIndex, FontMetrics fm, int widthLimit,
                                 Set<Character> separators) {
         assert text != null;
-        assert text.length() > 0;
+        assert !text.isEmpty();
         assert startIndex > -1;
         assert fm != null;
         assert widthLimit > 0;

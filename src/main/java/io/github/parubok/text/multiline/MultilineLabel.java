@@ -15,6 +15,8 @@ import java.awt.datatransfer.StringSelection;
 import java.util.Objects;
 import java.util.Set;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * Swing component to display a plain text (possibly on multiple lines).
  * Allows to specify the preferred width limit in pixels.
@@ -100,10 +102,10 @@ public class MultilineLabel extends JComponent implements Scrollable {
      */
     public static void paintText(JComponent c, Graphics g, String text, Insets insets, int wLimit, boolean enabled,
                                  Color background, float lineSpacing) {
-        assert g != null;
-        assert text != null;
-        assert insets != null;
-        assert background != null;
+        requireNonNull(g, "g");
+        requireNonNull(text, "text");
+        requireNonNull(insets, "insets");
+        requireNonNull(background, "background");
         WidthTextLayout.paintText(c, g, text, insets, wLimit, enabled, background, lineSpacing, getSeparators(c));
     }
 
